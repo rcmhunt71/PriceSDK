@@ -94,7 +94,7 @@ class LoanClient(BaseClient):
         return response
 
     def get_loan(self, session_id, nonce, loan_number_id):
-        request_model = GetLoanRequest(session_id=session_id, nonce=nonce, loan_number_id=loan_number_id)
+        request_model = GetLoanRequest(session_id=session_id, nonce=nonce, loan_number_ids=loan_number_id)
         response_model = GetLoanResponse
         endpoint = ApiEndpoints.GET_LOAN
         headers = {}

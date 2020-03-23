@@ -1,5 +1,7 @@
 from enum import Enum
-from PRICE.base.mocks.mock_requests import MockRequests as requests
+# from PRICE.base.mocks.mock_requests import MockRequests as requests
+import requests
+import json
 from PRICE.logger.logging import Logger
 
 log = Logger()
@@ -90,11 +92,11 @@ class BaseClient:
             response.content = self.test_response_data
             response_type = "TEST RESPONSE"
         log.debug(f"{response_type}: {response.content}")
-
-        response_model = response_model_class(**response.content)
+        #TODO: fix the response.content vs .text issue
+        response_model = response_model_class(**(json.loads(response.text)))
         log.debug(f"Response Model: {type(response_model)}")
 
         response_model.response = response
-        response_model.status = response.status
+        response_model.status = response.status_code
         response_model.content = response.content
         return response_model
