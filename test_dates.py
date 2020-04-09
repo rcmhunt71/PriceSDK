@@ -3,7 +3,7 @@ from random import choice, randrange
 
 from APIs.dates.models.dates import DateKeys, DateEntry, DatesList, DatesListKeys
 from APIs.dates.responses.get_dates import GetDates
-from PRICE.tests.common_response_args import CommonResponseValidations, response_args
+from tests.common_response_args import CommonResponseValidations, response_args
 
 number_dates = 3
 status = ["Received", "Denied"]

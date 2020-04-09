@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from PRICE.base.common.models.request import BaseRequestModel, BaseRequestModelKeys
+from base.common.models.request import BaseRequestModel, BaseRequestModelKeys
 
 
 @dataclass

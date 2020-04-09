@@ -1,5 +1,5 @@
-from PRICE.APIs.loans.models.final_value import FinalValueFieldsKeys, FinalValueScreenKeys
-from PRICE.base.common.response import CommonResponse
+from APIs.loans.models.final_value import FinalValueFieldsKeys, FinalValueScreenKeys
+from base.common.response import CommonResponse
 
 
 class GetFinalValueTagsResponse(CommonResponse):

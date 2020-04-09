@@ -17,11 +17,11 @@ class SetLoanLicenseDataParams:
 
 @dataclass
 class SetLoanLicenseDataRequestKeys(BaseRequestModelKeys):
-    LOAN_NUMBER_ID: str = "LoanNumberID"
+    LOAN_NUMBER_IDS: str = "LoanNumberID"
 
 
 class SetLoanLicenseDataRequest(BaseRequestModel):
-    def __init__(self, session_id, nonce, loan_number_id, payload_dict=None, **kwargs):
+    def __init__(self, session_id, nonce, loan_number_ids, payload_dict=None, **kwargs):
 
         # Kwargs are key/value pairs where a key can be a lower-case SetLoanHDMAPayload attribute
         # e.g. -  HDMA_2018_NMLS_ID -->> hdma_2018_nmls_id
@@ -41,14 +41,14 @@ class SetLoanLicenseDataRequest(BaseRequestModel):
                 setattr(self, attr.lower(), kwargs[attr])
                 self.attr_list.append(attr.lower())
 
-        self.loan_number_id = loan_number_id
+        self.loan_number_ids = loan_number_ids
         super().__init__(session_id=session_id, nonce=nonce, payload=payload_dict)
 
     def to_params(self) -> typing.Dict[str, typing.Any]:
         params = {
             SetLoanLicenseDataRequestKeys.SESSION_ID: self.session_id,
             SetLoanLicenseDataRequestKeys.NONCE: self.nonce,
-            SetLoanLicenseDataRequestKeys.LOAN_NUMBER_ID: self.loan_number_id,
+            SetLoanLicenseDataRequestKeys.LOAN_NUMBER_IDS: self.loan_number_ids,
         }
 
         params.update(

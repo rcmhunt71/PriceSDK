@@ -1,19 +1,22 @@
 from random import randrange
 import unittest
+from unittest.mock import patch
 
-from PRICE.APIs.loans.models.add_loan_data import (
+from base.mocks.mock_requests import MockRequests
+
+from APIs.loans.models.add_loan_data import (
     AddLoanDataColEntryKeys, AddLoanRowValueKeys, AddLoanDataTableKeys, AddLoanDataColEntry, AddLoanDataCols,
     AddLoanValueEntry, AddLoanRowColsValue, AddLoanRowColKeys, AddLoanRowEntry, AddLoanRowList, AddLoanDataTable)
-from PRICE.APIs.loans.models.final_value import FinalValueFieldsKeys, FinalValueScreenKeys
-from PRICE.APIs.loans.models.loan_detail_data import LoanDetailDataTableKeys
-from PRICE.APIs.loans.responses.add_loan import AddALoanKeys, AddALoanResponse
-from PRICE.APIs.loans.responses.get_final_value_tags import GetFinalValueTagsResponse
-from PRICE.APIs.loans.responses.get_loan import GetLoanResponse
-from PRICE.APIs.loans.responses.get_loan_detail import GetLoanDetailResponse
+from APIs.loans.models.final_value import FinalValueFieldsKeys, FinalValueScreenKeys
+from APIs.loans.models.loan_detail_data import LoanDetailDataTableKeys
+from APIs.loans.responses.add_loan import AddALoanKeys, AddALoanResponse
+from APIs.loans.responses.get_final_value_tags import GetFinalValueTagsResponse
+from APIs.loans.responses.get_loan import GetLoanResponse
+from APIs.loans.responses.get_loan_detail import GetLoanDetailResponse
 
-from PRICE.APIs.loans.client import LoanClient, ImportFromFileFileTypes
+from APIs.loans.client import LoanClient, ImportFromFileFileTypes
 
-from PRICE.tests.common_response_args import CommonResponseValidations, response_args
+from tests.common_response_args import CommonResponseValidations, response_args
 
 # ---------------------------------------------------------------
 #     TEST DATA
@@ -269,7 +272,8 @@ class TestGetLoan(unittest.TestCase, CommonResponseValidations):
 
         self._validate_response(model=get_loan_resp, model_data=get_loan_detail_data)
 
-
+@patch("requests.post", MockRequests.post)
+@patch("requests.get", MockRequests.get)
 class TestLoanClient(unittest.TestCase, CommonResponseValidations):
     def test_AddLoan_client(self):
         # Build mock data to insert into client response
@@ -326,7 +330,7 @@ class TestLoanClient(unittest.TestCase, CommonResponseValidations):
         client.insert_test_response_data(data=get_loan_data)
 
         response_model = client.get_loan(session_id="1232465798", nonce="DEADBEEF15DECEA5ED",
-                                         loan_number_id=f"{randrange(999999):06}")
+                                         loan_number_ids=f"{randrange(999999):06}")
         self._show_response(response_model=response_model)
         self._validate_response(model=response_model, model_data=add_loan_data_table)
 
@@ -339,7 +343,7 @@ class TestLoanClient(unittest.TestCase, CommonResponseValidations):
         client.insert_test_response_data(data=get_loan_detail_data)
 
         response_model = client.get_loan_detail(session_id="1232465798", nonce="DEADBEEF15DECEA5ED",
-                                                loan_number_id=f"{randrange(999999):06}")
+                                                loan_number_ids=f"{randrange(999999):06}")
         self._show_response(response_model=response_model)
         self._validate_response(model=response_model, model_data=get_loan_detail_data)
 
@@ -350,7 +354,7 @@ class TestLoanClient(unittest.TestCase, CommonResponseValidations):
         client.insert_test_response_data(data=final_value_tags_data)
 
         response_model = client.get_final_value_tags(session_id="1232465798", nonce="DEADBEEF15DECEA5ED",
-                                                     loan_number_id=f"{randrange(999999):06}")
+                                                     loan_number_ids=f"{randrange(999999):06}")
         self._show_response(response_model=response_model)
         self._validate_response(model=response_model, model_data=final_value_tags_data)
 

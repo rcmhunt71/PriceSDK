@@ -1,4 +1,7 @@
 import unittest
+from unittest.mock import patch
+
+from base.mocks.mock_requests import MockRequests
 
 from APIs.loans.client import LoanClient
 from tests.common_request_utils import RequestValidationTools
@@ -25,6 +28,7 @@ prebuilt_payload = {
 }
 
 
+@patch("requests.post", MockRequests.post)
 class TestSetAntiSteeringDataClient(unittest.TestCase, CommonResponseValidations, RequestValidationTools):
     def test_AntiSteeringData_client_payload_as_args(self):
         # Build mock data to insert into client response
@@ -36,7 +40,7 @@ class TestSetAntiSteeringDataClient(unittest.TestCase, CommonResponseValidations
 
         # Make and validate client call
         response_model = client.set_anti_steering_data(session_id="123456789", nonce="DEADBEEF15DECEA5ED", rate=RATE,
-                                                       loan_number_id="12345679", base_loan_amount=BASE_LOAN_AMOUNT,
+                                                       loan_number_ids="12345679", base_loan_amount=BASE_LOAN_AMOUNT,
                                                        other_financing=OTHER_FINANCING)
 
         # Validation
@@ -54,7 +58,7 @@ class TestSetAntiSteeringDataClient(unittest.TestCase, CommonResponseValidations
 
         # Make and validate client call
         response_model = client.set_anti_steering_data(session_id="123456789", nonce="DEADBEEF15DECEA5ED", rate=RATE,
-                                                       loan_number_id="12345679", payload_dict=prebuilt_payload)
+                                                       loan_number_ids="12345679", payload_dict=prebuilt_payload)
 
         # Validation
         self.validate_payload(expected_dict=prebuilt_payload, actual_dict=client.payload)

@@ -1,5 +1,5 @@
-from PRICE.APIs.notification.models.email import EmailMergeKeys
-from PRICE.base.common.response import CommonResponse
+from APIs.notification.models.email import EmailMergeKeys
+from base.common.response import CommonResponse
 
 
 class MergeEmailTemplate(CommonResponse):

@@ -1,5 +1,5 @@
-from PRICE.APIs.password.models.password import ForceChangePasswordKeys
-from PRICE.base.common.response import CommonResponse
+from APIs.password.models.password import ForceChangePasswordKeys
+from base.common.response import CommonResponse
 
 
 class CheckForForceChangePassword(CommonResponse):

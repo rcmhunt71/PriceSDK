@@ -1,5 +1,5 @@
-from PRICE.APIs.dates.models.dates import DatesList, DatesListKeys
-from PRICE.base.common.response import CommonResponse
+from APIs.dates.models.dates import DatesList, DatesListKeys
+from base.common.response import CommonResponse
 
 
 class GetDates(CommonResponse):

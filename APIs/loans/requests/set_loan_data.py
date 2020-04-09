@@ -6,7 +6,7 @@ from base.common.models.request import BaseRequestModel, BaseRequestModelKeys
 
 @dataclass
 class SetAntiSteeringDataRequestKeys(BaseRequestModelKeys):
-    LOAN_NUMBER_ID: str = "LoanNumberID"
+    LOAN_NUMBER_IDS: str = "LoanNumberID"
 
 
 @dataclass
@@ -99,7 +99,7 @@ class SetLoanDataPayload:
 
 
 class SetLoanDataRequest(BaseRequestModel):
-    def __init__(self, session_id, nonce, loan_number_id, payload_dict=None, **kwargs):
+    def __init__(self, session_id, nonce, loan_number_ids, payload_dict=None, **kwargs):
 
         # Kwargs are key/value pairs where a key can be a lower-case SetLoanDataPayload attribute
         # e.g. -  SUB_FINANCE_HELOC_AMOUNT -->> sub_finance_heloc_amount
@@ -117,14 +117,14 @@ class SetLoanDataRequest(BaseRequestModel):
                 setattr(self, attr.lower(), kwargs[attr])
                 self.attr_list.append(attr.lower())
 
-        self.loan_number_id = loan_number_id
+        self.loan_number_ids = loan_number_ids
         super().__init__(session_id=session_id, nonce=nonce, payload=payload_dict)
 
     def to_params(self) -> typing.Dict[str, typing.Any]:
         return {
             SetAntiSteeringDataRequestKeys.SESSION_ID: self.session_id,
             SetAntiSteeringDataRequestKeys.NONCE: self.nonce,
-            SetAntiSteeringDataRequestKeys.LOAN_NUMBER_ID: self.loan_number_id,
+            SetAntiSteeringDataRequestKeys.LOAN_NUMBER_IDS: self.loan_number_ids,
         }
 
     def build_payload(self) -> typing.Dict[str, typing.List[typing.Dict[str, typing.Any]]]:
@@ -151,5 +151,5 @@ if __name__ == "__main__":
         "loan_flood_nfip_map_panel_identifier": "D1C8",
     }
 
-    obj = SetLoanDataRequest(session_id=123456, nonce=123245687, loan_number_id=986532147, **args)
+    obj = SetLoanDataRequest(session_id=123456, nonce=123245687, loan_number_ids=986532147, **args)
     print(f"PAYLOAD: {pprint.pformat(obj.payload)}")

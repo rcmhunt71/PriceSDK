@@ -1,5 +1,5 @@
-from PRICE.APIs.fees.models.loan_fees import LoanFees, LoanFeeKeys
-from PRICE.base.common.response import CommonResponse
+from APIs.fees.models.loan_fees import LoanFees, LoanFeeKeys
+from base.common.response import CommonResponse
 
 
 class GetLoanFees(CommonResponse):

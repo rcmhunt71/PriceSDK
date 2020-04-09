@@ -135,7 +135,7 @@ The response model class will deserialize the JSON-formatted API response into a
  * **Base Response Models**
  
      Most API responses, while specific and unique, have a common (core) set of attributes. (See the [API documentation](https://confluence.pclender.com/display/technicalwiki/PRICE+API+User+Guide).) This commonality forms the definition of the base response model.  
-   * **Class: BaseResponse** (_PRICE.base.responses.base_response.BaseResponse_)
+   * **Class: BaseResponse** (_base.responses.base_response.BaseResponse_)
    
        * **_Description_**: This base class is for a single instance within the response (vs. a list context of elements). This class is architected to be generalized and abstracted; it is not meant to be instantiated directly. The base class should be a superclass (inherited from) for a given API response. The base class will create:
          
@@ -146,7 +146,7 @@ The response model class will deserialize the JSON-formatted API response into a
        
        * **_Usage_**: 
    
-   * **Class: BaseListResponse** (_PRICE.base.responses.base_response.BaseListResponse_)
+   * **Class: BaseListResponse** (_base.responses.base_response.BaseListResponse_)
    
        * **_Description_**: This base class defined as a list context of common elements (models). This class is architected to be generalized and abstracted; it is not meant to be instantiated directly. The base class should be a superclass (inherited from) for a given API response. The base class will:
          
@@ -247,7 +247,7 @@ The final endpoint will be:
 # UNIT TESTS
 **Organization and files**
 
-The primary focus of the unittests is not verify the specific code implementation, but the behavior of the code, based on various inputs and outputs of the routines. The unittests do not required external sources, as Python's [Requests](https://requests.readthedocs.io/en/master/) library has been mocked (_PRICE.base.mocks.mock_requests.py_).
+The primary focus of the unittests is not verify the specific code implementation, but the behavior of the code, based on various inputs and outputs of the routines. The unittests do not required external sources, as Python's [Requests](https://requests.readthedocs.io/en/master/) library has been mocked (_base.mocks.mock_requests.py_).
 
 * **Execution**
  

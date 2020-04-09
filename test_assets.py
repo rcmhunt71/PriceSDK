@@ -6,8 +6,8 @@ from APIs.assets.models.assets import AssetsKeys, Assets
 from APIs.assets.models.automobile import AutomobileKeys
 from APIs.assets.responses.add_automobile import AddAutomobileResponse
 from APIs.assets.responses.get_assets import AssetsResponse
-from PRICE.logger.logging import Logger
-from PRICE.tests.common_response_args import CommonResponseValidations, response_args
+from logger.logging import Logger
+from tests.common_response_args import CommonResponseValidations, response_args
 
 log = Logger()
 

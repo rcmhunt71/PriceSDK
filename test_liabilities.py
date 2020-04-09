@@ -1,11 +1,11 @@
 from random import choice, randrange
 import unittest
 
-from PRICE.APIs.liability.models.liability import (LiabilitiesKeys, LiabilityEntryKeys, LiabilityEntry,
+from APIs.liability.models.liability import (LiabilitiesKeys, LiabilityEntryKeys, LiabilityEntry,
                                                    LiabilityEntriesList, AddLiabilityKeys)
-from PRICE.APIs.liability.responses.get_liabilities import GetLiabilities
-from PRICE.APIs.liability.responses.add_liability import AddLiability
-from PRICE.tests.common_response_args import CommonResponseValidations, response_args
+from APIs.liability.responses.get_liabilities import GetLiabilities
+from APIs.liability.responses.add_liability import AddLiability
+from tests.common_response_args import CommonResponseValidations, response_args
 
 liability_types = ["other", "revolving", "HELOC", "auto"]
 applicant_names = ["Jane Doe", "John Doe", "Freddy Kruger", "Jason (NLN)", "Michael Myers"]

@@ -1,14 +1,17 @@
 import unittest
 from random import choice, randrange
+from unittest.mock import patch
 
-from PRICE.APIs.loans.client import LoanClient
-from PRICE.APIs.loans.models.license_data import License, LicenseInfoKeys, Licenses, LicenseDataKeys
-from PRICE.APIs.loans.requests.get_loan_license_data import UnknownDataFromTypeException, LoanLicenseDataFrom
-from PRICE.APIs.loans.responses.get_loan_license_data import GetLoanLicenseDataResponse
-from PRICE.APIs.loans.requests.set_loan_license_data import SetLoanLicenseDataParams
+from base.mocks.mock_requests import MockRequests
 
-from PRICE.logger.logging import Logger
-from PRICE.tests.common_response_args import CommonResponseValidations, response_args
+from APIs.loans.client import LoanClient
+from APIs.loans.models.license_data import License, LicenseInfoKeys, Licenses, LicenseDataKeys
+from APIs.loans.requests.get_loan_license_data import UnknownDataFromTypeException, LoanLicenseDataFrom
+from APIs.loans.responses.get_loan_license_data import GetLoanLicenseDataResponse
+from APIs.loans.requests.set_loan_license_data import SetLoanLicenseDataParams
+
+from logger.logging import Logger
+from tests.common_response_args import CommonResponseValidations, response_args
 
 log = Logger()
 
@@ -101,7 +104,8 @@ class TestLoanLicenses(unittest.TestCase, CommonResponseValidations):
 
         self._validate_response(model=get_license_info_resp, model_data=licenses_args)
 
-
+@patch("requests.post", MockRequests.post)
+@patch("requests.get", MockRequests.get)
 class TestLoanLicenseClient(unittest.TestCase, CommonResponseValidations):
     def test_GetLoanLicenseData_client(self):
         licenses_args = response_args.copy()
@@ -112,7 +116,7 @@ class TestLoanLicenseClient(unittest.TestCase, CommonResponseValidations):
 
         response_model = client.get_loan_license_data(
             session_id=SESSION_ID, nonce=NONCE,
-            loan_number_id=LOAN_NUMEBER_ID, data_from=LoanLicenseDataFrom.LOAN_OFFICER.value,
+            loan_number_ids=LOAN_NUMEBER_ID, data_from=LoanLicenseDataFrom.LOAN_OFFICER.value,
             data_id=randrange(99999999))
 
         self._show_response(response_model=response_model)
@@ -128,7 +132,7 @@ class TestLoanLicenseClient(unittest.TestCase, CommonResponseValidations):
         with self.assertRaises(UnknownDataFromTypeException):
             client.get_loan_license_data(
                 session_id=SESSION_ID, nonce=NONCE,
-                loan_number_id=LOAN_NUMEBER_ID, data_from=1001, data_id=randrange(99999999))
+                loan_number_ids=LOAN_NUMEBER_ID, data_from=1001, data_id=randrange(99999999))
 
     def test_SetLoanLicenseData_client(self):
         license_args = response_args.copy()
@@ -144,7 +148,7 @@ class TestLoanLicenseClient(unittest.TestCase, CommonResponseValidations):
         client = LoanClient(base_url=BASE_URL, database=DATABASE, port=PORT)
         client.insert_test_response_data(data=license_args)
         response_model = client.set_loan_license_data(
-            session_id=SESSION_ID, nonce=NONCE, loan_number_id=LOAN_NUMEBER_ID, **params)
+            session_id=SESSION_ID, nonce=NONCE, loan_number_ids=LOAN_NUMEBER_ID, **params)
         self._validate_response(model=response_model, model_data=license_args)
 
         param_str = "&".join([f"{getattr(SetLoanLicenseDataParams, key.upper())}={value}" for key, value

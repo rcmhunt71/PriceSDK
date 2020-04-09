@@ -1,18 +1,18 @@
 from random import choice, randrange
 import unittest
 
-from PRICE.APIs.person.borrower.models.borrower import Borrower, BorrowerKeys, BorrowerDetailList, BorrowerDetailKeys
-from PRICE.APIs.person.borrower.models.loan_list import (
+from APIs.person.borrower.models.borrower import Borrower, BorrowerKeys, BorrowerDetailList, BorrowerDetailKeys
+from APIs.person.borrower.models.loan_list import (
     LoanListHeaderEntryKeys, LoanListHeaderEntry, LoanListHeaderList, LoanListRowValueEntryKeys, LoanListRowValueEntry,
     LoanListRowValuesList, LoanListRowColValueEntryKeys, LoanListRowCol, LoanListRowColList, LoanListRowsKeys,
     LoanListHeaderColumnKeys, CustomerLoanListKeys, CustomerLoanList
 )
-from PRICE.APIs.person.borrower.responses.get_borrower import GetBorrower
-from PRICE.APIs.person.borrower.responses.get_customers import GetCustomers
-from PRICE.APIs.person.borrower.responses.get_customer_loan_list import GetCustomerLoanList
-from PRICE.APIs.person.borrower.responses.set_customer import SetCustomer
-from PRICE.APIs.person.borrower.models.customers import Customer, CustomerKeys, CustomerList, CustomerListKeys
-from PRICE.tests.common_response_args import CommonResponseValidations, response_args
+from APIs.person.borrower.responses.get_borrower import GetBorrower
+from APIs.person.borrower.responses.get_customers import GetCustomers
+from APIs.person.borrower.responses.get_customer_loan_list import GetCustomerLoanList
+from APIs.person.borrower.responses.set_customer import SetCustomer
+from APIs.person.borrower.models.customers import Customer, CustomerKeys, CustomerList, CustomerListKeys
+from tests.common_response_args import CommonResponseValidations, response_args
 
 NUMBER_OF_BORROWERS = 7
 NUMBER_OF_CUSTOMERS = 5

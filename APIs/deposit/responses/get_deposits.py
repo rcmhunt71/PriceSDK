@@ -1,5 +1,5 @@
-from PRICE.APIs.deposit.models.deposit import Deposits, DepositsKeys
-from PRICE.base.common.response import CommonResponse
+from APIs.deposit.models.deposit import Deposits, DepositsKeys
+from base.common.response import CommonResponse
 
 
 class GetDeposits(CommonResponse):

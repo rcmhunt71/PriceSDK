@@ -1,5 +1,5 @@
-from PRICE.APIs.liability.models.liability import AddLiabilityKeys
-from PRICE.base.common.response import CommonResponse
+from APIs.liability.models.liability import AddLiabilityKeys
+from base.common.response import CommonResponse
 
 
 class AddLiability(CommonResponse):

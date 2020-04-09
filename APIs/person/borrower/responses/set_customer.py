@@ -1,5 +1,5 @@
-from PRICE.APIs.person.borrower.models.customers import CustomerList, CustomerListKeys
-from PRICE.base.common.response import CommonResponse
+from APIs.person.borrower.models.customers import CustomerList, CustomerListKeys
+from base.common.response import CommonResponse
 
 
 class SetCustomer(CommonResponse):

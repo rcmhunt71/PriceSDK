@@ -1,5 +1,5 @@
-from PRICE.APIs.data_check.models.datacheck import DataChecks, EvaluateDataCheckBundleKeys
-from PRICE.base.common.response import CommonResponse
+from APIs.data_check.models.datacheck import DataChecks, EvaluateDataCheckBundleKeys
+from base.common.response import CommonResponse
 
 
 class EvaluateDataCheckBundle(CommonResponse):

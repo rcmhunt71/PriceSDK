@@ -4,7 +4,7 @@ from APIs.credit.models.credit_report_import_ready import CreditReportImportRead
 from APIs.credit.models.import_credit_report import ImportCreditReportKeys
 from APIs.credit.responses.import_credit_report import ImportCreditReport
 from APIs.credit.responses.is_credit_report_import_ready import CreditReportImportReady
-from PRICE.tests.common_response_args import CommonResponseValidations, response_args
+from tests.common_response_args import CommonResponseValidations, response_args
 
 
 # --------------------------------------------------

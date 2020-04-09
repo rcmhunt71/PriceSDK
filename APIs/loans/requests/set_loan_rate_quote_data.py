@@ -28,12 +28,12 @@ class SetLoanRateQuoteDataKeys:
 
 @dataclass
 class SetLoanQuoteRateDataRequestKeys(BaseRequestModelKeys):
-    LOAN_NUMBER_ID: str = "LoanNumberID"
+    LOAN_NUMBER_IDS: str = "LoanNumberID"
     VENDOR_NAME: str = "VendorName"
 
 
 class SetLoanQuoteRateDataRequest(BaseRequestModel):
-    def __init__(self, session_id, nonce, loan_number_id, vendor_name, payload_dict=None, **kwargs):
+    def __init__(self, session_id, nonce, loan_number_ids, vendor_name, payload_dict=None, **kwargs):
 
         # Kwargs are key/value pairs where a key can be a lower-case SetLoanHDMAPayload attribute
         # e.g. -  HDMA_2018_NMLS_ID -->> hdma_2018_nmls_id
@@ -53,7 +53,7 @@ class SetLoanQuoteRateDataRequest(BaseRequestModel):
                 setattr(self, attr.lower(), kwargs[attr])
                 self.attr_list.append(attr.lower())
 
-        self.loan_number_id = loan_number_id
+        self.loan_number_ids = loan_number_ids
         self.vendor_name = vendor_name
         super().__init__(session_id=session_id, nonce=nonce, payload=payload_dict)
 
@@ -61,7 +61,7 @@ class SetLoanQuoteRateDataRequest(BaseRequestModel):
         return {
             SetLoanQuoteRateDataRequestKeys.SESSION_ID: self.session_id,
             SetLoanQuoteRateDataRequestKeys.NONCE: self.nonce,
-            SetLoanQuoteRateDataRequestKeys.LOAN_NUMBER_ID: self.loan_number_id,
+            SetLoanQuoteRateDataRequestKeys.LOAN_NUMBER_IDS: self.loan_number_ids,
             SetLoanQuoteRateDataRequestKeys.VENDOR_NAME: self.vendor_name
         }
 
@@ -96,10 +96,10 @@ if __name__ == "__main__":
 
     print("Testing SetLoanQuoteRateDataRequest - payload_dict()")
     obj_payload = SetLoanQuoteRateDataRequest(session_id=123456, nonce=123245687, vendor_name="test_vendor",
-                                              loan_number_id=986532147, payload_dict=_build_payload(args))
+                                              loan_number_ids=986532147, payload_dict=_build_payload(args))
     print(f"PAYLOAD: {pprint.pformat(obj_payload.payload)}")
 
     print("Testing SetLoanQuoteRateDataRequest - kwargs")
     obj_args = SetLoanQuoteRateDataRequest(session_id=123456, nonce=123245687, vendor_name="test_vendor",
-                                           loan_number_id=986532147, **args)
+                                           loan_number_ids=986532147, **args)
     print(f"PAYLOAD: {pprint.pformat(obj_args.payload)}")

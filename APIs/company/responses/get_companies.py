@@ -1,5 +1,5 @@
-from PRICE.APIs.company.models.companies import CompaniesKeys, Companies
-from PRICE.base.common.response import CommonResponse
+from APIs.company.models.companies import CompaniesKeys, Companies
+from base.common.response import CommonResponse
 
 
 class GetCompaniesResponse(CommonResponse):

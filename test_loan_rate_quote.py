@@ -1,10 +1,13 @@
 from random import randrange
 import unittest
+from unittest.mock import patch
+
+from base.mocks.mock_requests import MockRequests
 
 from APIs.loans.client import LoanClient
 from APIs.loans.models.rate_quote_details import RateQuoteDetailsInfoKeys
 from APIs.loans.responses.get_loan_rate_quote_details import GetLoanRateQuoteDetailsResponse
-from PRICE.tests.common_response_args import CommonResponseValidations, response_args
+from tests.common_response_args import CommonResponseValidations, response_args
 
 
 # ================================================================
@@ -56,7 +59,7 @@ class TestRateQuote(unittest.TestCase, CommonResponseValidations):
                 descript=f"{model.model_name}: '{key}' values are equal",
                 actual=getattr(model, key), expected=rate_quote[key])
 
-
+@patch("requests.get", MockRequests.get)
 class TestRateQuoteDetailsClient(unittest.TestCase, CommonResponseValidations):
     def test_GetLoanRateQuoteDetails_client(self):
         rate_quote_data = response_args.copy()
@@ -66,7 +69,7 @@ class TestRateQuoteDetailsClient(unittest.TestCase, CommonResponseValidations):
         client.insert_test_response_data(data=rate_quote_data)
 
         response_model = client.get_loan_rate_quote_details(
-            session_id="1232465798", nonce="DEADBEEF15DECEA5ED", loan_number_id=f"{randrange(999999):06}")
+            session_id="1232465798", nonce="DEADBEEF15DECEA5ED", loan_number_ids=f"{randrange(999999):06}")
 
         self._show_response(response_model=response_model)
         self._validate_response(model=response_model, model_data=rate_quote_data)

@@ -1,5 +1,5 @@
-from PRICE.APIs.assets.models.automobile import AutomobileKeys
-from PRICE.base.common.response import CommonResponse
+from APIs.assets.models.automobile import AutomobileKeys
+from base.common.response import CommonResponse
 
 
 class AddAutomobileResponse(CommonResponse):

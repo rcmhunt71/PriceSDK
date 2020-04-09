@@ -1,4 +1,4 @@
-from PRICE.logger.logging import Logger
+from logger.logging import Logger
 
 log = Logger()
 

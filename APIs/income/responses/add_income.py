@@ -1,5 +1,5 @@
-from PRICE.base.common.response import CommonResponse
-from PRICE.APIs.income.models.income import AddIncomeKeys
+from base.common.response import CommonResponse
+from APIs.income.models.income import AddIncomeKeys
 
 
 class AddIncome(CommonResponse):

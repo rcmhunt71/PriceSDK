@@ -1,10 +1,14 @@
 import typing
 import unittest
+from unittest.mock import patch
+
+from base.mocks.mock_requests import MockRequests
 
 from APIs.loans.client import LoanClient
 from APIs.loans.requests.set_loan_rate_quote_data import SetLoanRateQuoteDataKeys, SetLoanRateQuoteDataPayload
 from tests.common_request_utils import RequestValidationTools
 from tests.common_response_args import CommonResponseValidations, response_args
+
 
 
 # ================================================================
@@ -17,7 +21,7 @@ PORT = 8080
 
 SESSION_ID = 123456789
 NONCE = "DEADBEEF15DECEA5ED"
-LOAN_NUMBER_ID = "45678524663"
+LOAN_NUMBER_IDS = "45678524663"
 VENDOR_NAME = "1234567890"
 
 set_loan_rate_quote_args = {
@@ -39,7 +43,7 @@ def _build_payload(args_dict: typing.Dict[str, typing.Any]) -> typing.Dict[
                 [{SetLoanRateQuoteDataKeys.FIELD_NAME: getattr(SetLoanRateQuoteDataPayload, key.upper()),
                   SetLoanRateQuoteDataKeys.FIELD_VALUE: value} for key, value in args_dict.items()]}
 
-
+@patch("requests.post", MockRequests.post)
 class TestSetLoanRateQuoteData(unittest.TestCase, RequestValidationTools, CommonResponseValidations):
 
     def test_SetLoanRateQuoteData_client_with_kwargs(self) -> typing.NoReturn:
@@ -52,7 +56,7 @@ class TestSetLoanRateQuoteData(unittest.TestCase, RequestValidationTools, Common
 
         # Make and validate client call
         response_model = client.set_loan_rate_quote_data(
-            session_id=SESSION_ID, nonce=NONCE, loan_number_id=LOAN_NUMBER_ID,
+            session_id=SESSION_ID, nonce=NONCE, loan_number_ids=LOAN_NUMBER_IDS,
             vendor_name=VENDOR_NAME, **set_loan_rate_quote_args)
 
         # Validation
@@ -70,7 +74,7 @@ class TestSetLoanRateQuoteData(unittest.TestCase, RequestValidationTools, Common
 
         # Make and validate client call
         response_model = client.set_loan_rate_quote_data(
-            session_id=SESSION_ID, nonce=NONCE, loan_number_id=LOAN_NUMBER_ID,
+            session_id=SESSION_ID, nonce=NONCE, loan_number_ids=LOAN_NUMBER_IDS,
             vendor_name=VENDOR_NAME, payload_dict=_build_payload(args_dict=set_loan_rate_quote_args))
 
         # Validation

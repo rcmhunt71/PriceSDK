@@ -1,12 +1,12 @@
 import unittest
 from random import randrange, choice
 
-from PRICE.APIs.fees.models.loan_fees import (LoanFeeColumnEntry, LoanFeeColumnEntryKeys, LoanFeeColumnEntryList,
+from APIs.fees.models.loan_fees import (LoanFeeColumnEntry, LoanFeeColumnEntryKeys, LoanFeeColumnEntryList,
                                               LoanFeeRowEntryKeys, LoanFeeRowEntry, LoanFeeRowEntryList,
                                               LoanFeeRowColEntryKey, LoanFeeRowCol, LoanFeeRowColList,
                                               LoanFeeKeys, LoanFeeRowKeys, LoanFeeColumnKeys, LoanFees)
-from PRICE.APIs.fees.responses.get_loan_fees import GetLoanFees
-from PRICE.tests.common_response_args import CommonResponseValidations, response_args
+from APIs.fees.responses.get_loan_fees import GetLoanFees
+from tests.common_response_args import CommonResponseValidations, response_args
 
 # ========================================
 # ============ TEST DATA =================

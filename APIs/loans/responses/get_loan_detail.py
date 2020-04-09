@@ -1,7 +1,7 @@
-from PRICE.APIs.loans.models.loan_detail_data import (
+from APIs.loans.models.loan_detail_data import (
     LoanDetailDataTable, LoanDetailDataTableKeys, LoanDetailColEntryKeys, LoanDetailRowValueKeys,
     LoanDetailRowColKeys)
-from PRICE.base.common.response import CommonResponse
+from base.common.response import CommonResponse
 
 
 class GetLoanDetailResponse(CommonResponse):

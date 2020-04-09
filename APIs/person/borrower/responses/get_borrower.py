@@ -1,5 +1,5 @@
-from PRICE.APIs.person.borrower.models.borrower import BorrowerDetailKeys, BorrowerDetailList
-from PRICE.base.common.response import CommonResponse
+from APIs.person.borrower.models.borrower import BorrowerDetailKeys, BorrowerDetailList
+from base.common.response import CommonResponse
 
 
 class GetBorrower(CommonResponse):

@@ -1,5 +1,5 @@
-from PRICE.APIs.loans.models.loan_status import LoanStatusKeys, LoanStatuses
-from PRICE.base.common.response import CommonResponse
+from APIs.loans.models.loan_status import LoanStatusKeys, LoanStatuses
+from base.common.response import CommonResponse
 
 
 class GetLoanStatusesResponse(CommonResponse):

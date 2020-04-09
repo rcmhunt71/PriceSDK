@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from PRICE.APIs.company.models.company import Company
-from PRICE.base.responses.base_response import BaseListResponse
+from APIs.company.models.company import Company
+from base.responses.base_response import BaseListResponse
 
 
 @dataclass

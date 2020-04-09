@@ -1,5 +1,5 @@
-from PRICE.APIs.assets.models.assets import AssetsKeys, Assets
-from PRICE.base.common.response import CommonResponse
+from APIs.assets.models.assets import AssetsKeys, Assets
+from base.common.response import CommonResponse
 
 
 class AssetsResponse(CommonResponse):

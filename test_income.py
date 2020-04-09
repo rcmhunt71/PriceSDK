@@ -1,10 +1,10 @@
 from random import choice, randrange
 import unittest
 
-from PRICE.APIs.income.models.income import IncomeEntryKeys, IncomeEntry, IncomeKeys, IncomeEntries, AddIncomeKeys
-from PRICE.APIs.income.responses.add_income import AddIncome
-from PRICE.APIs.income.responses.get_incomes import GetIncomes
-from PRICE.tests.common_response_args import CommonResponseValidations, response_args
+from APIs.income.models.income import IncomeEntryKeys, IncomeEntry, IncomeKeys, IncomeEntries, AddIncomeKeys
+from APIs.income.responses.add_income import AddIncome
+from APIs.income.responses.get_incomes import GetIncomes
+from tests.common_response_args import CommonResponseValidations, response_args
 
 job_positions = ['engineer', 'cashier', 'public servant', 'politician', 'teacher', 'spouse']
 other_descriptions = ['Alimony', 'Investments', 'Retired', "None"]

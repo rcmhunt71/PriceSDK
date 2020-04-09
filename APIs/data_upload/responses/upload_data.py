@@ -1,5 +1,5 @@
-from PRICE.APIs.data_upload.models.upload_data import UploadDataKeys
-from PRICE.base.common.response import CommonResponse
+from APIs.data_upload.models.upload_data import UploadDataKeys
+from base.common.response import CommonResponse
 
 
 class UploadData(CommonResponse):

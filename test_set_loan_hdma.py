@@ -1,5 +1,8 @@
 import typing
 import unittest
+from unittest.mock import patch
+
+from base.mocks.mock_requests import MockRequests
 
 from APIs.loans.client import LoanClient
 from APIs.loans.requests.set_loan_hmda import SetLoanHDMAPayload, SetLoanHDMADataKeys
@@ -16,7 +19,7 @@ PORT = 8080
 
 SESSION_ID = 123456789
 NONCE = "DEADBEEF15DECEA5ED"
-LOAN_NUMBER_ID = "45678524663"
+LOAN_NUMBER_IDS = "45678524663"
 MSA = "HDMA MSA"
 CENSUS = "HMDA Census Data"
 OVERRIDE = True
@@ -42,7 +45,7 @@ def _build_payload() -> typing.Dict[str, typing.List[typing.Dict[str, typing.Any
                 [{SetLoanHDMADataKeys.FIELD_NAME: getattr(SetLoanHDMAPayload, key.upper()),
                   SetLoanHDMADataKeys.FIELD_VALUE: value} for key, value in prebuilt_payload.items()]}
 
-
+@patch("requests.post", MockRequests.post)
 class TestSetLoanData(unittest.TestCase, RequestValidationTools, CommonResponseValidations):
     def test_SetLoanHDMA_client(self) -> typing.NoReturn:
         # Build mock data to insert into client response
@@ -53,7 +56,7 @@ class TestSetLoanData(unittest.TestCase, RequestValidationTools, CommonResponseV
         client.insert_test_response_data(data=set_loan_data_response)
 
         # Make and validate client call
-        response_model = client.set_loan_hdma(session_id=SESSION_ID, nonce=NONCE, loan_number_id=LOAN_NUMBER_ID,
+        response_model = client.set_loan_hdma(session_id=SESSION_ID, nonce=NONCE, loan_number_ids=LOAN_NUMBER_IDS,
                                               **prebuilt_payload)
 
         # Validation

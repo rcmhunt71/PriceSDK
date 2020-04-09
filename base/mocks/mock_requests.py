@@ -1,4 +1,4 @@
-from PRICE.logger.logging import Logger
+from logger.logging import Logger
 
 log = Logger()
 
@@ -24,13 +24,14 @@ class MockRequests:
 
 
 class Response:
-    def __init__(self, url, method, params=None, data=None, headers=None):
+    def __init__(self, url, method, params=None, data=None, headers=None, status_code=200):
         self.raw = "RAW CONTENT"
         self.content = "CONTENT"
         self.headers = headers or {}
         self.payload = data or {}
         self.params = self._params(params or {})
         self.url = url
+        self.status_code = status_code
         self.method = method
         self.encoding = "ISO-8859-1"
         self.text = [attr for attr in dir(self) if not attr.startswith('__')]

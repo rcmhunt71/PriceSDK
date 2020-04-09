@@ -1,6 +1,6 @@
 import pprint
 
-from PRICE.logger.logging import Logger
+from logger.logging import Logger
 
 log = Logger(added_depth=1)
 

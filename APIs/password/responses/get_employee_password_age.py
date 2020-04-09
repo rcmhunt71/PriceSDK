@@ -1,5 +1,5 @@
-from PRICE.APIs.password.models.password import PasswordAgeKeys
-from PRICE.base.common.response import CommonResponse
+from APIs.password.models.password import PasswordAgeKeys
+from base.common.response import CommonResponse
 
 
 class GetEmployeePasswordAge(CommonResponse):

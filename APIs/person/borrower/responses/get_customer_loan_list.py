@@ -1,6 +1,6 @@
-from PRICE.base.common.response import CommonResponse
+from base.common.response import CommonResponse
 
-from PRICE.APIs.person.borrower.models.loan_list import CustomerLoanList, CustomerLoanListKeys
+from APIs.person.borrower.models.loan_list import CustomerLoanList, CustomerLoanListKeys
 
 
 class GetCustomerLoanList(CommonResponse):

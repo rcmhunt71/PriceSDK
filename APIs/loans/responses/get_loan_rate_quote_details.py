@@ -1,5 +1,5 @@
-from PRICE.APIs.loans.models.rate_quote_details import RateQuoteDetailsInfoKeys, RateQuoteDetails
-from PRICE.base.common.response import CommonResponse
+from APIs.loans.models.rate_quote_details import RateQuoteDetailsInfoKeys, RateQuoteDetails
+from base.common.response import CommonResponse
 
 
 class GetLoanRateQuoteDetailsResponse(CommonResponse):

@@ -1,5 +1,5 @@
-from PRICE.APIs.credit.models.import_credit_report import ImportCreditReportKeys
-from PRICE.base.common.response import CommonResponse
+from APIs.credit.models.import_credit_report import ImportCreditReportKeys
+from base.common.response import CommonResponse
 
 
 class ImportCreditReport(CommonResponse):

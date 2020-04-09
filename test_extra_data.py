@@ -1,12 +1,12 @@
 import unittest
 from random import randrange, choice
 
-from PRICE.APIs.extra_data.models.extra_data import (ExtraDataEntryKeys, ExtraDataEntry,
+from APIs.extra_data.models.extra_data import (ExtraDataEntryKeys, ExtraDataEntry,
                                                      ExtraDataEntryList, ExtraDataKeys,
                                                      ExtraDataMetadataEntryKeys, ExtraDataMetadataEntry,
                                                      ExtraDataMetadataEntryList, ExtraDataMetadataKeys)
-from PRICE.APIs.extra_data.responses.extra_data import ExtraData
-from PRICE.tests.common_response_args import CommonResponseValidations, response_args
+from APIs.extra_data.responses.extra_data import ExtraData
+from tests.common_response_args import CommonResponseValidations, response_args
 
 extra_data_model_data_names = ['Some ED Field', 'Another ED field', 'YAEF - Yet Another ED Field']
 extra_data_model_data_values = ['Example', 'SomeEDField', 'AnotherExample', 'AnotherEDField']
