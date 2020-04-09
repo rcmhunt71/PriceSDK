@@ -10,7 +10,7 @@ from APIs.deposit.models.deposit_account import (DepositAccountKeys, DepositAcco
 from APIs.deposit.responses.add_deposit import AddDeposit
 from APIs.deposit.responses.get_deposit_accounts import GetDepositAccounts
 from APIs.deposit.responses.get_deposits import GetDeposits
-from tests.common_response_args import CommonResponseValidations, response_args
+from tests.common.common_response_args import CommonResponseValidations, response_args
 
 YES_NO = ["Yes", "No"]
 ACCOUNT_TYPES = ["Checking", "Savings", "CD", "Escrow"]

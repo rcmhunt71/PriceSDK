@@ -6,7 +6,7 @@ from APIs.data_upload.models.upload_data import UploadDataKeys
 from APIs.data_upload.responses.process_string import ProcessString
 from APIs.data_upload.responses.register_parameter_set import RegisterParameterSet
 from APIs.data_upload.responses.upload_data import UploadData
-from tests.common_response_args import CommonResponseValidations, response_args
+from tests.common.common_response_args import CommonResponseValidations, response_args
 
 process_string_data = {
     ProcessStringKeys.DL_RESULT: "5345 Kietze Lane",

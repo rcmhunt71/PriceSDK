@@ -6,7 +6,7 @@ from APIs.fees.models.loan_fees import (LoanFeeColumnEntry, LoanFeeColumnEntryKe
                                               LoanFeeRowColEntryKey, LoanFeeRowCol, LoanFeeRowColList,
                                               LoanFeeKeys, LoanFeeRowKeys, LoanFeeColumnKeys, LoanFees)
 from APIs.fees.responses.get_loan_fees import GetLoanFees
-from tests.common_response_args import CommonResponseValidations, response_args
+from tests.common.common_response_args import CommonResponseValidations, response_args
 
 # ========================================
 # ============ TEST DATA =================

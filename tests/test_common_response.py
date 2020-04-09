@@ -1,6 +1,6 @@
 import unittest
 
-from tests.common_response_args import response_args, version_args, stats_args, CommonResponseValidations
+from tests.common.common_response_args import response_args, version_args, stats_args, CommonResponseValidations
 from base.common.models.stats import StatsModel
 from base.common.models.version import VersionModel
 from base.common.response import CommonResponse

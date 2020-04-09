@@ -4,8 +4,8 @@ from unittest.mock import patch
 from base.mocks.mock_requests import MockRequests
 
 from APIs.loans.client import LoanClient
-from tests.common_request_utils import RequestValidationTools
-from tests.common_response_args import CommonResponseValidations, response_args
+from tests.common.common_request_utils import RequestValidationTools
+from tests.common.common_response_args import CommonResponseValidations, response_args
 
 
 # ================================================================

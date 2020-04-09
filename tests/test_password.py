@@ -4,7 +4,7 @@ import unittest
 from APIs.password.models.password import ForceChangePasswordKeys, PasswordAgeKeys
 from APIs.password.responses.check_for_force_change_password import CheckForForceChangePassword
 from APIs.password.responses.get_employee_password_age import GetEmployeePasswordAge
-from tests.common_response_args import CommonResponseValidations, response_args
+from tests.common.common_response_args import CommonResponseValidations, response_args
 
 booleans = [True, False]
 

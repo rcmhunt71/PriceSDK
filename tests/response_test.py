@@ -4,7 +4,7 @@ from APIs.configuration.configuration_list import ConfigurationList, Configurati
 from APIs.loans.models.loan_detail_data import (
     LoanDetailColEntryKeys, LoanDetailRowValueKeys, LoanDetailDataTableKeys, LoanDetailRowColKeys)
 from APIs.loans.responses.get_loan_detail import GetLoanDetailResponse
-from tests.common_response_args import response_args
+from tests.common.common_response_args import response_args
 from base.common.response import CommonResponseKeys
 
 # ---------------------------------------------------------------

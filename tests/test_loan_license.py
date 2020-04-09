@@ -11,7 +11,7 @@ from APIs.loans.responses.get_loan_license_data import GetLoanLicenseDataRespons
 from APIs.loans.requests.set_loan_license_data import SetLoanLicenseDataParams
 
 from logger.logging import Logger
-from tests.common_response_args import CommonResponseValidations, response_args
+from tests.common.common_response_args import CommonResponseValidations, response_args
 
 log = Logger()
 

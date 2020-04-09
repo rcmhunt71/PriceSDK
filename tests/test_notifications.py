@@ -3,7 +3,7 @@ import unittest
 from APIs.notification.models.email import EmailMergeKeys, EmailConvLogKeys
 from APIs.notification.responses.merge_email_template import MergeEmailTemplate
 from APIs.notification.responses.send_email_and_make_conv_log import SendEmailAndMakeConvLog
-from tests.common_response_args import CommonResponseValidations, response_args
+from tests.common.common_response_args import CommonResponseValidations, response_args
 
 # --------------------------------------------------
 #             EMAIL NOTIFICATION TEST DATA

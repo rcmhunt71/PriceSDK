@@ -6,7 +6,7 @@ from APIs.extra_data.models.extra_data import (ExtraDataEntryKeys, ExtraDataEntr
                                                      ExtraDataMetadataEntryKeys, ExtraDataMetadataEntry,
                                                      ExtraDataMetadataEntryList, ExtraDataMetadataKeys)
 from APIs.extra_data.responses.extra_data import ExtraData
-from tests.common_response_args import CommonResponseValidations, response_args
+from tests.common.common_response_args import CommonResponseValidations, response_args
 
 extra_data_model_data_names = ['Some ED Field', 'Another ED field', 'YAEF - Yet Another ED Field']
 extra_data_model_data_values = ['Example', 'SomeEDField', 'AnotherExample', 'AnotherEDField']

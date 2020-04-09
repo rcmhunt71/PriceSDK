@@ -7,7 +7,7 @@ from base.mocks.mock_requests import MockRequests
 from APIs.loans.client import LoanClient
 from APIs.loans.models.rate_quote_details import RateQuoteDetailsInfoKeys
 from APIs.loans.responses.get_loan_rate_quote_details import GetLoanRateQuoteDetailsResponse
-from tests.common_response_args import CommonResponseValidations, response_args
+from tests.common.common_response_args import CommonResponseValidations, response_args
 
 
 # ================================================================

@@ -6,10 +6,9 @@ from base.mocks.mock_requests import MockRequests
 
 from APIs.loans.client import LoanClient
 from APIs.loans.models.loan_status import LoanStatusKeys, LoanStatus, LoanStatuses
-from APIs.loans.requests.get_loan_statuses import GetLoanStatusesRequest
 from APIs.loans.responses.get_loan_statuses import GetLoanStatusesResponse
 from logger.logging import Logger
-from tests.common_response_args import CommonResponseValidations, response_args
+from tests.common.common_response_args import CommonResponseValidations, response_args
 
 log = Logger()
 

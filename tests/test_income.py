@@ -4,7 +4,7 @@ import unittest
 from APIs.income.models.income import IncomeEntryKeys, IncomeEntry, IncomeKeys, IncomeEntries, AddIncomeKeys
 from APIs.income.responses.add_income import AddIncome
 from APIs.income.responses.get_incomes import GetIncomes
-from tests.common_response_args import CommonResponseValidations, response_args
+from tests.common.common_response_args import CommonResponseValidations, response_args
 
 job_positions = ['engineer', 'cashier', 'public servant', 'politician', 'teacher', 'spouse']
 other_descriptions = ['Alimony', 'Investments', 'Retired', "None"]

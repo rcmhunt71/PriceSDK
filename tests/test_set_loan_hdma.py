@@ -6,8 +6,8 @@ from base.mocks.mock_requests import MockRequests
 
 from APIs.loans.client import LoanClient
 from APIs.loans.requests.set_loan_hmda import SetLoanHDMAPayload, SetLoanHDMADataKeys
-from tests.common_request_utils import RequestValidationTools
-from tests.common_response_args import CommonResponseValidations, response_args
+from tests.common.common_request_utils import RequestValidationTools
+from tests.common.common_response_args import CommonResponseValidations, response_args
 
 
 # ================================================================

@@ -7,7 +7,7 @@ from APIs.company.responses.add_company import AddCompanyResponse
 from APIs.company.responses.get_companies import GetCompaniesResponse
 from APIs.company.responses.get_company_ids import GetCompanyIDsResponse, GetCompanyIDsKeys
 from logger.logging import Logger
-from tests.common_response_args import CommonResponseValidations, response_args
+from tests.common.common_response_args import CommonResponseValidations, response_args
 
 log = Logger()
 

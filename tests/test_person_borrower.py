@@ -12,7 +12,7 @@ from APIs.person.borrower.responses.get_customers import GetCustomers
 from APIs.person.borrower.responses.get_customer_loan_list import GetCustomerLoanList
 from APIs.person.borrower.responses.set_customer import SetCustomer
 from APIs.person.borrower.models.customers import Customer, CustomerKeys, CustomerList, CustomerListKeys
-from tests.common_response_args import CommonResponseValidations, response_args
+from tests.common.common_response_args import CommonResponseValidations, response_args
 
 NUMBER_OF_BORROWERS = 7
 NUMBER_OF_CUSTOMERS = 5
