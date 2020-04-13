@@ -1,6 +1,13 @@
+import datetime
+import hashlib
 from enum import Enum
 import requests
 import json
+
+from base.common.models.request import BaseRequestModelKeys, BaseRequestModel
+
+from base.common.response import CommonResponse, CommonResponseKeys
+
 from logger.logging import Logger
 
 log = Logger()
@@ -16,6 +23,9 @@ class Methods(Enum):
 
 
 class BaseClient:
+    headers = {'Content-Type': 'application/x-www-form-urlencoded',
+              'cache-control': 'no-cache'}
+
     def __init__(self, base_url=None, database=None, port=None, headers=None, client=None, payload=None):
 
         # If provided an existing client, use that info...
@@ -26,14 +36,20 @@ class BaseClient:
             self.headers = client.headers
             self.port = client.port
             self.database = client.database
+            self.nonce = client.nonce
+            self.session_id = client.session_id
 
         # Otherwise, instantiate a client.
         else:
             self.base_url = base_url
-            self.headers = headers or {}
+            # self.headers = headers or {}
+            self.headers = headers or self.headers
             self.payload = payload
             self.port = port
             self.database = database
+            self.nonce = None
+            self.session_id = None
+
 
             port_info = '' if port is None else f":{port}"
             self.url = f"{self.base_url}{port_info}/{database}"
@@ -43,8 +59,44 @@ class BaseClient:
 
         self.test_response_data = None
 
+    def authenticate(self, username, password, app_id, app_password):
+        price_pepper = "b70ad3601d87ff0cd7536af617dfe59c21aaf3bc"
+
+        # Calculate AppSecret
+        app_secret = price_pepper + app_id + app_password
+        app_secret = hashlib.sha256(app_secret.encode())
+        hashed_app_secret = app_secret.hexdigest().upper()
+        # Add GMT / UTC date-time to the front and hash again
+        hashed_app_secret = datetime.datetime.utcnow().strftime('%Y%m%d%H%M') + hashed_app_secret
+        hashed_app_secret = hashlib.sha256(hashed_app_secret.encode())
+        hashed_app_secret = hashed_app_secret.hexdigest().upper()
+
+        # Create a session in PRICE
+        params = {"AppID": app_id,
+                      "AppSecret": hashed_app_secret,
+                      "LoginName": username,
+                      "APIVersion": "0.0.0"}
+        pay_load = {"Password": password}
+
+        # Post the request
+        response_model = self._make_call('CREATE_SESSION', CommonResponse, data=pay_load,
+                               method=Methods.POST, headers=self.headers, params=params)
+        self.session_id = response_model.raw.get(BaseRequestModelKeys.SESSION_ID)
+        return response_model
+
+    def end_session(self, session_id=None, nonce=None):
+        request_model = BaseRequestModel(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
+        return self._make_call('END_SESSION', CommonResponse, method=Methods.POST,
+                               params=request_model.as_params_dict)
+
     def insert_test_response_data(self, data):
         self.test_response_data = data
+
+    def _get_nonce(self, nonce):
+        return nonce or self.nonce or self.client.nonce
+
+    def _get_session_id(self, session_id):
+        return session_id or self.session_id or self.client.session_id
 
     def get(self, resource_endpoint, response_model, headers=None, params=None):
         return self._make_call(resource_endpoint, response_model,
@@ -92,12 +144,15 @@ class BaseClient:
             response.text = self.test_response_data
             response_type = "TEST RESPONSE"
         log.debug(f"{response_type}: {response.content}")
-        #TODO: fix the response.content vs .text issue
-        # response_model = response_model_class(**(json.loads(response.text)))
-        response_model = response_model_class(**response.content)
+
+        response_model = response_model_class(
+            **(response.content if type(response.content) is dict else json.loads(response.content)))
         log.debug(f"Response Model: {type(response_model)}")
 
         response_model.response = response
         response_model.status = response.status_code
         response_model.content = response.content
+
+        self.nonce = getattr(response_model, CommonResponseKeys.NONCE)
+
         return response_model
