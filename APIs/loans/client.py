@@ -58,6 +58,10 @@ class ApiEndpoints:
 class LoanClient(BaseClient):
     CONTENT_TYPE = "Content-Type"
     APPLICATION_JSON = "application/json"
+    headers = {
+        CONTENT_TYPE: APPLICATION_JSON
+    }
+
 
     def add_loan(self, session_id=None, nonce=None):
         request_model = BaseRequestModel(session_id=session_id or self.session_id, nonce=nonce or self.nonce)
@@ -95,39 +99,29 @@ class LoanClient(BaseClient):
                              params=request_model.as_params_dict)
         return response
 
-    def get_loan(self, loan_number_ids, session_id=None, nonce=None):
-        request_model = GetLoanRequest(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
-                                       loan_number_ids=loan_number_ids)
-        response_model = GetLoanResponse
-        endpoint = ApiEndpoints.GET_LOAN
-        headers = {}
+    def get_loan(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = GetLoanRequest(loan_number_id=loan_number_id,
+                                       session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+                                       pretty_print=pretty_print)
 
-        response = self.get(resource_endpoint=endpoint, response_model=response_model, headers=headers,
+        return self.get(resource_endpoint=ApiEndpoints.GET_LOAN, response_model=GetLoanResponse,
                             params=request_model.as_params_dict)
-        return response
 
-    def get_loan_detail(self, loan_number_ids, session_id=None, nonce=None):
-        request_model = GetLoanDetailRequest(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
-                                             loan_number_ids=loan_number_ids)
-        response_model = GetLoanDetailResponse
-        endpoint = ApiEndpoints.GET_LOAN_DETAIL
-        headers = {}
+    def get_loan_detail(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = GetLoanDetailRequest(loan_number_id=loan_number_id,
+                                       session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+                                       pretty_print=pretty_print)
 
-        response = self.get(resource_endpoint=endpoint, response_model=response_model, headers=headers,
+        return self.get(resource_endpoint=ApiEndpoints.GET_LOAN_DETAIL, response_model=GetLoanDetailResponse,
                             params=request_model.as_params_dict)
-        return response
 
-    def get_final_value_tags(self, loan_number_ids, session_id=None, nonce=None):
-        request_model = GetFinalValueTagsRequest(session_id=self._get_session_id(session_id),
-                                                 nonce=self._get_nonce(nonce),
-                                                 loan_number_ids=loan_number_ids)
-        response_model = GetFinalValueTagsResponse
-        endpoint = ApiEndpoints.GET_FINAL_VALUE_TAG
-        headers = {}
+    def get_final_value_tags(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = GetFinalValueTagsRequest(loan_number_id=loan_number_id,
+                                       session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+                                       pretty_print=pretty_print)
 
-        response = self.get(resource_endpoint=endpoint, response_model=response_model, headers=headers,
-                            params=request_model.as_params_dict)
-        return response
+        return self.get(resource_endpoint=ApiEndpoints.GET_FINAL_VALUE_TAG,
+                            response_model=GetFinalValueTagsResponse, params=request_model.as_params_dict)
 
     def get_loan_license_data(self, loan_number_ids, data_from, data_id, session_id=None, nonce=None):
         request_model = GetLoanLicenseDataRequest(session_id=self._get_session_id(session_id),
@@ -141,10 +135,11 @@ class LoanClient(BaseClient):
                             params=request_model.as_params_dict)
         return response
 
-    def get_loan_rate_quote_details(self, loan_number_ids, session_id=None, nonce=None):
-        request_model = GetLoanRateQuoteDetailsRequest(session_id=self._get_session_id(session_id),
-                                                       nonce=self._get_nonce(nonce),
-                                                       loan_number_ids=loan_number_ids)
+    def get_loan_rate_quote_details(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = GetLoanRateQuoteDetailsRequest(loan_number_id=loan_number_id,
+                                       session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+                                       pretty_print=pretty_print)
+
         response_model = GetLoanRateQuoteDetailsResponse
         endpoint = ApiEndpoints.GET_LOAN_RATE_QUOTE_DETAILS
         headers = {}
@@ -153,17 +148,13 @@ class LoanClient(BaseClient):
                             params=request_model.as_params_dict)
         return response
 
-    def get_loan_statuses(self, loan_number_ids, session_id=None, nonce=None):
-        request_model = GetLoanStatusesRequest(session_id=self._get_session_id(session_id),
-                                               nonce=self._get_nonce(nonce),
-                                               loan_number_ids=loan_number_ids)
-        response_model = GetLoanStatusesResponse
-        endpoint = ApiEndpoints.GET_LOAN_STATUSES
-        headers = {}
+    def get_loan_statuses(self, loan_number_ids, session_id=None, nonce=None, pretty_print=False):
+        request_model = GetLoanStatusesRequest(loan_number_ids=loan_number_ids,
+                                               session_id=self._get_session_id(session_id),
+                                               nonce=self._get_nonce(nonce), pretty_print=pretty_print)
 
-        response = self.get(resource_endpoint=endpoint, response_model=response_model, headers=headers,
+        return self.get(resource_endpoint=ApiEndpoints.GET_LOAN_STATUSES, response_model=GetLoanStatusesResponse,
                             params=request_model.as_params_dict)
-        return response
 
     def set_anti_steering_data(self, loan_number_ids, index=None, program_id=None, rate=None, loan_origination=None,
                                loan_discount=None, sales_price=None, value=None, base_loan_amount=None,
@@ -204,7 +195,7 @@ class LoanClient(BaseClient):
                                            loan_number_ids=loan_number_ids, payload_dict=payload_dict, **kwargs)
         response_model = SetLoanHDMAResponse
         endpoint = ApiEndpoints.SET_LOAN_DATA
-        headers = {self.CONTENT_TYPE: self.APPLICATION_JSON}
+        headers = self.headers
 
         response = self.post(resource_endpoint=endpoint, response_model=response_model, headers=headers,
                              params=request_model.as_params_dict, data=request_model.payload)

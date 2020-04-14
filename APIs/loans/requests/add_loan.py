@@ -22,21 +22,21 @@ class ImportFromFileWithDataParamKeys(BaseImportParamKeys):
 
 
 class ImportFromFileRequest(BaseRequestModel):
-    def __init__(self, session_id, nonce, loan_number, file_type, date_name, base64_file_data):
+    def __init__(self, session_id, nonce, loan_number, file_type, date_name, base64_file_data, pretty_print=False):
         self.loan_number = loan_number
         self.file_type = file_type
         self.date_name = date_name
         self.base64_file_data = base64_file_data
-        super().__init__(session_id=session_id, nonce=nonce)
+        super().__init__(session_id=session_id, nonce=nonce, pretty_print=pretty_print)
 
     def to_params(self):
-        return {
-            ImportFromFileParamKeys.SESSION_ID: self.session_id,
-            ImportFromFileParamKeys.NONCE: self.nonce,
+        args = super().to_params()
+        args.update({
             ImportFromFileParamKeys.FILE_TYPE: self.file_type.value,
             ImportFromFileParamKeys.LOAN_NUMBER: self.loan_number,
             ImportFromFileParamKeys.DATE_NAME: self.date_name,
-        }
+        })
+        return args
 
 
 class ImportFromFileWithDateRequest(BaseRequestModel):

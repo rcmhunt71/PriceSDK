@@ -5,24 +5,17 @@ from base.common.models.request import BaseRequestModel, BaseRequestModelKeys
 
 @dataclass
 class GetLoanRequestParams(BaseRequestModelKeys):
-    LOAN_NUMBER_IDS: str = "LoanNumberIDs"
-    PRETTY_PRINT: bool = "PrettyPrint"
+    LOAN_NUMBER_ID: str = "LoanNumberID"
 
 
 class GetLoanRequest(BaseRequestModel):
-    def __init__(self, session_id, nonce, loan_number_ids, pretty_print=False):
-        self.loan_number_ids = loan_number_ids
-        self.pretty_print = pretty_print
-        super().__init__(session_id=session_id, nonce=nonce)
+    def __init__(self, loan_number_id, session_id, nonce, pretty_print):
+        self.loan_number_id = loan_number_id
+        super().__init__(session_id=session_id, nonce=nonce, pretty_print=pretty_print)
 
     def to_params(self):
-        args = {
-            GetLoanRequestParams.SESSION_ID: self.session_id,
-            GetLoanRequestParams.NONCE: self.nonce,
-            GetLoanRequestParams.LOAN_NUMBER_IDS: self.loan_number_ids,
-        }
-        if self.pretty_print:
-            args[GetLoanRequestParams.PRETTY_PRINT] = self.pretty_print
+        args = super().to_params()
+        args[GetLoanRequestParams.LOAN_NUMBER_ID] = self.loan_number_id
         return args
 
 

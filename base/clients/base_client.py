@@ -1,5 +1,6 @@
 import datetime
 import hashlib
+import os
 from enum import Enum
 import requests
 import json
@@ -60,7 +61,7 @@ class BaseClient:
         self.test_response_data = None
 
     def authenticate(self, username, password, app_id, app_password):
-        price_pepper = "b70ad3601d87ff0cd7536af617dfe59c21aaf3bc"
+        price_pepper = os.environ.get('PRICE_PEPPER')
 
         # Calculate AppSecret
         app_secret = price_pepper + app_id + app_password
@@ -145,13 +146,14 @@ class BaseClient:
             response_type = "TEST RESPONSE"
         log.debug(f"{response_type}: {response.content}")
 
-        response_model = response_model_class(
-            **(response.content if type(response.content) is dict else json.loads(response.content)))
+        response_content = response.content if type(response.content) is dict else json.loads(response.content)
+
+        response_model = response_model_class(**response_content)
         log.debug(f"Response Model: {type(response_model)}")
 
         response_model.response = response
         response_model.status = response.status_code
-        response_model.content = response.content
+        response_model.content = response_content
 
         self.nonce = getattr(response_model, CommonResponseKeys.NONCE)
 
