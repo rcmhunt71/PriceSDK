@@ -9,15 +9,15 @@ from base.responses.base_response import BaseResponse, BaseListResponse
 
 
 @dataclass
-class AddLoanDataColEntryKeys:
+class LoanDataColEntryKeys:
     ID: str = "id"
     LABEL: str = "label"
     TYPE: str = "type"
 
 
 class AddLoanDataColEntry(BaseResponse):
-    ADD_KEYS = [AddLoanDataColEntryKeys.ID, AddLoanDataColEntryKeys.LABEL,
-                AddLoanDataColEntryKeys.TYPE]
+    ADD_KEYS = [LoanDataColEntryKeys.ID, LoanDataColEntryKeys.LABEL,
+                LoanDataColEntryKeys.TYPE]
 
 
 class AddLoanDataCols(BaseListResponse):
@@ -29,17 +29,17 @@ class AddLoanDataCols(BaseListResponse):
 
 
 @dataclass
-class AddLoanRowValueKeys:
+class LoanRowValueKeys:
     VALUE: str = "v"
 
 
 @dataclass
-class AddLoanRowColKeys:
+class LoanRowColKeys:
     COL: str = "c"
 
 
 class AddLoanValueEntry(BaseResponse):
-    ADD_KEYS = [AddLoanRowValueKeys.VALUE]
+    ADD_KEYS = [LoanRowValueKeys.VALUE]
     SUB_MODELS = [None]
 
 
@@ -48,7 +48,7 @@ class AddLoanRowColsValue(BaseListResponse):
 
 
 class AddLoanRowEntry(BaseResponse):
-    ADD_KEYS = [AddLoanRowColKeys.COL]
+    ADD_KEYS = [LoanRowColKeys.COL]
     SUB_MODELS = [AddLoanRowColsValue]
 
 
@@ -61,13 +61,13 @@ class AddLoanRowList(BaseListResponse):
 
 
 @dataclass
-class AddLoanDataTableKeys:
+class LoanDataTableKeys:
     DATA_TABLE: str = "Data"
     COLS: str = "cols"
     ROWS: str = "rows"
 
 
-class AddLoanDataTable(BaseResponse):
-    ADD_KEYS = [AddLoanDataTableKeys.ROWS, AddLoanDataTableKeys.COLS]
+class LoanDataTable(BaseResponse):
+    ADD_KEYS = [LoanDataTableKeys.ROWS, LoanDataTableKeys.COLS]
     SUB_MODELS = [AddLoanRowList, AddLoanDataCols]
 
