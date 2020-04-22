@@ -16,8 +16,8 @@ class CustomerListKeys:
 
 
 class Customer(BaseResponse):
-    ADD_KEYS = [CustomerKeys.CUSTOMER_ID, CustomerKeys.DECLARE_A, CustomerKeys.DECLARE_B]
-    SUB_MODELS = [None for _ in range(len(ADD_KEYS))]
+    _ADD_KEYS = [CustomerKeys.CUSTOMER_ID, CustomerKeys.DECLARE_A, CustomerKeys.DECLARE_B]
+    _SUB_MODELS = [None for _ in range(len(_ADD_KEYS))]
 
 
 class CustomerList(BaseListResponse):

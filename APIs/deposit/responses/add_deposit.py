@@ -3,5 +3,5 @@ from base.common.response import CommonResponse
 
 
 class AddDeposit(CommonResponse):
-    ADD_KEYS = [AddDepositKeys.DEPOSIT_ID, AddDepositKeys.DEPOSIT_ACCOUNT_ID]
-    SUB_MODELS = [None, None]
+    _ADD_KEYS = [AddDepositKeys.DEPOSIT_ID, AddDepositKeys.DEPOSIT_ACCOUNT_ID]
+    _SUB_MODELS = [None, None]

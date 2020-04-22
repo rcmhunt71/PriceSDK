@@ -15,8 +15,8 @@ class BorrowerDetailKeys:
 
 
 class Borrower(BaseResponse):
-    ADD_KEYS = [BorrowerKeys.PERSON_ID, BorrowerKeys.LAST_NAME, BorrowerKeys.FIRST_NAME]
-    SUB_MODELS = [None for _ in range(len(ADD_KEYS))]
+    _ADD_KEYS = [BorrowerKeys.PERSON_ID, BorrowerKeys.LAST_NAME, BorrowerKeys.FIRST_NAME]
+    _SUB_MODELS = [None for _ in range(len(_ADD_KEYS))]
 
 
 class BorrowerDetailList(BaseListResponse):

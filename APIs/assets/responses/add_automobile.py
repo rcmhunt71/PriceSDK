@@ -3,6 +3,6 @@ from base.common.response import CommonResponse
 
 
 class AddAutomobileResponse(CommonResponse):
-    ADD_KEYS = [AutomobileKeys.AUTOMOBILE_ID]
-    SUB_MODELS = [None]
+    _ADD_KEYS = [AutomobileKeys.AUTOMOBILE_ID]
+    _SUB_MODELS = [None]
 

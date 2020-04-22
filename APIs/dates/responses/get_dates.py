@@ -3,5 +3,5 @@ from base.common.response import CommonResponse
 
 
 class GetDates(CommonResponse):
-    ADD_KEYS = [DatesListKeys.DATES_LIST]
-    SUB_MODELS = [DatesList]
+    _ADD_KEYS = [DatesListKeys.DATES_LIST]
+    _SUB_MODELS = [DatesList]

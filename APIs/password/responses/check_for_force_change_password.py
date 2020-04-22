@@ -3,5 +3,5 @@ from base.common.response import CommonResponse
 
 
 class CheckForForceChangePassword(CommonResponse):
-    ADD_KEYS = [ForceChangePasswordKeys.FORCE_CHANGE_PASSWORD]
-    SUB_MODELS = [None]
+    _ADD_KEYS = [ForceChangePasswordKeys.FORCE_CHANGE_PASSWORD]
+    _SUB_MODELS = [None]

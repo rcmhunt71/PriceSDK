@@ -20,7 +20,7 @@ class AssetKeys:
 
 
 class Asset(BaseResponse):
-    ADD_KEYS = [AssetKeys.CUSTOMER_ID, AssetKeys.ASSET_ID, AssetKeys.ASSET_NAME, AssetKeys.ASSET_TYPE,
+    _ADD_KEYS = [AssetKeys.CUSTOMER_ID, AssetKeys.ASSET_ID, AssetKeys.ASSET_NAME, AssetKeys.ASSET_TYPE,
                 AssetKeys.MARKET_VALUE, AssetKeys.FIX_DESCRIPTION, AssetKeys.INSURANCE_FACE_VALUE,
                 AssetKeys.VERIFY, AssetKeys.VERIFY_DATE, AssetKeys.BOTH, AssetKeys.LIQUID,
                 AssetKeys.RETIREMENT_FUND_DETAIL, ]

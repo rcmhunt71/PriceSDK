@@ -3,5 +3,5 @@ from base.common.response import CommonResponse
 
 
 class ImportCreditReport(CommonResponse):
-    ADD_KEYS = [ImportCreditReportKeys.WAS_THERE_ANYTHING_IMPORTED]
-    SUB_MODELS = [None]
+    _ADD_KEYS = [ImportCreditReportKeys.WAS_THERE_ANYTHING_IMPORTED]
+    _SUB_MODELS = [None]

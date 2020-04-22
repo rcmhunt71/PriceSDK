@@ -27,11 +27,11 @@ class DepositAccountsFieldsKeys:
 
 
 class DepositAccount(BaseResponse):
-    ADD_KEYS = [
+    _ADD_KEYS = [
         DepositAccountKeys.CUSTOMER_ID, DepositAccountKeys.DEPOSIT_ID, DepositAccountKeys.DEPOSIT_ACCOUNT_ID,
         DepositAccountKeys.ACCOUNT_TYPE, DepositAccountKeys.ACCOUNT_NUMBER, DepositAccountKeys.ACCOUNT_NAME,
         DepositAccountKeys.BALANCE]
-    SUB_MODELS = None
+    _SUB_MODELS = None
 
 
 class DepositAccounts(BaseListResponse):
@@ -39,8 +39,8 @@ class DepositAccounts(BaseListResponse):
 
 
 class DepositAccountFieldEntry(BaseResponse):
-    ADD_KEYS = [DepositAccountsFieldsKeys.FIELD_NAME, DepositAccountsFieldsKeys.FIELD_VALUE]
-    SUB_MODELS = None
+    _ADD_KEYS = [DepositAccountsFieldsKeys.FIELD_NAME, DepositAccountsFieldsKeys.FIELD_VALUE]
+    _SUB_MODELS = None
 
 
 class DepositAccountFieldList(BaseListResponse):
@@ -48,6 +48,6 @@ class DepositAccountFieldList(BaseListResponse):
 
 
 class DepositAccountRequestModel(BaseResponse):
-    ADD_KEYS = [DepositAccountKeys.CUSTOMER_ID, DepositAccountKeys.DEPOSIT_ID,
+    _ADD_KEYS = [DepositAccountKeys.CUSTOMER_ID, DepositAccountKeys.DEPOSIT_ID,
                 DepositAccountKeys.DEPOSIT_ACCOUNT_ID, DepositAccountKeys.FIELDS]
-    SUB_MODELS = [None, None, None, DepositAccountFieldList]
+    _SUB_MODELS = [None, None, None, DepositAccountFieldList]

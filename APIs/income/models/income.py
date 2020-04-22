@@ -33,12 +33,12 @@ class AddIncomeKeys:
 
 
 class IncomeEntry(BaseResponse):
-    ADD_KEYS = [IncomeEntryKeys.CUSTOMER_ID, IncomeEntryKeys.INCOME_ID, IncomeEntryKeys.COMPANY_ID,
+    _ADD_KEYS = [IncomeEntryKeys.CUSTOMER_ID, IncomeEntryKeys.INCOME_ID, IncomeEntryKeys.COMPANY_ID,
                 IncomeEntryKeys.INCOME_TYPE, IncomeEntryKeys.TITLE_POSITION, IncomeEntryKeys.BASE_INCOME,
                 IncomeEntryKeys.OVERTIME, IncomeEntryKeys.BONUSES, IncomeEntryKeys.COMMISSION, IncomeEntryKeys.OTHER,
                 IncomeEntryKeys.OTHER_DESCRIPTION, IncomeEntryKeys.TOTAL, IncomeEntryKeys.START_DATE,
                 IncomeEntryKeys.END_DATE, IncomeEntryKeys.YEARS_AT_JOB]
-    SUB_MODELS = [None for _ in range(len(ADD_KEYS))]
+    _SUB_MODELS = [None for _ in range(len(_ADD_KEYS))]
 
 
 class IncomeEntries(BaseListResponse):

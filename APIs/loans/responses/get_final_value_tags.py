@@ -3,8 +3,8 @@ from base.common.response import CommonResponse
 
 
 class GetFinalValueTagsResponse(CommonResponse):
-    ADD_KEYS = [FinalValueScreenKeys.FINAL_VALUE_SCREEN, FinalValueFieldsKeys.FINAL_VALUE_FIELD]
-    SUB_MODELS = [None, None]
+    _ADD_KEYS = [FinalValueScreenKeys.FINAL_VALUE_SCREEN, FinalValueFieldsKeys.FINAL_VALUE_FIELD]
+    _SUB_MODELS = [None, None]
 
     def get_final_value_screens(self):
         return getattr(self, FinalValueScreenKeys.FINAL_VALUE_SCREEN)

@@ -20,8 +20,8 @@ class CommonResponseKeys:
 
 class CommonResponse(BaseResponse):
 
-    ADD_KEYS = [CommonResponseKeys.VERSION, CommonResponseKeys.STATS]
-    SUB_MODELS = [VersionModel, StatsModel]
+    _ADD_KEYS = [CommonResponseKeys.VERSION, CommonResponseKeys.STATS]
+    _SUB_MODELS = [VersionModel, StatsModel]
 
     def __init__(self, keys=None, objs=None, **kwargs):
 

@@ -9,8 +9,8 @@ class AddALoanKeys:
 
 
 class AddALoanResponse(CommonResponse):
-    ADD_KEYS = [AddALoanKeys.NEW_LOAN_NUMBER_ID]
-    SUB_MODELS = [None]
+    _ADD_KEYS = [AddALoanKeys.NEW_LOAN_NUMBER_ID]
+    _SUB_MODELS = [None]
 
     def get_loan_id(self):
         return getattr(self, AddALoanKeys.NEW_LOAN_NUMBER_ID, None)

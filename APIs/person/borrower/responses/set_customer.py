@@ -3,5 +3,5 @@ from base.common.response import CommonResponse
 
 
 class SetCustomer(CommonResponse):
-    ADD_KEYS = [CustomerListKeys.CUSTOMERS]
-    SUB_MODELS = [CustomerList]
+    _ADD_KEYS = [CustomerListKeys.CUSTOMERS]
+    _SUB_MODELS = [CustomerList]

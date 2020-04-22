@@ -3,5 +3,5 @@ from base.common.response import CommonResponse
 
 
 class EvaluateDataCheckBundle(CommonResponse):
-    ADD_KEYS = [EvaluateDataCheckBundleKeys.DATA_CHECKS]
-    SUB_MODELS = [DataChecks]
+    _ADD_KEYS = [EvaluateDataCheckBundleKeys.DATA_CHECKS]
+    _SUB_MODELS = [DataChecks]

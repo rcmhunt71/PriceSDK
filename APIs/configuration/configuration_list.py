@@ -9,5 +9,5 @@ class ConfigurationListKeys:
 
 
 class ConfigurationList(CommonResponse):
-    ADD_KEYS = [ConfigurationListKeys.CONFIGURATION_LIST]
-    SUB_MODELS = [None]
+    _ADD_KEYS = [ConfigurationListKeys.CONFIGURATION_LIST]
+    _SUB_MODELS = [None]

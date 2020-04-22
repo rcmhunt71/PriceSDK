@@ -59,7 +59,11 @@ class DataTable:
 
 
 class Object(object):
-    pass
+    def attributes(self):
+        return list(self.__dict__.keys())
+
+    def as_dict(self):
+        return self.__dict__
 
 
 class GetLoanResponse(CommonResponse):
@@ -86,3 +90,6 @@ class GetLoanResponse(CommonResponse):
 
         # TODO: Create proper ASCII table via PrettyTable or implement simple array table
         print(table)
+
+class GetLoanDetailResponse(GetLoanResponse):
+    pass

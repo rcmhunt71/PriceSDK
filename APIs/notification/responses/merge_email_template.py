@@ -3,5 +3,5 @@ from base.common.response import CommonResponse
 
 
 class MergeEmailTemplate(CommonResponse):
-    ADD_KEYS = [EmailMergeKeys.SUBJECT, EmailMergeKeys.BODY]
-    SUB_MODELS = [None, None]
+    _ADD_KEYS = [EmailMergeKeys.SUBJECT, EmailMergeKeys.BODY]
+    _SUB_MODELS = [None, None]

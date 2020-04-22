@@ -3,5 +3,5 @@ from base.common.response import CommonResponse
 
 
 class SendEmailAndMakeConvLog(CommonResponse):
-    ADD_KEYS = [EmailConvLogKeys.MEMO_ID]
-    SUB_MODELS = [None]
+    _ADD_KEYS = [EmailConvLogKeys.MEMO_ID]
+    _SUB_MODELS = [None]

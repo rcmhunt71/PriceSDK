@@ -9,5 +9,5 @@ class GetCompanyIDsKeys:
 
 
 class GetCompanyIDsResponse(CommonResponse):
-    ADD_KEYS = [GetCompanyIDsKeys.COMPANY_IDS]
-    SUB_MODELS = [None]
+    _ADD_KEYS = [GetCompanyIDsKeys.COMPANY_IDS]
+    _SUB_MODELS = [None]

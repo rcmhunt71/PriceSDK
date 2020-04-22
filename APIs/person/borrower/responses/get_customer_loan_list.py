@@ -4,5 +4,5 @@ from APIs.person.borrower.models.loan_list import CustomerLoanList, CustomerLoan
 
 
 class GetCustomerLoanList(CommonResponse):
-    ADD_KEYS = [CustomerLoanListKeys.CUSTOMER_LOAN]
-    SUB_MODELS = [CustomerLoanList]
+    _ADD_KEYS = [CustomerLoanListKeys.CUSTOMER_LOAN]
+    _SUB_MODELS = [CustomerLoanList]

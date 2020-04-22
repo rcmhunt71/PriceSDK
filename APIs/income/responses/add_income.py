@@ -3,5 +3,5 @@ from APIs.income.models.income import AddIncomeKeys
 
 
 class AddIncome(CommonResponse):
-    ADD_KEYS = [AddIncomeKeys.INCOME_ID]
-    SUB_MODELS = [None]
+    _ADD_KEYS = [AddIncomeKeys.INCOME_ID]
+    _SUB_MODELS = [None]

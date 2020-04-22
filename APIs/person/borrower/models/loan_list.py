@@ -19,8 +19,8 @@ class LoanListHeaderColumnKeys:
 
 
 class LoanListHeaderEntry(BaseResponse):
-    ADD_KEYS = [LoanListHeaderEntryKeys.ID, LoanListHeaderEntryKeys.LABEL, LoanListHeaderEntryKeys.TYPE]
-    SUB_MODELS = [None for _ in range(len(ADD_KEYS))]
+    _ADD_KEYS = [LoanListHeaderEntryKeys.ID, LoanListHeaderEntryKeys.LABEL, LoanListHeaderEntryKeys.TYPE]
+    _SUB_MODELS = [None for _ in range(len(_ADD_KEYS))]
 
 
 class LoanListHeaderList(BaseListResponse):
@@ -46,8 +46,8 @@ class LoanListRowsKeys:
 
 
 class LoanListRowValueEntry(BaseResponse):
-    ADD_KEYS = [LoanListRowValueEntryKeys.VALUE]
-    SUB_MODELS = [None]
+    _ADD_KEYS = [LoanListRowValueEntryKeys.VALUE]
+    _SUB_MODELS = [None]
 
 
 class LoanListRowValuesList(BaseListResponse):
@@ -55,8 +55,8 @@ class LoanListRowValuesList(BaseListResponse):
 
 
 class LoanListRowCol(BaseResponse):
-    ADD_KEYS = [LoanListRowColValueEntryKeys.COL]
-    SUB_MODELS = [LoanListRowValuesList]
+    _ADD_KEYS = [LoanListRowColValueEntryKeys.COL]
+    _SUB_MODELS = [LoanListRowValuesList]
 
 
 class LoanListRowColList(BaseListResponse):
@@ -72,5 +72,5 @@ class CustomerLoanListKeys:
 
 
 class CustomerLoanList(BaseResponse):
-    ADD_KEYS = [LoanListHeaderColumnKeys.COLS, LoanListRowsKeys.ROWS]
-    SUB_MODELS = [LoanListHeaderList, LoanListRowColList]
+    _ADD_KEYS = [LoanListHeaderColumnKeys.COLS, LoanListRowsKeys.ROWS]
+    _SUB_MODELS = [LoanListHeaderList, LoanListRowColList]

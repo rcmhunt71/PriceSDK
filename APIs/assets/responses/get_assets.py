@@ -3,5 +3,5 @@ from base.common.response import CommonResponse
 
 
 class AssetsResponse(CommonResponse):
-    ADD_KEYS = [AssetsKeys.ASSETS]
-    SUB_MODELS = [Assets]
+    _ADD_KEYS = [AssetsKeys.ASSETS]
+    _SUB_MODELS = [Assets]

@@ -11,8 +11,7 @@ from APIs.loans.models.final_value import FinalValueFieldsKeys, FinalValueScreen
 from APIs.loans.models.loan_detail_data import LoanDetailDataTableKeys
 from APIs.loans.responses.add_loan import AddALoanKeys, AddALoanResponse
 from APIs.loans.responses.get_final_value_tags import GetFinalValueTagsResponse
-from APIs.loans.responses.get_loan import GetLoanResponse
-from APIs.loans.responses.get_loan_detail import GetLoanDetailResponse
+from APIs.loans.responses.get_loan import GetLoanResponse, GetLoanDetailResponse
 
 from APIs.loans.client import LoanClient, ImportFromFileFileTypes
 

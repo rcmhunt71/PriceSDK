@@ -16,7 +16,7 @@ class LoanDataColEntryKeys:
 
 
 class AddLoanDataColEntry(BaseResponse):
-    ADD_KEYS = [LoanDataColEntryKeys.ID, LoanDataColEntryKeys.LABEL,
+    _ADD_KEYS = [LoanDataColEntryKeys.ID, LoanDataColEntryKeys.LABEL,
                 LoanDataColEntryKeys.TYPE]
 
 
@@ -39,8 +39,8 @@ class LoanRowColKeys:
 
 
 class AddLoanValueEntry(BaseResponse):
-    ADD_KEYS = [LoanRowValueKeys.VALUE]
-    SUB_MODELS = [None]
+    _ADD_KEYS = [LoanRowValueKeys.VALUE]
+    _SUB_MODELS = [None]
 
 
 class AddLoanRowColsValue(BaseListResponse):
@@ -48,8 +48,8 @@ class AddLoanRowColsValue(BaseListResponse):
 
 
 class AddLoanRowEntry(BaseResponse):
-    ADD_KEYS = [LoanRowColKeys.COL]
-    SUB_MODELS = [AddLoanRowColsValue]
+    _ADD_KEYS = [LoanRowColKeys.COL]
+    _SUB_MODELS = [AddLoanRowColsValue]
 
 
 class AddLoanRowList(BaseListResponse):
@@ -68,6 +68,6 @@ class LoanDataTableKeys:
 
 
 class LoanDataTable(BaseResponse):
-    ADD_KEYS = [LoanDataTableKeys.ROWS, LoanDataTableKeys.COLS]
-    SUB_MODELS = [AddLoanRowList, AddLoanDataCols]
+    _ADD_KEYS = [LoanDataTableKeys.ROWS, LoanDataTableKeys.COLS]
+    _SUB_MODELS = [AddLoanRowList, AddLoanDataCols]
 

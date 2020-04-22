@@ -19,7 +19,7 @@ class DepositsKeys:
 
 
 class Deposit(BaseResponse):
-    ADD_KEYS = [DepositKeys.CUSTOMER_ID, DepositKeys.DEPOSIT_ID, DepositKeys.INSTITUTION_ID, DepositKeys.VERIFY,
+    _ADD_KEYS = [DepositKeys.CUSTOMER_ID, DepositKeys.DEPOSIT_ID, DepositKeys.INSTITUTION_ID, DepositKeys.VERIFY,
                 DepositKeys.VERIFY_DATA, DepositKeys.BOTH]
 
 

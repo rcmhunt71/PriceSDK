@@ -3,5 +3,5 @@ from base.common.response import CommonResponse
 
 
 class GetIncomes(CommonResponse):
-    ADD_KEYS = [IncomeKeys.INCOMES]
-    SUB_MODELS = [IncomeEntries]
+    _ADD_KEYS = [IncomeKeys.INCOMES]
+    _SUB_MODELS = [IncomeEntries]

@@ -8,4 +8,4 @@ class FinalValueScreenKeys:
 
 @dataclass
 class FinalValueFieldsKeys:
-    FINAL_VALUE_FIELD: str = "FinalValueField"
+    FINAL_VALUE_FIELD: str = "FinalValueFields"

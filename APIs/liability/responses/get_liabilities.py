@@ -4,5 +4,5 @@ from APIs.liability.models.liability import LiabilityEntriesList, LiabilitiesKey
 
 
 class GetLiabilities(CommonResponse):
-    ADD_KEYS = [LiabilitiesKeys.LIABILITIES]
-    SUB_MODELS = [LiabilityEntriesList]
+    _ADD_KEYS = [LiabilitiesKeys.LIABILITIES]
+    _SUB_MODELS = [LiabilityEntriesList]

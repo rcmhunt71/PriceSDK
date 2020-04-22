@@ -3,5 +3,5 @@ from base.common.response import CommonResponse
 
 
 class GetLoanLicenseDataResponse(CommonResponse):
-    ADD_KEYS = [LicenseDataKeys.LICENSE_DATA]
-    SUB_MODELS = [Licenses]
+    _ADD_KEYS = [LicenseDataKeys.LICENSE_DATA]
+    _SUB_MODELS = [Licenses]

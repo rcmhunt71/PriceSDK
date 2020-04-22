@@ -3,5 +3,5 @@ from base.common.response import CommonResponse
 
 
 class RegisterParameterSet(CommonResponse):
-    ADD_KEYS = [RegisterParameterSetKeys.PARAMETER_SET_KEY]
-    SUB_MODELS = [None]
+    _ADD_KEYS = [RegisterParameterSetKeys.PARAMETER_SET_KEY]
+    _SUB_MODELS = [None]

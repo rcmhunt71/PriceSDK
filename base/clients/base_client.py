@@ -62,6 +62,8 @@ class BaseClient:
 
     def authenticate(self, username, password, app_id, app_password):
         price_pepper = os.environ.get('PRICE_PEPPER')
+        if not price_pepper:
+            raise EnvironmentError('The PRICE_PEPPER environment variable must be configured')
 
         # Calculate AppSecret
         app_secret = price_pepper + app_id + app_password

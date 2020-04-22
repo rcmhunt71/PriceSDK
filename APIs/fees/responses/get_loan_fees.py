@@ -3,5 +3,5 @@ from base.common.response import CommonResponse
 
 
 class GetLoanFees(CommonResponse):
-    ADD_KEYS = [LoanFeeKeys.LOAN_FEES]
-    SUB_MODELS = [LoanFees]
+    _ADD_KEYS = [LoanFeeKeys.LOAN_FEES]
+    _SUB_MODELS = [LoanFees]

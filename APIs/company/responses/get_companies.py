@@ -3,5 +3,5 @@ from base.common.response import CommonResponse
 
 
 class GetCompaniesResponse(CommonResponse):
-    ADD_KEYS = [CompaniesKeys.COMPANIES]
-    SUB_MODELS = [Companies]
+    _ADD_KEYS = [CompaniesKeys.COMPANIES]
+    _SUB_MODELS = [Companies]

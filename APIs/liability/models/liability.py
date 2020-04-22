@@ -29,12 +29,12 @@ class AddLiabilityKeys:
 
 
 class LiabilityEntry(BaseResponse):
-    ADD_KEYS = [LiabilityEntryKeys.LIABILITY_ID, LiabilityEntryKeys.CUSTOMER_ID, LiabilityEntryKeys.INSTITUTION_ID,
+    _ADD_KEYS = [LiabilityEntryKeys.LIABILITY_ID, LiabilityEntryKeys.CUSTOMER_ID, LiabilityEntryKeys.INSTITUTION_ID,
                 LiabilityEntryKeys.LIABILITY_TYPE, LiabilityEntryKeys.ACCOUNT_NAME, LiabilityEntryKeys.ACCOUNT_NUMBER,
                 LiabilityEntryKeys.BALANCE, LiabilityEntryKeys.TERM, LiabilityEntryKeys.PAYMENT,
                 LiabilityEntryKeys.PAYOFF, LiabilityEntryKeys.TO_BE_PAID_OFF]
 
-    SUB_MODELS = [None for _ in range(len(ADD_KEYS))]
+    _SUB_MODELS = [None for _ in range(len(_ADD_KEYS))]
 
 
 class LiabilityEntriesList(BaseListResponse):

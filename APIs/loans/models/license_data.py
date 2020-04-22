@@ -23,11 +23,11 @@ class LicenseDataKeys:
 
 
 class License(BaseResponse):
-    ADD_KEYS = [LicenseInfoKeys.LICENSE_ID, LicenseInfoKeys.LICENSE_NAME, LicenseInfoKeys.LICENSE_NUMBER,
+    _ADD_KEYS = [LicenseInfoKeys.LICENSE_ID, LicenseInfoKeys.LICENSE_NAME, LicenseInfoKeys.LICENSE_NUMBER,
                 LicenseInfoKeys.LICENSE_FROM, LicenseInfoKeys.LICENSE_EXPIRES, LicenseInfoKeys.STATE,
                 LicenseInfoKeys.STATE_DEFAULT, LicenseInfoKeys.LIEN_POSITION, LicenseInfoKeys.LICENSE_TYPE,
                 LicenseInfoKeys.DBAID]
-    SUB_MODELS = [None for _ in range(len(ADD_KEYS))]
+    _SUB_MODELS = [None for _ in range(len(_ADD_KEYS))]
 
 
 class Licenses(BaseListResponse):

@@ -3,5 +3,5 @@ from base.common.response import CommonResponse
 
 
 class UploadData(CommonResponse):
-    ADD_KEYS = [UploadDataKeys.TOKEN, UploadDataKeys.VALID_UNTIL]
-    SUB_MODELS = [None, None]
+    _ADD_KEYS = [UploadDataKeys.TOKEN, UploadDataKeys.VALID_UNTIL]
+    _SUB_MODELS = [None, None]

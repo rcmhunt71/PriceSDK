@@ -29,7 +29,7 @@ class ExtraDataMetadataKeys:
 
 
 class ExtraDataEntry(BaseResponse):
-    ADD_KEYS = [ExtraDataEntryKeys.DATA_NAME, ExtraDataEntryKeys.DATA_NUMERIC_VALUE,
+    _ADD_KEYS = [ExtraDataEntryKeys.DATA_NAME, ExtraDataEntryKeys.DATA_NUMERIC_VALUE,
                 ExtraDataEntryKeys.DATA_VALUE, ExtraDataEntryKeys.ROW_NUMBER_ID]
 
 
@@ -38,7 +38,7 @@ class ExtraDataEntryList(BaseListResponse):
 
 
 class ExtraDataMetadataEntry(BaseResponse):
-    ADD_KEYS = [ExtraDataMetadataEntryKeys.DATA_NAME, ExtraDataMetadataEntryKeys.DATA_VALUE,
+    _ADD_KEYS = [ExtraDataMetadataEntryKeys.DATA_NAME, ExtraDataMetadataEntryKeys.DATA_VALUE,
                 ExtraDataMetadataEntryKeys.EXTRA_DATA_TYPE]
 
 

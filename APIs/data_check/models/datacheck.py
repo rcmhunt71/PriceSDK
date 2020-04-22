@@ -17,7 +17,7 @@ class EvaluateDataCheckBundleKeys:
 
 
 class DataCheck(BaseResponse):
-    ADD_KEYS = [DataCheckKeys.DATA_CHECK_ID, DataCheckKeys.NAME,
+    _ADD_KEYS = [DataCheckKeys.DATA_CHECK_ID, DataCheckKeys.NAME,
                 DataCheckKeys.DESCRIPTION, DataCheckKeys.RESULT, ]
 
 

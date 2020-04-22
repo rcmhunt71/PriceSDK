@@ -10,8 +10,8 @@ class DateKeys:
 
 
 class DateEntry(BaseResponse):
-    ADD_KEYS = [DateKeys.DATE_NAME, DateKeys.DATE_VALUE]
-    SUB_MODELS = [None, None]
+    _ADD_KEYS = [DateKeys.DATE_NAME, DateKeys.DATE_VALUE]
+    _SUB_MODELS = [None, None]
 
 
 @dataclass

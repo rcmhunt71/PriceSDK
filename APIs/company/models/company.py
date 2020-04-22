@@ -15,5 +15,5 @@ class CompanyKeys:
 
 
 class Company(BaseResponse):
-    ADD_KEYS = [CompanyKeys.COMPANY_ID, CompanyKeys.COMPANY_NAME, CompanyKeys.VOICE, CompanyKeys.ADDRESS,
+    _ADD_KEYS = [CompanyKeys.COMPANY_ID, CompanyKeys.COMPANY_NAME, CompanyKeys.VOICE, CompanyKeys.ADDRESS,
                 CompanyKeys.CITY, CompanyKeys.STATE, CompanyKeys.ZIP, ]

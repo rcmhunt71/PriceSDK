@@ -5,8 +5,7 @@ from base.clients.base_client import BaseClient
 from base.common.models.request import BaseRequestModel
 
 from APIs.loans.responses.add_loan import AddALoanResponse, ImportFromFileResponse, ImportFromFileWithDateResponse
-from APIs.loans.responses.get_loan import GetLoanResponse
-from APIs.loans.responses.get_loan_detail import GetLoanDetailResponse
+from APIs.loans.responses.get_loan import GetLoanResponse, GetLoanDetailResponse
 from APIs.loans.responses.get_final_value_tags import GetFinalValueTagsResponse
 from APIs.loans.responses.get_loan_license_data import GetLoanLicenseDataResponse
 from APIs.loans.responses.get_loan_rate_quote_details import GetLoanRateQuoteDetailsResponse
@@ -18,9 +17,9 @@ from APIs.loans.responses.set_loan_license_data import SetLoanLicenseDataRespons
 from APIs.loans.responses.set_loan_rate_quote_details import SetLoanQuoteRateDetailsResponse
 
 from APIs.loans.requests.add_loan import ImportFromFileRequest, ImportFromFileWithDateRequest
-from APIs.loans.requests.get_loan import GetLoanRequest, GetLoanDetailRequest, GetFinalValueTagsRequest
+from APIs.loans.requests.get_loan import GetLoanRequest, GetLoanDetailRequest, GetFinalValueTagsRequest, \
+    GetLoanRateQuoteDetailsRequest
 from APIs.loans.requests.get_loan_license_data import GetLoanLicenseDataRequest
-from APIs.loans.requests.get_loan_rate_quote_details import GetLoanRateQuoteDetailsRequest
 from APIs.loans.requests.get_loan_statuses import GetLoanStatusesRequest
 from APIs.loans.requests.set_anti_steering_data import SetAntiSteeringDataRequest
 from APIs.loans.requests.set_loan_data import SetLoanDataRequest
@@ -45,6 +44,7 @@ class ApiEndpoints:
     GET_LOAN_DETAIL: str = "get_loan_detail"
     GET_LOAN_LICENSE_DATA: str = "get_loan_license_data"
     GET_LOAN_RATE_QUOTE_DETAILS: str = "get_loan_rate_quote_details"
+    GET_LOAN_MI_DETAILS: str = "get_loan_mi_detail"
     GET_LOAN_STATUSES: str = "get_loan_statuses"
     IMPORT_FROM_FILE: str = "import_from_file"
     IMPORT_FROM_FILE_WITH_DATE: str = "import_from_file_with_date"
@@ -147,6 +147,14 @@ class LoanClient(BaseClient):
         response = self.get(resource_endpoint=endpoint, response_model=response_model, headers=headers,
                             params=request_model.as_params_dict)
         return response
+
+    def get_loan_mi_detail(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = GetLoanRequest(loan_number_id=loan_number_id,
+                                       session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+                                       pretty_print=pretty_print)
+
+        return self.get(resource_endpoint=ApiEndpoints.GET_LOAN_MI_DETAILS, response_model=GetLoanResponse,
+                        params=request_model.as_params_dict)
 
     def get_loan_statuses(self, loan_number_ids, session_id=None, nonce=None, pretty_print=False):
         request_model = GetLoanStatusesRequest(loan_number_ids=loan_number_ids,

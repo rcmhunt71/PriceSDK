@@ -10,8 +10,8 @@ class ModelKeyMismatch(Exception):
 
 
 class BaseResponse:
-    ADD_KEYS = None
-    SUB_MODELS = None
+    _ADD_KEYS = None
+    _SUB_MODELS = None
 
     def __init__(self, keys=None, objs=None, **kwargs):
         self._VARS = []
@@ -26,16 +26,16 @@ class BaseResponse:
         log.debug(f"ORIGINAL KWARGS:\n{pprint.pformat(kwargs)}\n")
 
         updated_kwargs = False
-        if self.ADD_KEYS is not None:
+        if self._ADD_KEYS is not None:
             # If only adding KEYS & no MODELS (nested sub-objects), create a list of NONE models
-            if self.SUB_MODELS is None:
-                self.SUB_MODELS = [None for _ in range(len(self.ADD_KEYS))]
+            if self._SUB_MODELS is None:
+                self._SUB_MODELS = [None for _ in range(len(self._ADD_KEYS))]
 
             # If ADD_KEYS and SUB_MODELS provided, the number per list MUST be the same.
-            elif len(self.SUB_MODELS) != len(self.ADD_KEYS):
-                log.debug(f"Key Mismatch: SUB_MODELS: {len(self.SUB_MODELS)}   ADD_KEYS: {len(self.ADD_KEYS)}")
-                log.debug(f"SUB_MODELS: {self.SUB_MODELS}")
-                log.debug(f"ADD_KEYS: {self.ADD_KEYS}")
+            elif len(self._SUB_MODELS) != len(self._ADD_KEYS):
+                log.debug(f"Key Mismatch: SUB_MODELS: {len(self._SUB_MODELS)}   ADD_KEYS: {len(self._ADD_KEYS)}")
+                log.debug(f"SUB_MODELS: {self._SUB_MODELS}")
+                log.debug(f"ADD_KEYS: {self._ADD_KEYS}")
                 raise ModelKeyMismatch()
 
             # Number of ADD_KEYS and SUB_MODELS match, so if:
@@ -43,7 +43,7 @@ class BaseResponse:
             # SUB_MODEL is not None:
             #     * Instantiate sub_model object and add it to the kwargs
             #     * add to _OBJS to be added to base model object
-            for key, model in zip(self.ADD_KEYS, self.SUB_MODELS):
+            for key, model in zip(self._ADD_KEYS, self._SUB_MODELS):
                 if key in kwargs and kwargs.get(key) is not None:
                     if model is not None:
                         data = kwargs.get(key)

@@ -18,7 +18,7 @@ class LoanFeeColumnKeys:
 
 
 class LoanFeeColumnEntry(BaseResponse):
-    ADD_KEYS = [LoanFeeColumnEntryKeys.ID, LoanFeeColumnEntryKeys.LABEL, LoanFeeColumnEntryKeys.TYPE]
+    _ADD_KEYS = [LoanFeeColumnEntryKeys.ID, LoanFeeColumnEntryKeys.LABEL, LoanFeeColumnEntryKeys.TYPE]
 
 
 class LoanFeeColumnEntryList(BaseListResponse):
@@ -43,7 +43,7 @@ class LoanFeeRowKeys:
 
 
 class LoanFeeRowEntry(BaseResponse):
-    ADD_KEYS = [LoanFeeRowEntryKeys.VALUE]
+    _ADD_KEYS = [LoanFeeRowEntryKeys.VALUE]
 
 
 class LoanFeeRowEntryList(BaseListResponse):
@@ -51,8 +51,8 @@ class LoanFeeRowEntryList(BaseListResponse):
 
 
 class LoanFeeRowCol(BaseResponse):
-    ADD_KEYS = [LoanFeeRowColEntryKey.COL]
-    SUB_MODELS = [LoanFeeRowEntryList]
+    _ADD_KEYS = [LoanFeeRowColEntryKey.COL]
+    _SUB_MODELS = [LoanFeeRowEntryList]
 
 
 class LoanFeeRowColList(BaseListResponse):
@@ -67,5 +67,5 @@ class LoanFeeKeys:
 
 
 class LoanFees(BaseResponse):
-    ADD_KEYS = [LoanFeeColumnKeys.COLS, LoanFeeRowKeys.ROWS]
-    SUB_MODELS = [LoanFeeColumnEntryList, LoanFeeRowColList]
+    _ADD_KEYS = [LoanFeeColumnKeys.COLS, LoanFeeRowKeys.ROWS]
+    _SUB_MODELS = [LoanFeeColumnEntryList, LoanFeeRowColList]

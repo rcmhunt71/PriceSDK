@@ -3,5 +3,5 @@ from base.common.response import CommonResponse
 
 
 class GetDepositAccounts(CommonResponse):
-    ADD_KEYS = [DepositAccountsKeys.DEPOSIT_ACCOUNTS]
-    SUB_MODELS = [DepositAccounts]
+    _ADD_KEYS = [DepositAccountsKeys.DEPOSIT_ACCOUNTS]
+    _SUB_MODELS = [DepositAccounts]

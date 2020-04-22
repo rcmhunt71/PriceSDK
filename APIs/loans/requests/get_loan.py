@@ -25,3 +25,7 @@ class GetLoanDetailRequest(GetLoanRequest):
 
 class GetFinalValueTagsRequest(GetLoanRequest):
     pass
+
+
+class GetLoanRateQuoteDetailsRequest(GetLoanRequest):
+    pass
