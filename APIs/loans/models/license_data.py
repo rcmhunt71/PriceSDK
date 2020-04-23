@@ -13,7 +13,7 @@ class LicenseInfoKeys:
     STATE: str = "State"
     STATE_DEFAULT: str = "StateDefault"
     LIEN_POSITION: str = "LienPosition"
-    LICENSE_TYPE: str = "License Type"
+    LICENSE_TYPE: str = "LicenseType"
     DBAID: str = "DBAID"
 
 
@@ -31,5 +31,5 @@ class License(BaseResponse):
 
 
 class Licenses(BaseListResponse):
-    SUB_MODEL = License
+    _SUB_MODEL = License
 

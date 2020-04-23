@@ -4,9 +4,10 @@ from unittest.mock import patch
 
 from base.mocks.mock_requests import MockRequests
 
-from APIs.loans.models.add_loan_data import (
-    LoanDataColEntryKeys, LoanRowValueKeys, LoanDataTableKeys, AddLoanDataColEntry, AddLoanDataCols,
-    AddLoanValueEntry, AddLoanRowColsValue, LoanRowColKeys, AddLoanRowEntry, AddLoanRowList, LoanDataTable)
+from APIs.loans.models.loan_data import (
+    AddLoanDataColEntry, AddLoanDataCols,
+    AddLoanValueEntry, AddLoanRowColsValue, AddLoanRowEntry, AddLoanRowList, LoanDataTable)
+from base.common.models.data_table_response import DataColEntryKeys, RowValueKeys, RowColKeys, DataTableKeys
 from APIs.loans.models.final_value import FinalValueFieldsKeys, FinalValueScreenKeys
 from APIs.loans.models.loan_detail_data import LoanDetailDataTableKeys
 from APIs.loans.responses.add_loan import AddALoanKeys, AddALoanResponse
@@ -59,68 +60,68 @@ column_headers = (("Loan_Number_ID", "Loan Number ID", "number"),
 
 def build_add_loan_data_column(data_tuple):
     return {
-        LoanDataColEntryKeys.ID: data_tuple[0],
-        LoanDataColEntryKeys.LABEL: data_tuple[1],
-        LoanDataColEntryKeys.TYPE: data_tuple[2],
+        DataColEntryKeys.ID: data_tuple[0],
+        DataColEntryKeys.LABEL: data_tuple[1],
+        DataColEntryKeys.TYPE: data_tuple[2],
     }
 
 
 add_loan_data_columns_list = [build_add_loan_data_column(data) for data in column_headers]
 
 
-add_loan_value_entry_1 = {LoanRowValueKeys.VALUE: "Bobby McFerrin"}
-add_loan_value_entry_2 = {LoanRowValueKeys.VALUE: 1}
-add_loan_value_entry_3 = {LoanRowValueKeys.VALUE: 10}
+add_loan_value_entry_1 = {RowValueKeys.VALUE: "Bobby McFerrin"}
+add_loan_value_entry_2 = {RowValueKeys.VALUE: 1}
+add_loan_value_entry_3 = {RowValueKeys.VALUE: 10}
 
-add_loan_value_entry_4 = {LoanRowValueKeys.VALUE: "George Burns"}
-add_loan_value_entry_5 = {LoanRowValueKeys.VALUE: 2}
-add_loan_value_entry_6 = {LoanRowValueKeys.VALUE: 20}
+add_loan_value_entry_4 = {RowValueKeys.VALUE: "George Burns"}
+add_loan_value_entry_5 = {RowValueKeys.VALUE: 2}
+add_loan_value_entry_6 = {RowValueKeys.VALUE: 20}
 
-add_loan_value_entry_7 = {LoanRowValueKeys.VALUE: "Goose"}
-add_loan_value_entry_8 = {LoanRowValueKeys.VALUE: 3}
-add_loan_value_entry_9 = {LoanRowValueKeys.VALUE: 30}
+add_loan_value_entry_7 = {RowValueKeys.VALUE: "Goose"}
+add_loan_value_entry_8 = {RowValueKeys.VALUE: 3}
+add_loan_value_entry_9 = {RowValueKeys.VALUE: 30}
 
 add_loan_col_values_list_1 = [add_loan_value_entry_1, add_loan_value_entry_2, add_loan_value_entry_3]
 add_loan_col_values_list_2 = [add_loan_value_entry_4, add_loan_value_entry_5, add_loan_value_entry_6]
 add_loan_col_values_list_3 = [add_loan_value_entry_7, add_loan_value_entry_8, add_loan_value_entry_9]
 
-add_loan_col_value_dict_1 = {LoanRowColKeys.COL: add_loan_col_values_list_1}
-add_loan_col_value_dict_2 = {LoanRowColKeys.COL: add_loan_col_values_list_2}
-add_loan_col_value_dict_3 = {LoanRowColKeys.COL: add_loan_col_values_list_3}
+add_loan_col_value_dict_1 = {RowColKeys.COL: add_loan_col_values_list_1}
+add_loan_col_value_dict_2 = {RowColKeys.COL: add_loan_col_values_list_2}
+add_loan_col_value_dict_3 = {RowColKeys.COL: add_loan_col_values_list_3}
 
 add_loan_row_datum_1 = [add_loan_col_value_dict_1, add_loan_col_value_dict_2, add_loan_col_value_dict_3]
 
-add_loan_data_table = {LoanDataTableKeys.COLS: add_loan_data_columns_list,
-                       LoanDataTableKeys.ROWS: add_loan_row_datum_1}
+add_loan_data_table = {DataTableKeys.COLS: add_loan_data_columns_list,
+                       DataTableKeys.ROWS: add_loan_row_datum_1}
 
 
 # LOAN DETAILS
 # TODO Need to finish building out data source for GetLoanDetails()
 
-loan_detail_value_entry_1 = {LoanRowValueKeys.VALUE: "Bobby McFerrin"}
-loan_detail_value_entry_2 = {LoanRowValueKeys.VALUE: 1}
-loan_detail_value_entry_3 = {LoanRowValueKeys.VALUE: 10}
+loan_detail_value_entry_1 = {RowValueKeys.VALUE: "Bobby McFerrin"}
+loan_detail_value_entry_2 = {RowValueKeys.VALUE: 1}
+loan_detail_value_entry_3 = {RowValueKeys.VALUE: 10}
 
-loan_detail_value_entry_4 = {LoanRowValueKeys.VALUE: "George Burns"}
-loan_detail_value_entry_5 = {LoanRowValueKeys.VALUE: 2}
-loan_detail_value_entry_6 = {LoanRowValueKeys.VALUE: 20}
+loan_detail_value_entry_4 = {RowValueKeys.VALUE: "George Burns"}
+loan_detail_value_entry_5 = {RowValueKeys.VALUE: 2}
+loan_detail_value_entry_6 = {RowValueKeys.VALUE: 20}
 
-loan_detail_value_entry_7 = {LoanRowValueKeys.VALUE: "Goose"}
-loan_detail_value_entry_8 = {LoanRowValueKeys.VALUE: 3}
-loan_detail_value_entry_9 = {LoanRowValueKeys.VALUE: 30}
+loan_detail_value_entry_7 = {RowValueKeys.VALUE: "Goose"}
+loan_detail_value_entry_8 = {RowValueKeys.VALUE: 3}
+loan_detail_value_entry_9 = {RowValueKeys.VALUE: 30}
 
 loan_detail_col_values_list_1 = [loan_detail_value_entry_1, loan_detail_value_entry_2, loan_detail_value_entry_3]
 loan_detail_col_values_list_2 = [loan_detail_value_entry_4, loan_detail_value_entry_5, loan_detail_value_entry_6]
 loan_detail_col_values_list_3 = [loan_detail_value_entry_7, loan_detail_value_entry_8, loan_detail_value_entry_9]
 
-loan_detail_col_value_dict_1 = {LoanRowColKeys.COL: loan_detail_col_values_list_1}
-loan_detail_col_value_dict_2 = {LoanRowColKeys.COL: loan_detail_col_values_list_2}
-loan_detail_col_value_dict_3 = {LoanRowColKeys.COL: loan_detail_col_values_list_3}
+loan_detail_col_value_dict_1 = {RowColKeys.COL: loan_detail_col_values_list_1}
+loan_detail_col_value_dict_2 = {RowColKeys.COL: loan_detail_col_values_list_2}
+loan_detail_col_value_dict_3 = {RowColKeys.COL: loan_detail_col_values_list_3}
 
 loan_detail_row_datum_1 = [loan_detail_col_value_dict_1, loan_detail_col_value_dict_2, loan_detail_col_value_dict_3]
 
-loan_detail_data_table = {LoanDataTableKeys.COLS: add_loan_data_columns_list,
-                          LoanDataTableKeys.ROWS: loan_detail_row_datum_1}
+loan_detail_data_table = {DataTableKeys.COLS: add_loan_data_columns_list,
+                          DataTableKeys.ROWS: loan_detail_row_datum_1}
 
 
 # ---------------------------------------------------------------
@@ -200,7 +201,7 @@ class TestAddLoanData(unittest.TestCase, CommonResponseValidations):
 
     def test_AddLoanRowEntry_model(self):
         # Get the data keyword to be added to the response
-        key = AddLoanRowEntry.ADD_KEYS[0]
+        key = AddLoanRowEntry._ADD_KEYS[0]
         val_col_dict_resp = AddLoanRowEntry(**add_loan_col_value_dict_1)
 
         self._verify(
@@ -219,10 +220,11 @@ class TestAddLoanData(unittest.TestCase, CommonResponseValidations):
         for index, row_data_model in enumerate(row_data_resp):
             self._validate_response(model=row_data_model, model_data=add_loan_row_datum_1[index])
 
+    # TODO: REMOVE (model no longer used)
     def test_AddLoanDataTable_response(self):
         data_table_resp = LoanDataTable(**add_loan_data_table)
 
-        for attr in [LoanDataTableKeys.ROWS, LoanDataTableKeys.COLS]:
+        for attr in [DataTableKeys.ROWS, DataTableKeys.COLS]:
             self._verify(
                 descript=f"{data_table_resp.model_name}: Has attribute '{attr}'",
                 actual=hasattr(data_table_resp, attr), expected=True)
@@ -236,25 +238,24 @@ class TestAddLoanData(unittest.TestCase, CommonResponseValidations):
 class TestGetLoan(unittest.TestCase, CommonResponseValidations):
     def test_GetLoan_response(self):
         get_loan_data = response_args.copy()
-        get_loan_data[LoanDataTableKeys.DATA_TABLE] = add_loan_data_table
+        get_loan_data[DataTableKeys.DATA_TABLE] = add_loan_data_table
         get_loan_resp = GetLoanResponse(**get_loan_data)
 
-        attr = LoanDataTableKeys.DATA_TABLE
+        attr = DataTableKeys.DATA_TABLE
         self._verify(descript=f"{get_loan_resp.model_name}: has '{attr}'",
                      actual=hasattr(get_loan_resp, attr), expected=True)
 
         sub_model = getattr(get_loan_resp, attr)
-        for attr in [LoanDataTableKeys.ROWS, LoanDataTableKeys.COLS]:
-            self._verify(
-                descript=f"{get_loan_resp.model_name}: has attribute '{attr}'",
-                actual=hasattr(sub_model, attr), expected=True)
+
+        self._verify(descript=f"{get_loan_resp.model_name}: has '{len(add_loan_row_datum_1)}' items",
+                     actual=len(sub_model), expected=len(add_loan_row_datum_1))
 
         self._validate_response(model=get_loan_resp, model_data=get_loan_data)
 
     @unittest.skip(reason="Need to fix data supporting underlying model.")
     def test_GetLoanDetail_response(self):
         get_loan_detail_data = response_args.copy()
-        get_loan_detail_data[LoanDataTableKeys.DATA_TABLE] = add_loan_data_table
+        get_loan_detail_data[DataTableKeys.DATA_TABLE] = add_loan_data_table
         get_loan_resp = GetLoanDetailResponse(**get_loan_detail_data)
 
         # ERROR: Need to address that basic row element is different than add_loan_data table element.
@@ -323,20 +324,20 @@ class TestLoanClient(unittest.TestCase, CommonResponseValidations):
 
     def test_GetLoan_client(self):
         get_loan_data = response_args.copy()
-        get_loan_data[LoanDataTableKeys.DATA_TABLE] = add_loan_data_table
+        get_loan_data[DataTableKeys.DATA_TABLE] = add_loan_data_table
 
         client = LoanClient(base_url=BASE_URL, database=DATABASE, port=PORT)
         client.insert_test_response_data(data=get_loan_data)
 
         response_model = client.get_loan(session_id="1232465798", nonce="DEADBEEF15DECEA5ED",
-                                         loan_number_ids=f"{randrange(999999):06}")
+                                         loan_number_id=f"{randrange(999999):06}")
         self._show_response(response_model=response_model)
         self._validate_response(model=response_model, model_data=add_loan_data_table)
 
     @unittest.skip("Need to fix data supporting underlying model")
     def test_GetLoanDetails_client(self):
         get_loan_detail_data = response_args.copy()
-        get_loan_detail_data[LoanDataTableKeys.DATA_TABLE] = add_loan_data_table
+        get_loan_detail_data[DataTableKeys.DATA_TABLE] = add_loan_data_table
 
         client = LoanClient(base_url=BASE_URL, database=DATABASE, port=PORT)
         client.insert_test_response_data(data=get_loan_detail_data)
@@ -353,7 +354,7 @@ class TestLoanClient(unittest.TestCase, CommonResponseValidations):
         client.insert_test_response_data(data=final_value_tags_data)
 
         response_model = client.get_final_value_tags(session_id="1232465798", nonce="DEADBEEF15DECEA5ED",
-                                                     loan_number_ids=f"{randrange(999999):06}")
+                                                     loan_number_id=f"{randrange(999999):06}")
         self._show_response(response_model=response_model)
         self._validate_response(model=response_model, model_data=final_value_tags_data)
 

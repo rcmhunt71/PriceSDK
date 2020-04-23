@@ -69,7 +69,7 @@ class TestRateQuoteDetailsClient(unittest.TestCase, CommonResponseValidations):
         client.insert_test_response_data(data=rate_quote_data)
 
         response_model = client.get_loan_rate_quote_details(
-            session_id="1232465798", nonce="DEADBEEF15DECEA5ED", loan_number_ids=f"{randrange(999999):06}")
+            session_id="1232465798", nonce="DEADBEEF15DECEA5ED", loan_number_id=f"{randrange(999999):06}")
 
         self._show_response(response_model=response_model)
         self._validate_response(model=response_model, model_data=rate_quote_data)

@@ -16,4 +16,4 @@ class LoanStatus(BaseResponse):
 
 
 class LoanStatuses(BaseListResponse):
-    SUB_MODEL = LoanStatus
+    _SUB_MODEL = LoanStatus

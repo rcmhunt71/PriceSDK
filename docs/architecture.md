@@ -151,7 +151,7 @@ The response model class will deserialize the JSON-formatted API response into a
        * **_Description_**: This base class defined as a list context of common elements (models). This class is architected to be generalized and abstracted; it is not meant to be instantiated directly. The base class should be a superclass (inherited from) for a given API response. The base class will:
          
             * create a list context model,
-            * populate the model with a common submodel as elements of the list. (SUB_MODEL - single model type)
+            * populate the model with a common submodel as elements of the list. (_SUB_MODEL - single model type)
         
        * **_Assumptions_**:
        * **_Usage_**:

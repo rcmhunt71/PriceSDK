@@ -20,4 +20,4 @@ class Borrower(BaseResponse):
 
 
 class BorrowerDetailList(BaseListResponse):
-    SUB_MODEL = Borrower
+    _SUB_MODEL = Borrower

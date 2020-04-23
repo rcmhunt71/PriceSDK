@@ -34,7 +34,7 @@ class ExtraDataEntry(BaseResponse):
 
 
 class ExtraDataEntryList(BaseListResponse):
-    SUB_MODEL = ExtraDataEntry
+    _SUB_MODEL = ExtraDataEntry
 
 
 class ExtraDataMetadataEntry(BaseResponse):
@@ -43,4 +43,4 @@ class ExtraDataMetadataEntry(BaseResponse):
 
 
 class ExtraDataMetadataEntryList(BaseListResponse):
-    SUB_MODEL = ExtraDataMetadataEntry
+    _SUB_MODEL = ExtraDataMetadataEntry

@@ -21,5 +21,5 @@ class Customer(BaseResponse):
 
 
 class CustomerList(BaseListResponse):
-    SUB_MODEL = Customer
+    _SUB_MODEL = Customer
 

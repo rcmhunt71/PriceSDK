@@ -24,7 +24,7 @@ class LoanListHeaderEntry(BaseResponse):
 
 
 class LoanListHeaderList(BaseListResponse):
-    SUB_MODEL = LoanListHeaderEntry
+    _SUB_MODEL = LoanListHeaderEntry
 
 
 # ============================
@@ -51,7 +51,7 @@ class LoanListRowValueEntry(BaseResponse):
 
 
 class LoanListRowValuesList(BaseListResponse):
-    SUB_MODEL = LoanListRowValueEntry
+    _SUB_MODEL = LoanListRowValueEntry
 
 
 class LoanListRowCol(BaseResponse):
@@ -60,7 +60,7 @@ class LoanListRowCol(BaseResponse):
 
 
 class LoanListRowColList(BaseListResponse):
-    SUB_MODEL = LoanListRowCol
+    _SUB_MODEL = LoanListRowCol
 
 
 # ============================

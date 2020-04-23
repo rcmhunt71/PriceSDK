@@ -18,7 +18,7 @@ class LoanDetailColEntry(BaseResponse):
 
 
 class LoanDetailCols(BaseListResponse):
-    SUB_MODEL = LoanDetailColEntry
+    _SUB_MODEL = LoanDetailColEntry
 
 
 # --------------------------------
@@ -42,7 +42,7 @@ class LoanDetailRowValueEntry(BaseResponse):
 
 
 class LoanDetailRowColsValue(BaseListResponse):
-    SUB_MODEL = LoanDetailRowValueEntry
+    _SUB_MODEL = LoanDetailRowValueEntry
 
 
 class LoanDetailRowEntry(BaseResponse):
@@ -51,7 +51,7 @@ class LoanDetailRowEntry(BaseResponse):
 
 
 class LoanDetailRowList(BaseListResponse):
-    SUB_MODEL = LoanDetailRowEntry
+    _SUB_MODEL = LoanDetailRowEntry
 
 # --------------------------------
 # TABLE DEFINITIONS

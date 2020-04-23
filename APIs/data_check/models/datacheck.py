@@ -22,4 +22,4 @@ class DataCheck(BaseResponse):
 
 
 class DataChecks(BaseListResponse):
-    SUB_MODEL = DataCheck
+    _SUB_MODEL = DataCheck

@@ -10,4 +10,4 @@ class CompaniesKeys:
 
 
 class Companies(BaseListResponse):
-    SUB_MODEL = Company
+    _SUB_MODEL = Company

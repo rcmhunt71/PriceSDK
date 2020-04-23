@@ -42,4 +42,4 @@ class IncomeEntry(BaseResponse):
 
 
 class IncomeEntries(BaseListResponse):
-    SUB_MODEL = IncomeEntry
+    _SUB_MODEL = IncomeEntry

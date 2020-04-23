@@ -37,7 +37,7 @@ class Response:
         self.text = [attr for attr in dir(self) if not attr.startswith('__')]
 
     def _params(self, params=None):
-        params = params or self.params
+        params = params or getattr(self, 'params', {})
 
         param_str = "&". join(["=".join([key, str(value)]) for key, value in params.items()])
         log.debug(f"PARAMS: {params} ---> PARAM STR: {param_str}")

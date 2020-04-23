@@ -35,7 +35,7 @@ class DepositAccount(BaseResponse):
 
 
 class DepositAccounts(BaseListResponse):
-    SUB_MODEL = DepositAccount
+    _SUB_MODEL = DepositAccount
 
 
 class DepositAccountFieldEntry(BaseResponse):
@@ -44,7 +44,7 @@ class DepositAccountFieldEntry(BaseResponse):
 
 
 class DepositAccountFieldList(BaseListResponse):
-    SUB_MODEL = DepositAccountFieldEntry
+    _SUB_MODEL = DepositAccountFieldEntry
 
 
 class DepositAccountRequestModel(BaseResponse):

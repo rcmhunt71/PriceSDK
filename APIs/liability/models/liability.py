@@ -38,4 +38,4 @@ class LiabilityEntry(BaseResponse):
 
 
 class LiabilityEntriesList(BaseListResponse):
-    SUB_MODEL = LiabilityEntry
+    _SUB_MODEL = LiabilityEntry

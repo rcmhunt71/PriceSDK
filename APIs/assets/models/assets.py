@@ -10,4 +10,4 @@ class AssetsKeys:
 
 
 class Assets(BaseListResponse):
-    SUB_MODEL = Asset
+    _SUB_MODEL = Asset

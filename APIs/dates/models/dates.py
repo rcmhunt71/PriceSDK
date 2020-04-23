@@ -20,4 +20,4 @@ class DatesListKeys:
 
 
 class DatesList(BaseListResponse):
-    SUB_MODEL = DateEntry
+    _SUB_MODEL = DateEntry

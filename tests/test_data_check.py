@@ -32,7 +32,7 @@ class TestDataCheck(unittest.TestCase, CommonResponseValidations):
     def test_data_checks_model(self):
         data_checks_model = DataChecks(*data_check_bundle_args)
         self._verify(descript=f"{data_checks_model.model_name}: "
-                              f"has correct number of {data_checks_model.SUB_MODEL} instances",
+                              f"has correct number of {data_checks_model._SUB_MODEL} instances",
                      actual=len(data_checks_model), expected=len(data_check_bundle_args))
 
         for sub_model, model_data in zip(data_checks_model, data_check_bundle_args):

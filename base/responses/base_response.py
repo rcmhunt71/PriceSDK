@@ -39,8 +39,8 @@ class BaseResponse:
                 raise ModelKeyMismatch()
 
             # Number of ADD_KEYS and SUB_MODELS match, so if:
-            # SUB_MODEL is None: add to KEYS to be added to base model obj.
-            # SUB_MODEL is not None:
+            # _SUB_MODEL is None: add to KEYS to be added to base model obj.
+            # _SUB_MODEL is not None:
             #     * Instantiate sub_model object and add it to the kwargs
             #     * add to _OBJS to be added to base model object
             for key, model in zip(self._ADD_KEYS, self._SUB_MODELS):
@@ -86,7 +86,7 @@ class BaseResponse:
 
 
 class BaseListResponse(list):
-    SUB_MODEL = None
+    _SUB_MODEL = None
 
     def __init__(self, *arg_list):
         super().__init__()
@@ -94,7 +94,7 @@ class BaseListResponse(list):
         self.raw = arg_list[::]
 
         log.debug(f"KWARGS:\n{pprint.pformat(arg_list)}\n")
-        self.extend([self.SUB_MODEL(**value_dict) for value_dict in arg_list])
+        self.extend([self._SUB_MODEL(**value_dict) for value_dict in arg_list])
 
     def __str__(self):
         return pprint.pformat(self.raw)

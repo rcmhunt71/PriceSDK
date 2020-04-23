@@ -24,4 +24,4 @@ class Deposit(BaseResponse):
 
 
 class Deposits(BaseListResponse):
-    SUB_MODEL = Deposit
+    _SUB_MODEL = Deposit

@@ -22,7 +22,7 @@ class LoanFeeColumnEntry(BaseResponse):
 
 
 class LoanFeeColumnEntryList(BaseListResponse):
-    SUB_MODEL = LoanFeeColumnEntry
+    _SUB_MODEL = LoanFeeColumnEntry
 
 
 # ROW MODELS
@@ -47,7 +47,7 @@ class LoanFeeRowEntry(BaseResponse):
 
 
 class LoanFeeRowEntryList(BaseListResponse):
-    SUB_MODEL = LoanFeeRowEntry
+    _SUB_MODEL = LoanFeeRowEntry
 
 
 class LoanFeeRowCol(BaseResponse):
@@ -56,7 +56,7 @@ class LoanFeeRowCol(BaseResponse):
 
 
 class LoanFeeRowColList(BaseListResponse):
-    SUB_MODEL = LoanFeeRowCol
+    _SUB_MODEL = LoanFeeRowCol
 
 
 # FULL MODEL
