@@ -16,16 +16,14 @@ class RateQuoteDetailsInfoKeys:
     RATE_QUOTE_ID: str = "RateQuoteID"
     RATE_PLAN_TYPE: str = "RatePlanType"
     STATUS_DESCRIPTION: str = "StatusDescription"
+
+
+@dataclass
+class RateQuoteDetailsKeys:
     LOAN_RATE_QUOTE_DETAILS: str = "LoanRateQuoteDetails"
 
 
 class RateQuoteDetails(BaseResponse):
-    _ADD_KEYS = [
-            RateQuoteDetailsInfoKeys.VENDOR, RateQuoteDetailsInfoKeys.PAYMENT_PERIOD,
-            RateQuoteDetailsInfoKeys.RENEWAL_TYPE, RateQuoteDetailsInfoKeys.ZERO_DUE_AT_CLOSING,
-            RateQuoteDetailsInfoKeys.REFUNDABLE, RateQuoteDetailsInfoKeys.COVERAGE,
-            RateQuoteDetailsInfoKeys.PAYMENT_TYPE, RateQuoteDetailsInfoKeys.MIS_SPECIAL_DEAL,
-            RateQuoteDetailsInfoKeys.RATE_QUOTE_ID, RateQuoteDetailsInfoKeys.RATE_PLAN_TYPE,
-            RateQuoteDetailsInfoKeys.STATUS_DESCRIPTION]
+    _ADD_KEYS = list(getattr(RateQuoteDetailsInfoKeys, _) for _ in RateQuoteDetailsInfoKeys.__annotations__)
     _SUB_MODELS = [None for _ in range(len(_ADD_KEYS))]
 

@@ -29,7 +29,7 @@ class LoanLicenseDataFrom(Enum):
 
 
 class GetLoanLicenseDataRequest(BaseRequestModel):
-    def __init__(self, session_id, nonce, loan_number_ids, data_from, data_id):
+    def __init__(self, loan_number_ids, data_from, data_id, session_id, nonce, pretty_print):
         self.loan_number_ids = loan_number_ids
         if isinstance(data_from, Enum):
             self.data_from = data_from.value
@@ -39,13 +39,13 @@ class GetLoanLicenseDataRequest(BaseRequestModel):
             raise UnknownDataFromTypeException(f"Unknown LoanLicenseDataRequest data_from entry: {data_from}")
 
         self.data_id = data_id
-        super().__init__(session_id=session_id, nonce=nonce)
+        super().__init__(session_id=session_id, nonce=nonce, pretty_print=pretty_print)
 
     def to_params(self):
-        return {
-            GetLicenseLoanDataRequestParams.SESSION_ID: self.session_id,
-            GetLicenseLoanDataRequestParams.NONCE: self.nonce,
+        args = super().to_params()
+        args.update({
             GetLicenseLoanDataRequestParams.LOAN_NUMBER_IDS: self.loan_number_ids,
             GetLicenseLoanDataRequestParams.DATA_FROM: self.data_from,
             GetLicenseLoanDataRequestParams.DATA_ID: self.data_id,
-        }
+        })
+        return args
