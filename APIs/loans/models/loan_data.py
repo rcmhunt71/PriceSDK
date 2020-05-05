@@ -7,35 +7,35 @@ from base.responses.base_response import BaseResponse, BaseListResponse
 # --------------------------------
 
 
-class AddLoanDataColEntry(BaseResponse):
+class LoanDataColEntry(BaseResponse):
     _ADD_KEYS = [DataColEntryKeys.ID, DataColEntryKeys.LABEL,
                  DataColEntryKeys.TYPE]
 
 
-class AddLoanDataCols(BaseListResponse):
-    _SUB_MODEL = AddLoanDataColEntry
+class LoanDataCols(BaseListResponse):
+    _SUB_MODEL = LoanDataColEntry
 
 # --------------------------------
 # ROW DEFINITIONS
 # --------------------------------
 
 
-class AddLoanValueEntry(BaseResponse):
+class LoanValueEntry(BaseResponse):
     _ADD_KEYS = [RowValueKeys.VALUE]
     _SUB_MODELS = [None]
 
 
-class AddLoanRowColsValue(BaseListResponse):
-    _SUB_MODEL = AddLoanValueEntry
+class LoanRowColsValue(BaseListResponse):
+    _SUB_MODEL = LoanValueEntry
 
 
-class AddLoanRowEntry(BaseResponse):
+class LoanRowEntry(BaseResponse):
     _ADD_KEYS = [RowColKeys.COL]
-    _SUB_MODELS = [AddLoanRowColsValue]
+    _SUB_MODELS = [LoanRowColsValue]
 
 
-class AddLoanRowList(BaseListResponse):
-    _SUB_MODEL = AddLoanRowEntry
+class LoanRowList(BaseListResponse):
+    _SUB_MODEL = LoanRowEntry
 
 # --------------------------------
 # TABLE DEFINITIONS
@@ -45,5 +45,5 @@ class AddLoanRowList(BaseListResponse):
 # TODO: REMOVE, no longer used
 class LoanDataTable(BaseResponse):
     _ADD_KEYS = [DataTableKeys.ROWS, DataTableKeys.COLS]
-    _SUB_MODELS = [AddLoanRowList, AddLoanDataCols]
+    _SUB_MODELS = [LoanRowList, LoanDataCols]
 

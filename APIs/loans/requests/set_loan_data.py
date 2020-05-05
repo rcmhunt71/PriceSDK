@@ -99,7 +99,7 @@ class SetLoanDataPayload:
 
 
 class SetLoanDataRequest(BaseRequestModel):
-    def __init__(self, session_id, nonce, loan_number_ids, payload_dict=None, **kwargs):
+    def __init__(self, loan_number_id, payload_dict, session_id, nonce, pretty_print, **kwargs):
 
         # Kwargs are key/value pairs where a key can be a lower-case SetLoanDataPayload attribute
         # e.g. -  SUB_FINANCE_HELOC_AMOUNT -->> sub_finance_heloc_amount
@@ -117,14 +117,14 @@ class SetLoanDataRequest(BaseRequestModel):
                 setattr(self, attr.lower(), kwargs[attr])
                 self.attr_list.append(attr.lower())
 
-        self.loan_number_ids = loan_number_ids
-        super().__init__(session_id=session_id, nonce=nonce, payload=payload_dict)
+        self.loan_number_id = loan_number_id
+        super().__init__(session_id=session_id, nonce=nonce, payload=payload_dict, pretty_print=pretty_print)
 
     def to_params(self) -> typing.Dict[str, typing.Any]:
         return {
             SetAntiSteeringDataRequestKeys.SESSION_ID: self.session_id,
             SetAntiSteeringDataRequestKeys.NONCE: self.nonce,
-            SetAntiSteeringDataRequestKeys.LOAN_NUMBER_IDS: self.loan_number_ids,
+            SetAntiSteeringDataRequestKeys.LOAN_NUMBER_IDS: self.loan_number_id,
         }
 
     def build_payload(self) -> typing.Dict[str, typing.List[typing.Dict[str, typing.Any]]]:

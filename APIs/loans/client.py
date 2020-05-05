@@ -64,9 +64,8 @@ class LoanClient(BaseClient):
         CONTENT_TYPE: APPLICATION_JSON
     }
 
-
     def add_loan(self, session_id=None, nonce=None):
-        request_model = BaseRequestModel(session_id=session_id or self.session_id, nonce=nonce or self.nonce)
+        request_model = BaseRequestModel(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
         response_model = AddALoanResponse
         endpoint = ApiEndpoints.ADD_A_LOAN
         headers = {}
@@ -167,24 +166,20 @@ class LoanClient(BaseClient):
                                                    payload_dict=payload_dict)
         response_model = SetAntiSteeringDataResponse
         endpoint = ApiEndpoints.SET_ANTI_STEERING_DATA
-        headers = {self.CONTENT_TYPE: self.APPLICATION_JSON}
 
-        response = self.post(resource_endpoint=endpoint, response_model=response_model, headers=headers,
+        response = self.post(resource_endpoint=endpoint, response_model=response_model, headers=self.headers,
                              params=request_model.as_params_dict, data=request_model.payload)
         return response
 
-    def set_loan_data(self, loan_number_ids, payload_dict=None, session_id=None, nonce=None, **kwargs):
+    def set_loan_data(self, loan_number_id, payload_dict=None, session_id=None, nonce=None, pretty_print=False, **kwargs):
         # For valid arguments, use lowercase name of attributes listed in API.loans.request.set_loan.SetLoanDataPayload
 
-        request_model = SetLoanDataRequest(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
-                                           loan_number_ids=loan_number_ids, payload_dict=payload_dict, **kwargs)
-        response_model = SetLoanDataResponse
-        endpoint = ApiEndpoints.SET_LOAN_DATA
-        headers = {self.CONTENT_TYPE: self.APPLICATION_JSON}
+        request_model = SetLoanDataRequest(loan_number_id=loan_number_id, payload_dict=payload_dict,
+                                           session_id=self._get_session_id(session_id),
+                                           nonce=self._get_nonce(nonce), pretty_print=pretty_print, **kwargs)
 
-        response = self.post(resource_endpoint=endpoint, response_model=response_model, headers=headers,
-                             params=request_model.as_params_dict, data=request_model.payload)
-        return response
+        return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_DATA, response_model=SetLoanDataResponse,
+                         headers=self.headers, params=request_model.as_params_dict, data=request_model.payload)
 
     def set_loan_hdma(self, loan_number_ids=None, payload_dict=None, session_id=None, nonce=None, **kwargs):
         # For valid arguments, use lowercase name of attributes listed in API.loans.request.set_loan.SetLoanHDMARequest
@@ -193,9 +188,8 @@ class LoanClient(BaseClient):
                                            loan_number_ids=loan_number_ids, payload_dict=payload_dict, **kwargs)
         response_model = SetLoanHDMAResponse
         endpoint = ApiEndpoints.SET_LOAN_DATA
-        headers = self.headers
 
-        response = self.post(resource_endpoint=endpoint, response_model=response_model, headers=headers,
+        response = self.post(resource_endpoint=endpoint, response_model=response_model, headers=self.headers,
                              params=request_model.as_params_dict, data=request_model.payload)
         return response
 

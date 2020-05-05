@@ -9,7 +9,7 @@ class GetLoanStatusesParams(BaseRequestModelKeys):
 
 
 class GetLoanStatusesRequest(BaseRequestModel):
-    def __init__(self, loan_number_ids, session_id, nonce, pretty_print=False):
+    def __init__(self, loan_number_ids, session_id, nonce, pretty_print):
         self.loan_number_ids = loan_number_ids
         super().__init__(session_id=session_id, nonce=nonce, pretty_print=pretty_print)
 

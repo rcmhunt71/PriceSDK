@@ -5,11 +5,11 @@ from unittest.mock import patch
 from base.mocks.mock_requests import MockRequests
 
 from APIs.loans.models.loan_data import (
-    AddLoanDataColEntry, AddLoanDataCols,
-    AddLoanValueEntry, AddLoanRowColsValue, AddLoanRowEntry, AddLoanRowList, LoanDataTable)
+    LoanDataColEntry, LoanDataCols,
+    LoanValueEntry, LoanRowColsValue, LoanRowEntry, LoanRowList, LoanDataTable)
 from base.common.models.data_table_response import DataColEntryKeys, RowValueKeys, RowColKeys, DataTableKeys
 from APIs.loans.models.final_value import FinalValueFieldsKeys, FinalValueScreenKeys
-from APIs.loans.models.loan_detail_data import LoanDetailDataTableKeys
+from base.common.models.data_table_response import DataTableKeys
 from APIs.loans.responses.add_loan import AddALoanKeys, AddALoanResponse
 from APIs.loans.responses.get_final_value_tags import GetFinalValueTagsResponse
 from APIs.loans.responses.get_loan import GetLoanResponse, GetLoanDetailResponse
@@ -172,11 +172,11 @@ class TestGetFinalValueTags(unittest.TestCase, CommonResponseValidations):
 class TestAddLoanData(unittest.TestCase, CommonResponseValidations):
     def test_AddLoanDataColEntry_model(self):
         index = 0
-        data_col_resp = AddLoanDataColEntry(**add_loan_data_columns_list[index])
+        data_col_resp = LoanDataColEntry(**add_loan_data_columns_list[index])
         self._validate_response(model=data_col_resp, model_data=add_loan_data_columns_list[index])
 
     def test_AddLoanDataCols_model(self):
-        dc_cols_resp = AddLoanDataCols(*add_loan_data_columns_list)
+        dc_cols_resp = LoanDataCols(*add_loan_data_columns_list)
 
         self._verify(
             descript=f"{dc_cols_resp.model_name}: Num of data column elements are equal",
@@ -186,11 +186,11 @@ class TestAddLoanData(unittest.TestCase, CommonResponseValidations):
             self._validate_response(model=col_header_model, model_data=add_loan_data_columns_list[index])
 
     def test_AddLoanValueEntry_model(self):
-        val_resp_model = AddLoanValueEntry(**add_loan_value_entry_2)
+        val_resp_model = LoanValueEntry(**add_loan_value_entry_2)
         self._validate_response(model=val_resp_model, model_data=add_loan_value_entry_2)
 
     def test_AddLoanRowColValue_model(self):
-        val_col_resp_model = AddLoanRowColsValue(*add_loan_col_values_list_1)
+        val_col_resp_model = LoanRowColsValue(*add_loan_col_values_list_1)
 
         self._verify(
             descript=f"{val_col_resp_model.model_name}: Num of col_value elements match data",
@@ -201,8 +201,8 @@ class TestAddLoanData(unittest.TestCase, CommonResponseValidations):
 
     def test_AddLoanRowEntry_model(self):
         # Get the data keyword to be added to the response
-        key = AddLoanRowEntry._ADD_KEYS[0]
-        val_col_dict_resp = AddLoanRowEntry(**add_loan_col_value_dict_1)
+        key = LoanRowEntry._ADD_KEYS[0]
+        val_col_dict_resp = LoanRowEntry(**add_loan_col_value_dict_1)
 
         self._verify(
             descript=f"{val_col_dict_resp.model_name}: Num of '{key}' elements are equal",
@@ -212,7 +212,7 @@ class TestAddLoanData(unittest.TestCase, CommonResponseValidations):
         self._validate_response(model=val_col_dict_resp, model_data=add_loan_col_value_dict_1)
 
     def test_AddLoanRowList_model(self):
-        row_data_resp = AddLoanRowList(*add_loan_row_datum_1)
+        row_data_resp = LoanRowList(*add_loan_row_datum_1)
         self._verify(
             descript=f"{row_data_resp.model_name}: Num of col_value elements match data",
             actual=len(row_data_resp), expected=len(add_loan_row_datum_1))
@@ -260,12 +260,12 @@ class TestGetLoan(unittest.TestCase, CommonResponseValidations):
 
         # ERROR: Need to address that basic row element is different than add_loan_data table element.
 
-        attr = LoanDetailDataTableKeys.DATA_TABLE
+        attr = DataTableKeys.DATA_TABLE
         self._verify(descript=f"{get_loan_resp.model_name}: has '{attr}'",
                      actual=hasattr(get_loan_resp, attr), expected=True)
 
         sub_model = getattr(get_loan_resp, attr)
-        for attr in [LoanDetailDataTableKeys.ROWS, LoanDetailDataTableKeys.COLS]:
+        for attr in [DataTableKeys.ROWS, DataTableKeys.COLS]:
             self._verify(
                 descript=f"{get_loan_resp.model_name}: has attribute '{attr}'",
                 actual=hasattr(sub_model, attr), expected=True)
