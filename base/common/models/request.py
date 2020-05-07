@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 import json
 
@@ -9,7 +10,7 @@ class BaseRequestModelKeys:
     PRETTY_PRINT: bool = "PrettyPrint"
 
 
-class BaseRequestModel:
+class BaseRequestModel(ABC):
     def __init__(self, session_id, nonce, payload=None, pretty_print=False):
         self.session_id = session_id
         self.nonce = nonce
@@ -22,7 +23,6 @@ class BaseRequestModel:
         args = {
             BaseRequestModelKeys.SESSION_ID: self.session_id,
             BaseRequestModelKeys.NONCE: self.nonce,
-            BaseRequestModelKeys.PRETTY_PRINT: self.pretty_print
         }
         if self.pretty_print:
             args[BaseRequestModelKeys.PRETTY_PRINT] = self.pretty_print
@@ -31,5 +31,6 @@ class BaseRequestModel:
     def to_json(self):
         return json.dumps(self.to_params())
 
+    @abstractmethod
     def build_payload(self):
         return {}

@@ -58,12 +58,12 @@ class SetLoanQuoteRateDataRequest(BaseRequestModel):
         super().__init__(session_id=session_id, nonce=nonce, payload=payload_dict)
 
     def to_params(self) -> typing.Dict[str, typing.Any]:
-        return {
-            SetLoanQuoteRateDataRequestKeys.SESSION_ID: self.session_id,
-            SetLoanQuoteRateDataRequestKeys.NONCE: self.nonce,
+        args = super().to_params()
+        args.update({
             SetLoanQuoteRateDataRequestKeys.LOAN_NUMBER_IDS: self.loan_number_ids,
             SetLoanQuoteRateDataRequestKeys.VENDOR_NAME: self.vendor_name
-        }
+        })
+        return args
 
     def build_payload(self) -> typing.Dict[str, typing.List[typing.Dict[str, typing.Any]]]:
         payload_list = []

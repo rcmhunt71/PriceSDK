@@ -6,7 +6,7 @@ from base.common.models.request import BaseRequestModel, BaseRequestModelKeys
 
 @dataclass
 class SetLoanHDMARequestKeys(BaseRequestModelKeys):
-    LOAN_NUMBER_IDS: str = "LoanNumberID"
+    LOAN_NUMBER_ID: str = "LoanNumberID"
 
 
 @dataclass
@@ -55,15 +55,13 @@ class SetLoanHDMARequest(BaseRequestModel):
                 setattr(self, attr.lower(), kwargs[attr])
                 self.attr_list.append(attr.lower())
 
-        self.loan_number_ids = loan_number_ids
+        self.loan_number_id = loan_number_ids
         super().__init__(session_id=session_id, nonce=nonce, payload=payload_dict)
 
     def to_params(self) -> typing.Dict[str, typing.Any]:
-        return {
-            SetLoanHDMARequestKeys.SESSION_ID: self.session_id,
-            SetLoanHDMARequestKeys.NONCE: self.nonce,
-            SetLoanHDMARequestKeys.LOAN_NUMBER_IDS: self.loan_number_ids,
-        }
+        args = super().to_params()
+        args[SetLoanHDMARequestKeys.LOAN_NUMBER_ID] = self.loan_number_id
+        return args
 
     def build_payload(self) -> typing.Dict[str, typing.List[typing.Dict[str, typing.Any]]]:
         payload_list = []

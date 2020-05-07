@@ -199,7 +199,7 @@ class LoanClient(BaseClient):
 
         request_model = SetLoanLicenseDataRequest(
             session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
-            loan_number_ids=loan_number_ids, **kwargs)
+            loan_number_id=loan_number_ids, **kwargs)
         response_model = SetLoanLicenseDataResponse
         endpoint = ApiEndpoints.SET_LOAN_LICENSE_DATA
 
