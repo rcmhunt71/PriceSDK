@@ -11,7 +11,8 @@ class GetLoanResponse(CommonResponse):
         self._OBJS = [key]
         self._combine_args(objs=self._OBJS)
 
-        kwargs[key] = model(**kwargs.get(key, {}))
+        if kwargs.get(key, {}):
+            kwargs[key] = model(**kwargs.get(key, {}))
         super().__init__(keys=None, objs=self._OBJS, **kwargs)
 
     def show_data_table(self):
