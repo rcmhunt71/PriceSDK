@@ -6,7 +6,7 @@ from base.common.models.request import BaseRequestModel, BaseRequestModelKeys
 
 @dataclass
 class SetLoanLicenseDataParams:
-    DATA_FROM: str = "Data_From"
+    DATA_FROM: str = "DataFrom"
     LICENSE_ID: str = "LicenseID"
     LICENSE_NAME: str = "LicenseName"
     LICENSE_NUMBER: str = "LicenseNumber"
