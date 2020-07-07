@@ -148,7 +148,7 @@ class TestLoanLicenseClient(unittest.TestCase, CommonResponseValidations):
         client = LoanClient(base_url=BASE_URL, database=DATABASE, port=PORT)
         client.insert_test_response_data(data=license_args)
         response_model = client.set_loan_license_data(
-            session_id=SESSION_ID, nonce=NONCE, loan_number_ids=LOAN_NUMEBER_ID, **params)
+            session_id=SESSION_ID, nonce=NONCE, loan_number_id=LOAN_NUMEBER_ID, **params)
         self._validate_response(model=response_model, model_data=license_args)
 
         param_str = "&".join([f"{getattr(SetLoanLicenseDataParams, key.upper())}={value}" for key, value

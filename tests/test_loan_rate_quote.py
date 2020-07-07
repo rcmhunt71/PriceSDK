@@ -5,7 +5,7 @@ from unittest.mock import patch
 from base.mocks.mock_requests import MockRequests
 
 from APIs.loans.client import LoanClient
-from APIs.loans.models.rate_quote_details import RateQuoteDetailsInfoKeys
+from APIs.loans.models.rate_quote_details import RateQuoteDetailsInfoKeys, RateQuoteDetailsKeys
 from APIs.loans.responses.get_loan_rate_quote_details import GetLoanRateQuoteDetailsResponse
 from tests.common.common_response_args import CommonResponseValidations, response_args
 
@@ -43,12 +43,12 @@ rate_quote = {
 class TestRateQuote(unittest.TestCase, CommonResponseValidations):
     def test_rate_quote_response(self):
         rate_quote_data = response_args.copy()
-        rate_quote_data[RateQuoteDetailsInfoKeys.LOAN_RATE_QUOTE_DETAILS] = rate_quote
+        rate_quote_data[RateQuoteDetailsKeys.LOAN_RATE_QUOTE_DETAILS] = rate_quote
 
         rate_quote_obj = GetLoanRateQuoteDetailsResponse(**rate_quote_data)
-        self.assertTrue(hasattr(rate_quote_obj, RateQuoteDetailsInfoKeys.LOAN_RATE_QUOTE_DETAILS))
+        self.assertTrue(hasattr(rate_quote_obj, RateQuoteDetailsKeys.LOAN_RATE_QUOTE_DETAILS))
 
-        model = getattr(rate_quote_obj, RateQuoteDetailsInfoKeys.LOAN_RATE_QUOTE_DETAILS)
+        model = getattr(rate_quote_obj, RateQuoteDetailsKeys.LOAN_RATE_QUOTE_DETAILS)
 
         self._validate_model(model=model, keys=rate_quote.keys())
         self._validate_response(model=rate_quote_obj, model_data=rate_quote_data)
@@ -63,7 +63,7 @@ class TestRateQuote(unittest.TestCase, CommonResponseValidations):
 class TestRateQuoteDetailsClient(unittest.TestCase, CommonResponseValidations):
     def test_GetLoanRateQuoteDetails_client(self):
         rate_quote_data = response_args.copy()
-        rate_quote_data[RateQuoteDetailsInfoKeys.LOAN_RATE_QUOTE_DETAILS] = rate_quote
+        rate_quote_data[RateQuoteDetailsKeys.LOAN_RATE_QUOTE_DETAILS] = rate_quote
 
         client = LoanClient(base_url=BASE_URL, database=DATABASE, port=PORT)
         client.insert_test_response_data(data=rate_quote_data)

@@ -129,9 +129,9 @@ if __name__ == "__main__":
     args = {
         SetLoanDataPayload.LOCK_TYPE_ID: 123,
         SetLoanDataPayload.FLOOD_ZONE: True,
-        "flood_nfip_community_name": "Rio Grande",
-        "loan_flood_nfip_community_identifier": "nfip1",
-        "loan_flood_nfip_map_panel_identifier": "D1C8",
+        SetLoanDataPayload.FLOOD_NFIP_COMMUNITY_NAME: "Rio Grande",
+        SetLoanDataPayload.LOAN_FLOOD_NFIP_COMMUNITY_IDENTIFIER: "nfip1",
+        SetLoanDataPayload.LOAN_FLOOD_NFIP_MAP_PANEL_IDENTIFIER: "D1C8"
     }
 
     obj = SetLoanDataRequest(loan_number_id=986532147, payload_dict=None, session_id=123456, nonce=123245687, pretty_print=False, **args)

@@ -66,3 +66,8 @@ class KwargsRequestModel(BaseRequestModel):
     @abstractmethod
     def build_payload(self):
         pass
+
+
+class SimpleRequestModel(BaseRequestModel):
+    def build_payload(self):
+        return {}

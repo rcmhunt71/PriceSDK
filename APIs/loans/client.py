@@ -4,7 +4,7 @@ from enum import Enum
 from APIs.loans.responses.get_loan_mi_detail import GetLoanMIDetailsResponse
 
 from base.clients.base_client import BaseClient
-from base.common.models.request import BaseRequestModel
+from base.common.models.request import SimpleRequestModel
 
 from APIs.loans.responses.add_loan import AddALoanResponse, ImportFromFileResponse, ImportFromFileWithDateResponse
 from APIs.loans.responses.get_loan import GetLoanResponse, GetLoanDetailResponse
@@ -18,7 +18,7 @@ from APIs.loans.responses.set_loan_hdma import SetLoanHDMAResponse
 from APIs.loans.responses.set_loan_license_data import SetLoanLicenseDataResponse
 from APIs.loans.responses.set_loan_rate_quote_details import SetLoanQuoteRateDetailsResponse
 
-from APIs.loans.requests.add_loan import ImportFromFileRequest, ImportFromFileWithDateRequest, SimpleRequestModel
+from APIs.loans.requests.add_loan import ImportFromFileRequest, ImportFromFileWithDateRequest
 from APIs.loans.requests.get_loan import GetLoanRequest, GetLoanDetailRequest, GetFinalValueTagsRequest, \
     GetLoanRateQuoteDetailsRequest, GetLoanMIDetailRequest
 from APIs.loans.requests.get_loan_license_data import GetLoanLicenseDataRequest
@@ -66,18 +66,14 @@ class LoanClient(BaseClient):
 
     def add_loan(self, session_id=None, nonce=None):
         request_model = SimpleRequestModel(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
-        response_model = AddALoanResponse
-        endpoint = ApiEndpoints.ADD_A_LOAN
-        headers = {}
 
-        response = self.post(resource_endpoint=endpoint, response_model=response_model, data={}, headers=headers,
+        return self.post(resource_endpoint=ApiEndpoints.ADD_A_LOAN, response_model=AddALoanResponse, data={},
                              params=request_model.as_params_dict)
-        return response
 
-    def import_from_file(self, loan_number, file_type, date_name, base64_file_data, session_id=None, nonce=None):
-        request_model = ImportFromFileRequest(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
-                                              loan_number=loan_number, file_type=file_type, date_name=date_name,
-                                              base64_file_data=base64_file_data)
+    def import_from_file(self, loan_number, base64_file_data, file_type, date_name, session_id=None, nonce=None):
+        request_model = ImportFromFileRequest(loan_number=loan_number, base64_file_data=base64_file_data,
+                                              file_type=file_type, date_name=date_name,
+                                              session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
         response_model = ImportFromFileResponse
         endpoint = ApiEndpoints.IMPORT_FROM_FILE
         headers = {}
@@ -86,12 +82,11 @@ class LoanClient(BaseClient):
                              params=request_model.as_params_dict, binary_data=base64_file_data)
         return response
 
-    def import_from_file_with_date(self, upload_token, file_type, loan_number, b2b_flag, date_name,
+    def import_from_file_with_date(self, loan_number, upload_token, b2b_flag, file_type, date_name,
                                    session_id=None, nonce=None):
-        request_model = ImportFromFileWithDateRequest(session_id=session_id or self.session_id,
-                                                      nonce=nonce or self.nonce, loan_number=loan_number,
-                                                      file_type=file_type, date_name=date_name, b2b_flag=b2b_flag,
-                                                      upload_token=upload_token)
+        request_model = ImportFromFileWithDateRequest(loan_number=loan_number, upload_token=upload_token,
+                                            b2b_flag=b2b_flag, file_type=file_type, date_name=date_name,
+                                            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
         response_model = ImportFromFileWithDateResponse
         endpoint = ApiEndpoints.IMPORT_FROM_FILE_WITH_DATE
         headers = {}
@@ -184,8 +179,9 @@ class LoanClient(BaseClient):
     def set_loan_hdma(self, loan_number_ids=None, payload_dict=None, session_id=None, nonce=None, **kwargs):
         # For valid arguments, use lowercase name of attributes listed in API.loans.request.set_loan.SetLoanHDMARequest
 
-        request_model = SetLoanHDMARequest(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
-                                           loan_number_ids=loan_number_ids, payload_dict=payload_dict, **kwargs)
+        request_model = SetLoanHDMARequest(loan_number_ids=loan_number_ids, payload_dict=payload_dict,
+                                           session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+                                           **kwargs)
         response_model = SetLoanHDMAResponse
         endpoint = ApiEndpoints.SET_LOAN_DATA
 
@@ -193,13 +189,12 @@ class LoanClient(BaseClient):
                              params=request_model.as_params_dict, data=request_model.payload)
         return response
 
-    def set_loan_license_data(self, loan_number_ids=None, session_id=None, nonce=None, **kwargs):
+    def set_loan_license_data(self, loan_number_id=None, session_id=None, nonce=None, pretty_print=False, **kwargs):
         # For valid arguments, use lowercase name of attributes listed in
         # API.loans.request.set_loan_license_data.SetLoanLicenseDataParams, provide via kwargs
 
-        request_model = SetLoanLicenseDataRequest(
-            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
-            loan_number_id=loan_number_ids, **kwargs)
+        request_model = SetLoanLicenseDataRequest(loan_number_id=loan_number_id, payload_dict=None,
+                                    session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), **kwargs)
         response_model = SetLoanLicenseDataResponse
         endpoint = ApiEndpoints.SET_LOAN_LICENSE_DATA
 
