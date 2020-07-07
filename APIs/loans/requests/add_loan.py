@@ -21,6 +21,11 @@ class ImportFromFileWithDataParamKeys(BaseImportParamKeys):
     B2B_FLAG: str = "B2BFlag"
 
 
+class SimpleRequestModel(BaseRequestModel):
+    def build_payload(self):
+        return {}
+
+
 class ImportFromFileRequest(BaseRequestModel):
     def __init__(self, session_id, nonce, loan_number, file_type, date_name, base64_file_data, pretty_print=False):
         self.loan_number = loan_number
@@ -58,4 +63,3 @@ class ImportFromFileWithDateRequest(BaseRequestModel):
             ImportFromFileWithDataParamKeys.UPLOAD_TOKEN: self.upload_token,
             ImportFromFileWithDataParamKeys.B2B_FLAG: int(self.b2b_flag),
         }
-

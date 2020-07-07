@@ -38,7 +38,6 @@ class SetAntiSteeringDataRequest(BaseRequestModel):
         self.value = value
         self.base_loan_amount = base_loan_amount
         self.other_financing = other_financing
-        self.payload = payload_dict
         super().__init__(session_id=session_id, nonce=nonce, payload=payload_dict)
 
     def to_params(self) -> typing.Dict[str, typing.Any]:

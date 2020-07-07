@@ -18,7 +18,7 @@ from APIs.loans.responses.set_loan_hdma import SetLoanHDMAResponse
 from APIs.loans.responses.set_loan_license_data import SetLoanLicenseDataResponse
 from APIs.loans.responses.set_loan_rate_quote_details import SetLoanQuoteRateDetailsResponse
 
-from APIs.loans.requests.add_loan import ImportFromFileRequest, ImportFromFileWithDateRequest
+from APIs.loans.requests.add_loan import ImportFromFileRequest, ImportFromFileWithDateRequest, SimpleRequestModel
 from APIs.loans.requests.get_loan import GetLoanRequest, GetLoanDetailRequest, GetFinalValueTagsRequest, \
     GetLoanRateQuoteDetailsRequest, GetLoanMIDetailRequest
 from APIs.loans.requests.get_loan_license_data import GetLoanLicenseDataRequest
@@ -60,12 +60,12 @@ class ApiEndpoints:
 class LoanClient(BaseClient):
     CONTENT_TYPE = "Content-Type"
     APPLICATION_JSON = "application/json"
-    headers = {
+    json_headers = {
         CONTENT_TYPE: APPLICATION_JSON
     }
 
     def add_loan(self, session_id=None, nonce=None):
-        request_model = BaseRequestModel(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
+        request_model = SimpleRequestModel(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
         response_model = AddALoanResponse
         endpoint = ApiEndpoints.ADD_A_LOAN
         headers = {}
@@ -167,7 +167,7 @@ class LoanClient(BaseClient):
         response_model = SetAntiSteeringDataResponse
         endpoint = ApiEndpoints.SET_ANTI_STEERING_DATA
 
-        response = self.post(resource_endpoint=endpoint, response_model=response_model, headers=self.headers,
+        response = self.post(resource_endpoint=endpoint, response_model=response_model, headers=self.json_headers,
                              params=request_model.as_params_dict, data=request_model.payload)
         return response
 
@@ -179,7 +179,7 @@ class LoanClient(BaseClient):
                                            nonce=self._get_nonce(nonce), pretty_print=pretty_print, **kwargs)
 
         return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_DATA, response_model=SetLoanDataResponse,
-                         headers=self.headers, params=request_model.as_params_dict, data=request_model.payload)
+                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)
 
     def set_loan_hdma(self, loan_number_ids=None, payload_dict=None, session_id=None, nonce=None, **kwargs):
         # For valid arguments, use lowercase name of attributes listed in API.loans.request.set_loan.SetLoanHDMARequest
@@ -189,7 +189,7 @@ class LoanClient(BaseClient):
         response_model = SetLoanHDMAResponse
         endpoint = ApiEndpoints.SET_LOAN_DATA
 
-        response = self.post(resource_endpoint=endpoint, response_model=response_model, headers=self.headers,
+        response = self.post(resource_endpoint=endpoint, response_model=response_model, headers=self.json_headers,
                              params=request_model.as_params_dict, data=request_model.payload)
         return response
 

@@ -6,6 +6,7 @@ import requests
 import json
 
 from base.common.models.request import BaseRequestModelKeys, BaseRequestModel
+from APIs.loans.requests.add_loan import SimpleRequestModel
 
 from base.common.response import CommonResponse, CommonResponseKeys
 
@@ -88,7 +89,7 @@ class BaseClient:
         return response_model
 
     def end_session(self, session_id=None, nonce=None):
-        request_model = BaseRequestModel(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
+        request_model = SimpleRequestModel(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
         return self._make_call('END_SESSION', CommonResponse, method=Methods.POST,
                                params=request_model.as_params_dict)
 

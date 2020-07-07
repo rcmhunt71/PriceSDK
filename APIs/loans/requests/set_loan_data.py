@@ -1,7 +1,7 @@
 import typing
 from dataclasses import dataclass, fields
 
-from base.common.models.request import BaseRequestModel, BaseRequestModelKeys
+from base.common.models.request import BaseRequestModelKeys, KwargsRequestModel
 
 
 @dataclass
@@ -98,27 +98,12 @@ class SetLoanDataPayload:
     SUBMITTER_PERSON_ID: str = "SubmitterPersonID"
 
 
-class SetLoanDataRequest(BaseRequestModel):
+class SetLoanDataRequest(KwargsRequestModel):
     def __init__(self, loan_number_id, payload_dict, session_id, nonce, pretty_print, **kwargs):
-
-        # Kwargs are key/value pairs where a key can be a lower-case SetLoanDataPayload attribute
-        # e.g. -  SUB_FINANCE_HELOC_AMOUNT -->> sub_finance_heloc_amount
-
-        # Dynamically set all attributes based kwargs that match a SetLoanDataPayload attribute
-        valid_keys = [elem.name for elem in fields(SetLoanDataPayload)]
-        self.attr_list = []
-
-        # Iterate through the kwargs
-        for attr in kwargs.keys():
-
-            # If kwargs.UPPER() matches a SetLoanDataPayload attribute, create a model attribute and store the value.
-            # Also record the name of the attribute for more efficient payload generation
-            if attr.upper() in valid_keys:
-                setattr(self, attr.lower(), kwargs[attr])
-                self.attr_list.append(attr.lower())
+        self.data_payload = SetLoanDataPayload
 
         self.loan_number_id = loan_number_id
-        super().__init__(session_id=session_id, nonce=nonce, payload=payload_dict, pretty_print=pretty_print)
+        super().__init__(session_id=session_id, nonce=nonce, payload=payload_dict, pretty_print=pretty_print, **kwargs)
 
     def to_params(self) -> typing.Dict[str, typing.Any]:
         args = super().to_params()
@@ -133,7 +118,7 @@ class SetLoanDataRequest(BaseRequestModel):
         for payload_key in self.attr_list:
             if getattr(self, payload_key, None) is not None:
                 payload_list.append(
-                    {SetLoanDataKeys.FIELD_NAME: getattr(SetLoanDataPayload, payload_key.upper()),
+                    {SetLoanDataKeys.FIELD_NAME: getattr(SetLoanDataPayload, payload_key.upper(), payload_key.upper()),
                      SetLoanDataKeys.FIELD_VALUE: getattr(self, payload_key)})
         payload = {SetLoanDataKeys.LOAN_FIELDS: payload_list}
         return payload
@@ -142,12 +127,12 @@ class SetLoanDataRequest(BaseRequestModel):
 if __name__ == "__main__":
     import pprint
     args = {
-        "lock_type_id": 123,
-        "flood_zone": True,
+        SetLoanDataPayload.LOCK_TYPE_ID: 123,
+        SetLoanDataPayload.FLOOD_ZONE: True,
         "flood_nfip_community_name": "Rio Grande",
         "loan_flood_nfip_community_identifier": "nfip1",
         "loan_flood_nfip_map_panel_identifier": "D1C8",
     }
 
-    obj = SetLoanDataRequest(session_id=123456, nonce=123245687, loan_number_ids=986532147, **args)
+    obj = SetLoanDataRequest(loan_number_id=986532147, payload_dict=None, session_id=123456, nonce=123245687, pretty_print=False, **args)
     print(f"PAYLOAD: {pprint.pformat(obj.payload)}")
