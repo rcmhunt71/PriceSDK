@@ -15,7 +15,7 @@ from APIs.loans.responses.get_loan_rate_quote_details import GetLoanRateQuoteDet
 from APIs.loans.responses.get_loan_statuses import GetLoanStatusesResponse
 from APIs.loans.responses.set_anti_steering_data import SetAntiSteeringDataResponse
 from APIs.loans.responses.set_loan_data import SetLoanDataResponse
-from APIs.loans.responses.set_loan_hdma import SetLoanHDMAResponse
+from APIs.loans.responses.set_loan_hdma import SetLoanHMDAResponse
 from APIs.loans.responses.set_loan_license_data import SetLoanLicenseDataResponse
 from APIs.loans.responses.set_loan_rate_quote_details import SetLoanQuoteRateDetailsResponse
 
@@ -53,7 +53,7 @@ class ApiEndpoints:
     IMPORT_FROM_FILE_WITH_DATE: str = "import_from_file_with_date"
     SET_ANTI_STEERING_DATA: str = "set_anti_steering_data"
     SET_LOAN_DATA: str = "set_loan_data"
-    SET_LOAN_HDMA: str = "set_loan_hdma"
+    SET_LOAN_HMDA: str = "set_loan_hmda"
     SET_LOAN_LICENSE_DATA: str = "set_loan_license_data"
     SET_LOAN_RATE_QUOTE_DETAILS: str = "set_loan_rate_quote_details"
     SET_LOAN_SERVICING_DATA: str = "set_loan_servicing_data"
@@ -186,8 +186,8 @@ class LoanClient(BaseClient):
                                            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
                                            pretty_print=pretty_print, **kwargs)
 
-        return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_HDMA, response_model=SetLoanHDMAResponse,
-                             headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)
+        return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_HMDA, response_model=SetLoanHMDAResponse,
+                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)
 
     def set_loan_license_data(self, loan_number_id=None, session_id=None, nonce=None, pretty_print=False, **kwargs):
         # For valid arguments, use lowercase name of attributes listed in

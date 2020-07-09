@@ -6,7 +6,7 @@ from base.mocks.mock_requests import MockRequests
 
 from APIs.loans.models.loan_data import (
     LoanDataColEntry, LoanDataCols,
-    LoanValueEntry, LoanRowColsValue, LoanRowEntry, LoanRowList, LoanDataTable)
+    LoanValueEntry, LoanRowColsValue, LoanRowEntry, LoanRowList)
 from base.common.models.data_table_response import DataColEntryKeys, RowValueKeys, RowColKeys, DataTableKeys
 from APIs.loans.models.final_value import FinalValueFieldsKeys, FinalValueScreenKeys
 from base.common.models.data_table_response import DataTableKeys

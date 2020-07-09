@@ -1,5 +1,5 @@
 from base.common.response import CommonResponse
 
 
-class SetLoanHDMAResponse(CommonResponse):
+class SetLoanHMDAResponse(CommonResponse):
     pass
