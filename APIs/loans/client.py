@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from enum import Enum
 
+from APIs.loans.requests.set_loan_servicing_data import SetLoanServicingDataRequest
 from APIs.loans.responses.get_loan_mi_detail import GetLoanMIDetailsResponse
 
 from base.clients.base_client import BaseClient
@@ -55,6 +56,7 @@ class ApiEndpoints:
     SET_LOAN_HDMA: str = "set_loan_hdma"
     SET_LOAN_LICENSE_DATA: str = "set_loan_license_data"
     SET_LOAN_RATE_QUOTE_DETAILS: str = "set_loan_rate_quote_details"
+    SET_LOAN_SERVICING_DATA: str = "set_loan_servicing_data"
 
 
 class LoanClient(BaseClient):
@@ -209,3 +211,15 @@ class LoanClient(BaseClient):
         return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_RATE_QUOTE_DETAILS,
                              response_model=SetLoanQuoteRateDetailsResponse,
                              params=request_model.as_params_dict, data=request_model.payload)
+
+
+    def set_loan_servicing_data(self, loan_number_id, payload_dict=None, session_id=None, nonce=None, pretty_print=False, **kwargs):
+        # For valid arguments, use lowercase name of attributes listed in API.loans.request.set_loan.SetLoanDataPayload
+
+        request_model = SetLoanServicingDataRequest(loan_number_id=loan_number_id, payload_dict=payload_dict,
+                                           session_id=self._get_session_id(session_id),
+                                           nonce=self._get_nonce(nonce), pretty_print=pretty_print, **kwargs)
+
+        return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_SERVICING_DATA,
+                         response_model=SetLoanServicingDataResponse,
+                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)
