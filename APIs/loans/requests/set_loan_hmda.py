@@ -1,23 +1,16 @@
 import typing
-from dataclasses import dataclass, fields
+from dataclasses import dataclass
 
-from base.common.models.request import BaseRequestModel, BaseRequestModelKeys
+from base.common.models.request import BaseRequestModelKeys, KwargsRequestModel
 
 
 @dataclass
-class SetLoanHDMARequestKeys(BaseRequestModelKeys):
+class SetLoanHMDARequestKeys(BaseRequestModelKeys):
     LOAN_NUMBER_ID: str = "LoanNumberID"
 
 
 @dataclass
-class SetLoanHDMADataKeys:
-    LOAN_HDMA_FIELDS: str = "LoanHDMAFields"
-    FIELD_NAME: str = "FieldName"
-    FIELD_VALUE: str = "FieldValue"
-
-
-@dataclass
-class SetLoanHDMAPayload:
+class SetLoanHMDAPayload:
     HMDA_STATE: str = "HMDAState"
     HMDA_COUNTY: str = "HMDACounty"
     HMDA_MSA: str = "HMDAMSA"
@@ -35,46 +28,19 @@ class SetLoanHDMAPayload:
     HMDA_LOCK: str = "HMDALock"
 
 
-class SetLoanHDMARequest(BaseRequestModel):
-    def __init__(self, session_id, nonce, loan_number_ids, payload_dict=None, **kwargs):
+class SetLoanHMDARequest(KwargsRequestModel):
+    data_payload = SetLoanHMDAPayload
+    REQUEST_PAYLOAD_KEY = "LoanHDMAFields"
 
-        # Kwargs are key/value pairs where a key can be a lower-case SetLoanHDMAPayload attribute
-        # e.g. -  HDMA_2018_NMLS_ID -->> hdma_2018_nmls_id
+    def __init__(self, loan_number_id, payload_dict, session_id, nonce, pretty_print, **kwargs):
 
-        # Dynamically set all attributes based kwargs that match a SetLoanDataPayload attribute
-        valid_keys = [elem.name for elem in fields(SetLoanHDMAPayload)]
-        self.attr_list = []
-
-        # Iterate through the kwargs
-        for attr in kwargs.keys():
-
-            # If kwargs.UPPER() matches a SetLoanHDMAPayload attribute
-            # Create a model attribute and store the value.
-            # Record the name of the created attribute for more efficient payload generation later in the process.
-            if attr.upper() in valid_keys:
-                setattr(self, attr.lower(), kwargs[attr])
-                self.attr_list.append(attr.lower())
-
-        self.loan_number_id = loan_number_ids
-        super().__init__(session_id=session_id, nonce=nonce, payload=payload_dict)
+        self.loan_number_id = loan_number_id
+        super().__init__(session_id=session_id, nonce=nonce, payload=payload_dict, pretty_print=pretty_print, **kwargs)
 
     def to_params(self) -> typing.Dict[str, typing.Any]:
         args = super().to_params()
-        args[SetLoanHDMARequestKeys.LOAN_NUMBER_ID] = self.loan_number_id
+        args[SetLoanHMDARequestKeys.LOAN_NUMBER_ID] = self.loan_number_id
         return args
-
-    def build_payload(self) -> typing.Dict[str, typing.List[typing.Dict[str, typing.Any]]]:
-        payload_list = []
-
-        # For all recorded dynamically created attributes, create a dual entry dictionary:
-        # { FIELD_NAME: attr_name, FIELD_VALUE: attr_value }
-        for payload_key in self.attr_list:
-            if getattr(self, payload_key, None) is not None:
-                payload_list.append(
-                    {SetLoanHDMADataKeys.FIELD_NAME: getattr(SetLoanHDMAPayload, payload_key.upper()),
-                     SetLoanHDMADataKeys.FIELD_VALUE: getattr(self, payload_key)})
-        payload = {SetLoanHDMADataKeys.LOAN_HDMA_FIELDS: payload_list}
-        return payload
 
 
 if __name__ == "__main__":
@@ -86,5 +52,10 @@ if __name__ == "__main__":
         "hmda_2018_denial_reason_4": "This is reason #4",
     }
 
-    obj = SetLoanHDMARequest(session_id=123456, nonce=123245687, loan_number_ids=986532147, **args)
+    obj = SetLoanHMDARequest(loan_number_id=986532147, payload_dict=None, session_id=123456, nonce=123245687, pretty_print=False, **args)
     print(f"PAYLOAD: {pprint.pformat(obj.payload)}")
+
+    print("\nTesting SetLoanHMDARequest - payload_dict")
+    obj_args = SetLoanHMDARequest(loan_number_id=986532147, payload_dict=obj.payload,
+                                  pretty_print=False, session_id=123456, nonce=123245687)
+    print(f"PAYLOAD: {pprint.pformat(obj_args.payload)}")

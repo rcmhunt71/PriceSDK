@@ -5,7 +5,7 @@ from unittest.mock import patch
 from base.mocks.mock_requests import MockRequests
 
 from APIs.loans.client import LoanClient
-from APIs.loans.requests.set_loan_rate_quote_data import SetLoanRateQuoteDataKeys, SetLoanRateQuoteDataPayload
+from APIs.loans.requests.set_loan_rate_quote_data import SetLoanRateQuoteDataPayload
 from tests.common.common_request_utils import RequestValidationTools
 from tests.common.common_response_args import CommonResponseValidations, response_args
 
@@ -55,8 +55,8 @@ class TestSetLoanRateQuoteData(unittest.TestCase, RequestValidationTools, Common
         client.insert_test_response_data(data=set_loan_data_quote_data_response)
 
         # Make and validate client call
-        response_model = client.set_loan_rate_quote_data(
-            session_id=SESSION_ID, nonce=NONCE, loan_number_ids=LOAN_NUMBER_IDS,
+        response_model = client.set_loan_rate_quote_details(
+            session_id=SESSION_ID, nonce=NONCE, loan_number_id=LOAN_NUMBER_IDS,
             vendor_name=VENDOR_NAME, **set_loan_rate_quote_args)
 
         # Validation
@@ -73,8 +73,8 @@ class TestSetLoanRateQuoteData(unittest.TestCase, RequestValidationTools, Common
         client.insert_test_response_data(data=set_loan_data_quote_data_response)
 
         # Make and validate client call
-        response_model = client.set_loan_rate_quote_data(
-            session_id=SESSION_ID, nonce=NONCE, loan_number_ids=LOAN_NUMBER_IDS,
+        response_model = client.set_loan_rate_quote_details(
+            session_id=SESSION_ID, nonce=NONCE, loan_number_id=LOAN_NUMBER_IDS,
             vendor_name=VENDOR_NAME, payload_dict=_build_payload(args_dict=set_loan_rate_quote_args))
 
         # Validation

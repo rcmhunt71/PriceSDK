@@ -5,7 +5,7 @@ from enum import Enum
 import requests
 import json
 
-from base.common.models.request import BaseRequestModelKeys, BaseRequestModel, SimpleRequestModel
+from base.common.models.request import BaseRequestModelKeys, SimpleRequestModel
 
 from base.common.response import CommonResponse, CommonResponseKeys
 

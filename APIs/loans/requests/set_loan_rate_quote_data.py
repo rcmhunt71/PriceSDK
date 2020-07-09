@@ -1,7 +1,7 @@
 import typing
-from dataclasses import dataclass, fields
+from dataclasses import dataclass
 
-from base.common.models.request import BaseRequestModel, BaseRequestModelKeys
+from base.common.models.request import BaseRequestModelKeys, KwargsRequestModel, DataKeys
 
 
 @dataclass
@@ -20,63 +20,27 @@ class SetLoanRateQuoteDataPayload:
 
 
 @dataclass
-class SetLoanRateQuoteDataKeys:
-    LOAN_RATE_QUOTE_DETAILS: str = "LoanRateQuoteDetails"
-    FIELD_NAME: str = "FieldName"
-    FIELD_VALUE: str = "FieldValue"
-
-
-@dataclass
 class SetLoanQuoteRateDataRequestKeys(BaseRequestModelKeys):
-    LOAN_NUMBER_IDS: str = "LoanNumberID"
+    LOAN_NUMBER_ID: str = "LoanNumberID"
     VENDOR_NAME: str = "VendorName"
 
 
-class SetLoanQuoteRateDataRequest(BaseRequestModel):
-    def __init__(self, session_id, nonce, loan_number_ids, vendor_name, payload_dict=None, **kwargs):
+class SetLoanQuoteRateDetailsRequest(KwargsRequestModel):
+    data_payload = SetLoanRateQuoteDataPayload
+    REQUEST_PAYLOAD_KEY: str = "LoanRateQuoteDetails"
 
-        # Kwargs are key/value pairs where a key can be a lower-case SetLoanHDMAPayload attribute
-        # e.g. -  HDMA_2018_NMLS_ID -->> hdma_2018_nmls_id
-
-        # Dynamically set all attributes based kwargs that match a SetLoanDataPayload attribute
-        valid_keys = [elem.name for elem in fields(SetLoanRateQuoteDataPayload)]
-
-        self.attr_list = []
-
-        # Iterate through the kwargs
-        for attr in kwargs.keys():
-
-            # If kwargs.UPPER() matches a SetLoanHDMAPayload attribute
-            # Create a model attribute and store the value.
-            # Record the name of the created attribute for more efficient payload generation later in the process.
-            if attr.upper() in valid_keys:
-                setattr(self, attr.lower(), kwargs[attr])
-                self.attr_list.append(attr.lower())
-
-        self.loan_number_ids = loan_number_ids
+    def __init__(self, loan_number_id, vendor_name, payload_dict, session_id, nonce, pretty_print, **kwargs):
+        self.loan_number_id = loan_number_id
         self.vendor_name = vendor_name
-        super().__init__(session_id=session_id, nonce=nonce, payload=payload_dict)
+        super().__init__(session_id=session_id, nonce=nonce, payload=payload_dict, pretty_print=pretty_print, **kwargs)
 
     def to_params(self) -> typing.Dict[str, typing.Any]:
         args = super().to_params()
         args.update({
-            SetLoanQuoteRateDataRequestKeys.LOAN_NUMBER_IDS: self.loan_number_ids,
+            SetLoanQuoteRateDataRequestKeys.LOAN_NUMBER_ID: self.loan_number_id,
             SetLoanQuoteRateDataRequestKeys.VENDOR_NAME: self.vendor_name
         })
         return args
-
-    def build_payload(self) -> typing.Dict[str, typing.List[typing.Dict[str, typing.Any]]]:
-        payload_list = []
-
-        # For all recorded dynamically created attributes, create a dual entry dictionary:
-        # { FIELD_NAME: attr_name, FIELD_VALUE: attr_value }
-        for payload_key in self.attr_list:
-            if getattr(self, payload_key, None) is not None:
-                payload_list.append(
-                    {SetLoanRateQuoteDataKeys.FIELD_NAME: getattr(SetLoanRateQuoteDataPayload, payload_key.upper()),
-                     SetLoanRateQuoteDataKeys.FIELD_VALUE: getattr(self, payload_key)})
-        payload = {SetLoanRateQuoteDataKeys.LOAN_RATE_QUOTE_DETAILS: payload_list}
-        return payload
 
 
 if __name__ == "__main__":
@@ -89,17 +53,17 @@ if __name__ == "__main__":
     }
 
     def _build_payload(data_dict):
-        primary_key = SetLoanRateQuoteDataKeys.LOAN_RATE_QUOTE_DETAILS
-        payload_list = [{SetLoanRateQuoteDataKeys.FIELD_NAME: key,
-                         SetLoanRateQuoteDataKeys.FIELD_VALUE: value} for key, value in args.items()]
+        primary_key = SetLoanQuoteRateDetailsRequest.REQUEST_PAYLOAD_KEY
+        payload_list = [{DataKeys.FIELD_NAME: key,
+                         DataKeys.FIELD_VALUE: value} for key, value in args.items()]
         return {primary_key: payload_list}
 
-    print("Testing SetLoanQuoteRateDataRequest - payload_dict()")
-    obj_payload = SetLoanQuoteRateDataRequest(session_id=123456, nonce=123245687, vendor_name="test_vendor",
-                                              loan_number_ids=986532147, payload_dict=_build_payload(args))
+    print("Testing SetLoanQuoteRateDetailsRequest - payload_dict()")
+    obj_payload = SetLoanQuoteRateDetailsRequest(loan_number_id=986532147, vendor_name="test_vendor", payload_dict=_build_payload(args),
+                                                 pretty_print=False, session_id=123456, nonce=123245687)
     print(f"PAYLOAD: {pprint.pformat(obj_payload.payload)}")
 
-    print("Testing SetLoanQuoteRateDataRequest - kwargs")
-    obj_args = SetLoanQuoteRateDataRequest(session_id=123456, nonce=123245687, vendor_name="test_vendor",
-                                           loan_number_ids=986532147, **args)
+    print("Testing SetLoanQuoteRateDetailsRequest - kwargs")
+    obj_args = SetLoanQuoteRateDetailsRequest(loan_number_id=986532147, vendor_name="test_vendor", payload_dict=None,
+                                              pretty_print=False, session_id=123456, nonce=123245687, **args)
     print(f"PAYLOAD: {pprint.pformat(obj_args.payload)}")

@@ -1,4 +1,3 @@
-import os
 import typing
 from dataclasses import dataclass
 
@@ -11,7 +10,7 @@ class SetLoanLicenseDataParams:
     LICENSE_ID: str = "LicenseID"
     LICENSE_NAME: str = "LicenseName"
     LICENSE_NUMBER: str = "LicenseNumber"
-    LICENSE_EXPIRATION_DATA: str = "LicenseExpirationDate"
+    LICENSE_EXPIRATION_DATE: str = "LicenseExpirationDate"
     LICENSE_TYPE: str = "LicenseType"
     LICENSE_STATE: str = "LicenseState"
 
@@ -22,12 +21,13 @@ class SetLoanLicenseDataRequestKeys(BaseRequestModelKeys):
 
 
 class SetLoanLicenseDataRequest(KwargsRequestModel):
+    data_payload = SetLoanLicenseDataParams
+    REQUEST_PAYLOAD_KEY = None
+
     def __init__(self, loan_number_id, session_id, nonce, pretty_print, **kwargs):
         '''
         This request does not rely on json payload, only URL parameters are used
         '''
-        self.data_payload = SetLoanLicenseDataParams
-
         self.loan_number_id = loan_number_id
         super().__init__(session_id=session_id, nonce=nonce, payload=None, pretty_print=pretty_print, **kwargs)
 
@@ -42,3 +42,14 @@ class SetLoanLicenseDataRequest(KwargsRequestModel):
 
     def build_payload(self):
         return {}
+
+
+if __name__ == "__main__":
+    import pprint
+    args = {
+        "data_from": "This is data from",
+        "license_id": "This is license id",
+    }
+
+    obj = SetLoanLicenseDataRequest(loan_number_id=986532147, session_id=123456, nonce=123245687, pretty_print=False, **args)
+    print(f"PARAMS: {pprint.pformat(obj.to_params())}")
