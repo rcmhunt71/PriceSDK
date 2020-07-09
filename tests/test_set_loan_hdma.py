@@ -20,7 +20,7 @@ PORT = 8080
 
 SESSION_ID = 123456789
 NONCE = "DEADBEEF15DECEA5ED"
-LOAN_NUMBER_IDS = "45678524663"
+LOAN_NUMBER_ID = "45678524663"
 MSA = "HDMA MSA"
 CENSUS = "HMDA Census Data"
 OVERRIDE = True
@@ -57,7 +57,7 @@ class TestSetLoanData(unittest.TestCase, RequestValidationTools, CommonResponseV
         client.insert_test_response_data(data=set_loan_data_response)
 
         # Make and validate client call
-        response_model = client.set_loan_hdma(session_id=SESSION_ID, nonce=NONCE, loan_number_ids=LOAN_NUMBER_IDS,
+        response_model = client.set_loan_hmda(session_id=SESSION_ID, nonce=NONCE, loan_number_id=LOAN_NUMBER_ID,
                                               **prebuilt_payload)
 
         # Validation

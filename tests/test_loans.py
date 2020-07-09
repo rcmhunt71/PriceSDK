@@ -220,18 +220,6 @@ class TestAddLoanData(unittest.TestCase, CommonResponseValidations):
         for index, row_data_model in enumerate(row_data_resp):
             self._validate_response(model=row_data_model, model_data=add_loan_row_datum_1[index])
 
-    # TODO: REMOVE (model no longer used)
-    def test_AddLoanDataTable_response(self):
-        data_table_resp = LoanDataTable(**add_loan_data_table)
-
-        for attr in [DataTableKeys.ROWS, DataTableKeys.COLS]:
-            self._verify(
-                descript=f"{data_table_resp.model_name}: Has attribute '{attr}'",
-                actual=hasattr(data_table_resp, attr), expected=True)
-
-        self._validate_response(model=data_table_resp, model_data=add_loan_data_table)
-
-
 # ---------------------------------------------------------------
 #     GET LOAN TESTS
 # ---------------------------------------------------------------

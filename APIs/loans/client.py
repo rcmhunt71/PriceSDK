@@ -176,7 +176,7 @@ class LoanClient(BaseClient):
         return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_DATA, response_model=SetLoanDataResponse,
                          headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)
 
-    def set_loan_hdma(self, loan_number_id=None, payload_dict=None,
+    def set_loan_hmda(self, loan_number_id=None, payload_dict=None,
                       session_id=None, nonce=None, pretty_print=False, **kwargs):
         # For valid arguments, use lowercase name of attributes listed in API.loans.request.set_loan_hdma.SetLoanHMDAPayload
 
@@ -199,8 +199,10 @@ class LoanClient(BaseClient):
                          response_model=SetLoanLicenseDataResponse,
                              params=request_model.as_params_dict, data=request_model.payload)
 
-    def set_loan_rate_quote_details(self, loan_number_id, vendor_name, session_id=None, nonce=None, pretty_print=False, **kwargs):
-        request_model = SetLoanQuoteRateDetailsRequest(loan_number_id=loan_number_id, vendor_name=vendor_name,
+    def set_loan_rate_quote_details(self, loan_number_id, vendor_name, payload_dict=None,
+                                    session_id=None, nonce=None, pretty_print=False, **kwargs):
+        request_model = SetLoanQuoteRateDetailsRequest(loan_number_id=loan_number_id,
+                                            vendor_name=vendor_name, payload_dict=payload_dict,
                                             session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
                                                 pretty_print=pretty_print, **kwargs)
 

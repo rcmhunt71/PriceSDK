@@ -2,10 +2,11 @@ import typing
 import unittest
 from unittest.mock import patch
 
+from base.common.models.request import DataKeys
 from base.mocks.mock_requests import MockRequests
 
 from APIs.loans.client import LoanClient
-from APIs.loans.requests.set_loan_rate_quote_data import SetLoanRateQuoteDataPayload
+from APIs.loans.requests.set_loan_rate_quote_data import SetLoanRateQuoteDataPayload, SetLoanQuoteRateDetailsRequest
 from tests.common.common_request_utils import RequestValidationTools
 from tests.common.common_response_args import CommonResponseValidations, response_args
 
@@ -39,9 +40,9 @@ def _build_payload(args_dict: typing.Dict[str, typing.Any]) -> typing.Dict[
     :param args_dict: Dictionary of the payload data arguments
     :return: Dict of lists of key/value dicts (data)
     """
-    return {SetLoanRateQuoteDataKeys.LOAN_RATE_QUOTE_DETAILS:
-                [{SetLoanRateQuoteDataKeys.FIELD_NAME: getattr(SetLoanRateQuoteDataPayload, key.upper()),
-                  SetLoanRateQuoteDataKeys.FIELD_VALUE: value} for key, value in args_dict.items()]}
+    return {SetLoanQuoteRateDetailsRequest.REQUEST_PAYLOAD_KEY:
+                [{DataKeys.FIELD_NAME: getattr(SetLoanRateQuoteDataPayload, key.upper()),
+                  DataKeys.FIELD_VALUE: value} for key, value in args_dict.items()]}
 
 @patch("requests.post", MockRequests.post)
 class TestSetLoanRateQuoteData(unittest.TestCase, RequestValidationTools, CommonResponseValidations):

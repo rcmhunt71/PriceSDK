@@ -36,14 +36,3 @@ class LoanRowEntry(BaseResponse):
 
 class LoanRowList(BaseListResponse):
     _SUB_MODEL = LoanRowEntry
-
-# --------------------------------
-# TABLE DEFINITIONS
-# --------------------------------
-
-
-# TODO: REMOVE, no longer used
-class LoanDataTable(BaseResponse):
-    _ADD_KEYS = [DataTableKeys.ROWS, DataTableKeys.COLS]
-    _SUB_MODELS = [LoanRowList, LoanDataCols]
-
