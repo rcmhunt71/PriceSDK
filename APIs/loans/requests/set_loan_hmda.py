@@ -30,7 +30,7 @@ class SetLoanHMDAPayload:
 
 class SetLoanHMDARequest(KwargsRequestModel):
     data_payload = SetLoanHMDAPayload
-    REQUEST_PAYLOAD_KEY = "LoanHDMAFields"
+    REQUEST_PAYLOAD_KEY = "LoanHMDAFields"
 
     def __init__(self, loan_number_id, payload_dict, session_id, nonce, pretty_print, **kwargs):
 

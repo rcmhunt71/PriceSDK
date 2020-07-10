@@ -150,17 +150,15 @@ class LoanClient(BaseClient):
         return self.get(resource_endpoint=ApiEndpoints.GET_LOAN_STATUSES, response_model=GetLoanStatusesResponse,
                             params=request_model.as_params_dict)
 
-    def set_anti_steering_data(self, loan_number_ids, index=None, program_id=None, rate=None, loan_origination=None,
+    def set_anti_steering_data(self, loan_number_id, index=None, program_id=None, rate=None, loan_origination=None,
                                loan_discount=None, sales_price=None, value=None, base_loan_amount=None,
                                other_financing=None, payload_dict=None, session_id=None, nonce=None):
 
-        request_model = SetAntiSteeringDataRequest(session_id=self._get_session_id(session_id),
-                                                   nonce=self._get_nonce(nonce),
-                                                   loan_number_ids=loan_number_ids, index=index, program_id=program_id,
-                                                   rate=rate, value=value, loan_discount=loan_discount,
-                                                   loan_origination=loan_origination, base_loan_amount=base_loan_amount,
-                                                   other_financing=other_financing, sales_price=sales_price,
-                                                   payload_dict=payload_dict)
+        request_model = SetAntiSteeringDataRequest(loan_number_id=loan_number_id, index=index, program_id=program_id,
+                                        rate=rate, loan_origination=loan_origination, loan_discount=loan_discount,
+                                        sales_price=sales_price, value=value, base_loan_amount=base_loan_amount,
+                                        other_financing=other_financing, payload_dict=payload_dict,
+                                        session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
         response_model = SetAntiSteeringDataResponse
         endpoint = ApiEndpoints.SET_ANTI_STEERING_DATA
 

@@ -24,11 +24,11 @@ class SetAntiSteeringDataPayload:
 
 
 class SetAntiSteeringDataRequest(BaseRequestModel):
-    def __init__(self, session_id, nonce, loan_number_ids, index=None, program_id=None, rate=None,
-                 loan_origination=None, loan_discount=None, sales_price=None, value=None,
-                 base_loan_amount=None, other_financing=None, payload_dict=None):
+    def __init__(self, loan_number_id, index, program_id, rate, loan_origination,
+                               loan_discount, sales_price, value, base_loan_amount,
+                               other_financing, payload_dict, session_id, nonce, **kwargs):
 
-        self.loan_number_ids = loan_number_ids
+        self.loan_number_id = loan_number_id
         self.index = index
         self.program_id = program_id
         self.rate = rate
@@ -42,7 +42,7 @@ class SetAntiSteeringDataRequest(BaseRequestModel):
 
     def to_params(self) -> typing.Dict[str, typing.Any]:
         args = super().to_params()
-        args[SetAntiSteeringDataKeys.LOAN_NUMBER_ID] = self.loan_number_ids
+        args[SetAntiSteeringDataKeys.LOAN_NUMBER_ID] = self.loan_number_id
         return args
 
     def build_payload(self) -> typing.Dict[str, typing.Any]:

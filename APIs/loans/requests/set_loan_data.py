@@ -96,7 +96,6 @@ class SetLoanDataRequest(KwargsRequestModel):
     REQUEST_PAYLOAD_KEY: str = "LoanFields"
 
     def __init__(self, loan_number_id, payload_dict, session_id, nonce, pretty_print, **kwargs):
-
         self.loan_number_id = loan_number_id
         super().__init__(session_id=session_id, nonce=nonce, payload=payload_dict, pretty_print=pretty_print, **kwargs)
 

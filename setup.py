@@ -4,7 +4,7 @@ from distutils.core import setup
 import setuptools
 
 setup(name='PRICE',
-      version='0.0.1',
+      version='0.0.2',
       description='Fiserv PRICE API Client',
       author='Fiserv',
       author_email='',
