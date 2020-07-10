@@ -2,10 +2,11 @@ import typing
 import unittest
 from unittest.mock import patch
 
+from base.common.models.request import DataKeys
 from base.mocks.mock_requests import MockRequests
 
 from APIs.loans.client import LoanClient
-from APIs.loans.requests.set_loan_hmda import SetLoanHDMAPayload, SetLoanHDMADataKeys
+from APIs.loans.requests.set_loan_hmda import SetLoanHMDAPayload, SetLoanHMDARequest
 from tests.common.common_request_utils import RequestValidationTools
 from tests.common.common_response_args import CommonResponseValidations, response_args
 
@@ -19,8 +20,8 @@ PORT = 8080
 
 SESSION_ID = 123456789
 NONCE = "DEADBEEF15DECEA5ED"
-LOAN_NUMBER_IDS = "45678524663"
-MSA = "HDMA MSA"
+LOAN_NUMBER_ID = "45678524663"
+MSA = "HMDA MSA"
 CENSUS = "HMDA Census Data"
 OVERRIDE = True
 REASON_1 = "Because you are broke"
@@ -41,9 +42,9 @@ def _build_payload() -> typing.Dict[str, typing.List[typing.Dict[str, typing.Any
 
     :return: Dict of lists of key/value dicts (data)
     """
-    return {SetLoanHDMADataKeys.LOAN_HDMA_FIELDS:
-                [{SetLoanHDMADataKeys.FIELD_NAME: getattr(SetLoanHDMAPayload, key.upper()),
-                  SetLoanHDMADataKeys.FIELD_VALUE: value} for key, value in prebuilt_payload.items()]}
+    return {SetLoanHMDARequest.REQUEST_PAYLOAD_KEY:
+                [{DataKeys.FIELD_NAME: getattr(SetLoanHMDAPayload, key.upper()),
+                  DataKeys.FIELD_VALUE: value} for key, value in prebuilt_payload.items()]}
 
 @patch("requests.post", MockRequests.post)
 class TestSetLoanData(unittest.TestCase, RequestValidationTools, CommonResponseValidations):
@@ -56,7 +57,7 @@ class TestSetLoanData(unittest.TestCase, RequestValidationTools, CommonResponseV
         client.insert_test_response_data(data=set_loan_data_response)
 
         # Make and validate client call
-        response_model = client.set_loan_hdma(session_id=SESSION_ID, nonce=NONCE, loan_number_ids=LOAN_NUMBER_IDS,
+        response_model = client.set_loan_hmda(session_id=SESSION_ID, nonce=NONCE, loan_number_id=LOAN_NUMBER_ID,
                                               **prebuilt_payload)
 
         # Validation

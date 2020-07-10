@@ -2,10 +2,11 @@ import typing
 import unittest
 from unittest.mock import patch
 
+from base.common.models.request import DataKeys
 from base.mocks.mock_requests import MockRequests
 
 from APIs.loans.client import LoanClient
-from APIs.loans.requests.set_loan_data import SetLoanDataKeys, SetLoanDataPayload
+from APIs.loans.requests.set_loan_data import SetLoanDataPayload, SetLoanDataRequest
 from tests.common.common_request_utils import RequestValidationTools
 from tests.common.common_response_args import CommonResponseValidations, response_args
 
@@ -19,7 +20,7 @@ PORT = 8080
 
 SESSION_ID = 123456789
 NONCE = "DEADBEEF15DECEA5ED"
-LOAN_NUMBER_IDS = "45678524663"
+LOAN_NUMBER_ID = "45678524663"
 RATE = 0.04
 BASE_LOAN_AMOUNT = 100000
 RELOCATION = True
@@ -49,9 +50,9 @@ def _build_payload(args_dict: typing.Dict[str, typing.Any]) -> typing.Dict[
     :param args_dict: Dictionary of the payload data arguments
     :return: Dict of lists of key/value dicts (data)
     """
-    return {SetLoanDataKeys.LOAN_FIELDS:
-                [{SetLoanDataKeys.FIELD_NAME: getattr(SetLoanDataPayload, key.upper()),
-                  SetLoanDataKeys.FIELD_VALUE: value} for key, value in args_dict.items()]}
+    return {SetLoanDataRequest.REQUEST_PAYLOAD_KEY:
+                [{DataKeys.FIELD_NAME: getattr(SetLoanDataPayload, key.upper()),
+                  DataKeys.FIELD_VALUE: value} for key, value in args_dict.items()]}
 
 @patch("requests.post", MockRequests.post)
 class TestSetLoanData(unittest.TestCase, RequestValidationTools, CommonResponseValidations):
@@ -64,7 +65,7 @@ class TestSetLoanData(unittest.TestCase, RequestValidationTools, CommonResponseV
         client.insert_test_response_data(data=set_loan_data_response)
 
         # Make and validate client call
-        response_model = client.set_loan_data(session_id=SESSION_ID, nonce=NONCE, loan_number_ids=LOAN_NUMBER_IDS,
+        response_model = client.set_loan_data(session_id=SESSION_ID, nonce=NONCE, loan_number_id=LOAN_NUMBER_ID,
                                               **prebuilt_payload)
 
         # Validation

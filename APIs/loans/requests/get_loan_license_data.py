@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from enum import Enum
 
-from base.common.models.request import BaseRequestModel, BaseRequestModelKeys
+from base.common.models.request import BaseRequestModelKeys, SimpleRequestModel
 
 
 class UnknownDataFromTypeException(Exception):
@@ -28,7 +28,7 @@ class LoanLicenseDataFrom(Enum):
     SETTLEMENT_PERSON = 9
 
 
-class GetLoanLicenseDataRequest(BaseRequestModel):
+class GetLoanLicenseDataRequest(SimpleRequestModel):
     def __init__(self, loan_number_ids, data_from, data_id, session_id, nonce, pretty_print):
         self.loan_number_ids = loan_number_ids
         if isinstance(data_from, Enum):

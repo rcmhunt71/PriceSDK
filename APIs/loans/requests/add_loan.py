@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from base.common.models.request import BaseRequestModel, BaseRequestModelKeys
+from base.common.models.request import BaseRequestModelKeys, SimpleRequestModel
 
 
 @dataclass
@@ -21,13 +21,13 @@ class ImportFromFileWithDataParamKeys(BaseImportParamKeys):
     B2B_FLAG: str = "B2BFlag"
 
 
-class ImportFromFileRequest(BaseRequestModel):
-    def __init__(self, session_id, nonce, loan_number, file_type, date_name, base64_file_data, pretty_print=False):
+class ImportFromFileRequest(SimpleRequestModel):
+    def __init__(self, loan_number, base64_file_data, file_type, date_name, session_id, nonce):
         self.loan_number = loan_number
         self.file_type = file_type
         self.date_name = date_name
         self.base64_file_data = base64_file_data
-        super().__init__(session_id=session_id, nonce=nonce, pretty_print=pretty_print)
+        super().__init__(session_id=session_id, nonce=nonce)
 
     def to_params(self):
         args = super().to_params()
@@ -39,8 +39,8 @@ class ImportFromFileRequest(BaseRequestModel):
         return args
 
 
-class ImportFromFileWithDateRequest(BaseRequestModel):
-    def __init__(self, session_id, nonce, loan_number, upload_token, file_type, date_name, b2b_flag):
+class ImportFromFileWithDateRequest(SimpleRequestModel):
+    def __init__(self, loan_number, upload_token, b2b_flag, file_type, date_name, session_id, nonce):
         self.loan_number = loan_number
         self.upload_token = upload_token
         self.file_type = file_type
@@ -58,4 +58,3 @@ class ImportFromFileWithDateRequest(BaseRequestModel):
             ImportFromFileWithDataParamKeys.UPLOAD_TOKEN: self.upload_token,
             ImportFromFileWithDataParamKeys.B2B_FLAG: int(self.b2b_flag),
         }
-

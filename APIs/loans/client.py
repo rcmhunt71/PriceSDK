@@ -1,10 +1,11 @@
 from dataclasses import dataclass
 from enum import Enum
 
+from APIs.loans.requests.set_loan_servicing_data import SetLoanServicingDataRequest
 from APIs.loans.responses.get_loan_mi_detail import GetLoanMIDetailsResponse
 
 from base.clients.base_client import BaseClient
-from base.common.models.request import BaseRequestModel
+from base.common.models.request import SimpleRequestModel
 
 from APIs.loans.responses.add_loan import AddALoanResponse, ImportFromFileResponse, ImportFromFileWithDateResponse
 from APIs.loans.responses.get_loan import GetLoanResponse, GetLoanDetailResponse
@@ -14,7 +15,7 @@ from APIs.loans.responses.get_loan_rate_quote_details import GetLoanRateQuoteDet
 from APIs.loans.responses.get_loan_statuses import GetLoanStatusesResponse
 from APIs.loans.responses.set_anti_steering_data import SetAntiSteeringDataResponse
 from APIs.loans.responses.set_loan_data import SetLoanDataResponse
-from APIs.loans.responses.set_loan_hdma import SetLoanHDMAResponse
+from APIs.loans.responses.set_loan_hdma import SetLoanHMDAResponse
 from APIs.loans.responses.set_loan_license_data import SetLoanLicenseDataResponse
 from APIs.loans.responses.set_loan_rate_quote_details import SetLoanQuoteRateDetailsResponse
 
@@ -25,9 +26,9 @@ from APIs.loans.requests.get_loan_license_data import GetLoanLicenseDataRequest
 from APIs.loans.requests.get_loan_statuses import GetLoanStatusesRequest
 from APIs.loans.requests.set_anti_steering_data import SetAntiSteeringDataRequest
 from APIs.loans.requests.set_loan_data import SetLoanDataRequest
-from APIs.loans.requests.set_loan_hmda import SetLoanHDMARequest
-from APIs.loans.requests.set_loan_license_data import SetLoanLicenseDataRequest
-from APIs.loans.requests.set_loan_rate_quote_data import SetLoanQuoteRateDataRequest
+from APIs.loans.requests.set_loan_hmda import SetLoanHMDARequest
+from APIs.loans.requests.set_loan_license_details import SetLoanLicenseDataRequest
+from APIs.loans.requests.set_loan_rate_quote_data import SetLoanQuoteRateDetailsRequest
 
 
 class ImportFromFileFileTypes(Enum):
@@ -52,33 +53,29 @@ class ApiEndpoints:
     IMPORT_FROM_FILE_WITH_DATE: str = "import_from_file_with_date"
     SET_ANTI_STEERING_DATA: str = "set_anti_steering_data"
     SET_LOAN_DATA: str = "set_loan_data"
-    SET_LOAN_HDMA: str = "set_loan_hdma"
+    SET_LOAN_HMDA: str = "set_loan_hmda"
     SET_LOAN_LICENSE_DATA: str = "set_loan_license_data"
     SET_LOAN_RATE_QUOTE_DETAILS: str = "set_loan_rate_quote_details"
+    SET_LOAN_SERVICING_DATA: str = "set_loan_servicing_data"
 
 
 class LoanClient(BaseClient):
     CONTENT_TYPE = "Content-Type"
     APPLICATION_JSON = "application/json"
-    headers = {
+    json_headers = {
         CONTENT_TYPE: APPLICATION_JSON
     }
 
-
     def add_loan(self, session_id=None, nonce=None):
-        request_model = BaseRequestModel(session_id=session_id or self.session_id, nonce=nonce or self.nonce)
-        response_model = AddALoanResponse
-        endpoint = ApiEndpoints.ADD_A_LOAN
-        headers = {}
+        request_model = SimpleRequestModel(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
 
-        response = self.post(resource_endpoint=endpoint, response_model=response_model, data={}, headers=headers,
+        return self.post(resource_endpoint=ApiEndpoints.ADD_A_LOAN, response_model=AddALoanResponse, data={},
                              params=request_model.as_params_dict)
-        return response
 
-    def import_from_file(self, loan_number, file_type, date_name, base64_file_data, session_id=None, nonce=None):
-        request_model = ImportFromFileRequest(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
-                                              loan_number=loan_number, file_type=file_type, date_name=date_name,
-                                              base64_file_data=base64_file_data)
+    def import_from_file(self, loan_number, base64_file_data, file_type, date_name, session_id=None, nonce=None):
+        request_model = ImportFromFileRequest(loan_number=loan_number, base64_file_data=base64_file_data,
+                                              file_type=file_type, date_name=date_name,
+                                              session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
         response_model = ImportFromFileResponse
         endpoint = ApiEndpoints.IMPORT_FROM_FILE
         headers = {}
@@ -87,12 +84,11 @@ class LoanClient(BaseClient):
                              params=request_model.as_params_dict, binary_data=base64_file_data)
         return response
 
-    def import_from_file_with_date(self, upload_token, file_type, loan_number, b2b_flag, date_name,
+    def import_from_file_with_date(self, loan_number, upload_token, b2b_flag, file_type, date_name,
                                    session_id=None, nonce=None):
-        request_model = ImportFromFileWithDateRequest(session_id=session_id or self.session_id,
-                                                      nonce=nonce or self.nonce, loan_number=loan_number,
-                                                      file_type=file_type, date_name=date_name, b2b_flag=b2b_flag,
-                                                      upload_token=upload_token)
+        request_model = ImportFromFileWithDateRequest(loan_number=loan_number, upload_token=upload_token,
+                                            b2b_flag=b2b_flag, file_type=file_type, date_name=date_name,
+                                            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
         response_model = ImportFromFileWithDateResponse
         endpoint = ApiEndpoints.IMPORT_FROM_FILE_WITH_DATE
         headers = {}
@@ -154,72 +150,74 @@ class LoanClient(BaseClient):
         return self.get(resource_endpoint=ApiEndpoints.GET_LOAN_STATUSES, response_model=GetLoanStatusesResponse,
                             params=request_model.as_params_dict)
 
-    def set_anti_steering_data(self, loan_number_ids, index=None, program_id=None, rate=None, loan_origination=None,
+    def set_anti_steering_data(self, loan_number_id, index=None, program_id=None, rate=None, loan_origination=None,
                                loan_discount=None, sales_price=None, value=None, base_loan_amount=None,
                                other_financing=None, payload_dict=None, session_id=None, nonce=None):
 
-        request_model = SetAntiSteeringDataRequest(session_id=self._get_session_id(session_id),
-                                                   nonce=self._get_nonce(nonce),
-                                                   loan_number_ids=loan_number_ids, index=index, program_id=program_id,
-                                                   rate=rate, value=value, loan_discount=loan_discount,
-                                                   loan_origination=loan_origination, base_loan_amount=base_loan_amount,
-                                                   other_financing=other_financing, sales_price=sales_price,
-                                                   payload_dict=payload_dict)
+        request_model = SetAntiSteeringDataRequest(loan_number_id=loan_number_id, index=index, program_id=program_id,
+                                        rate=rate, loan_origination=loan_origination, loan_discount=loan_discount,
+                                        sales_price=sales_price, value=value, base_loan_amount=base_loan_amount,
+                                        other_financing=other_financing, payload_dict=payload_dict,
+                                        session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
         response_model = SetAntiSteeringDataResponse
         endpoint = ApiEndpoints.SET_ANTI_STEERING_DATA
-        headers = {self.CONTENT_TYPE: self.APPLICATION_JSON}
 
-        response = self.post(resource_endpoint=endpoint, response_model=response_model, headers=headers,
+        response = self.post(resource_endpoint=endpoint, response_model=response_model, headers=self.json_headers,
                              params=request_model.as_params_dict, data=request_model.payload)
         return response
 
-    def set_loan_data(self, loan_number_ids, payload_dict=None, session_id=None, nonce=None, **kwargs):
+    def set_loan_data(self, loan_number_id, payload_dict=None, session_id=None, nonce=None, pretty_print=False, **kwargs):
         # For valid arguments, use lowercase name of attributes listed in API.loans.request.set_loan.SetLoanDataPayload
 
-        request_model = SetLoanDataRequest(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
-                                           loan_number_ids=loan_number_ids, payload_dict=payload_dict, **kwargs)
-        response_model = SetLoanDataResponse
-        endpoint = ApiEndpoints.SET_LOAN_DATA
-        headers = {self.CONTENT_TYPE: self.APPLICATION_JSON}
+        request_model = SetLoanDataRequest(loan_number_id=loan_number_id, payload_dict=payload_dict,
+                                           session_id=self._get_session_id(session_id),
+                                           nonce=self._get_nonce(nonce), pretty_print=pretty_print, **kwargs)
 
-        response = self.post(resource_endpoint=endpoint, response_model=response_model, headers=headers,
-                             params=request_model.as_params_dict, data=request_model.payload)
-        return response
+        return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_DATA, response_model=SetLoanDataResponse,
+                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)
 
-    def set_loan_hdma(self, loan_number_ids=None, payload_dict=None, session_id=None, nonce=None, **kwargs):
-        # For valid arguments, use lowercase name of attributes listed in API.loans.request.set_loan.SetLoanHDMARequest
+    def set_loan_hmda(self, loan_number_id=None, payload_dict=None,
+                      session_id=None, nonce=None, pretty_print=False, **kwargs):
+        # For valid arguments, use lowercase name of attributes listed in API.loans.request.set_loan_hdma.SetLoanHMDAPayload
 
-        request_model = SetLoanHDMARequest(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
-                                           loan_number_ids=loan_number_ids, payload_dict=payload_dict, **kwargs)
-        response_model = SetLoanHDMAResponse
-        endpoint = ApiEndpoints.SET_LOAN_DATA
-        headers = self.headers
+        request_model = SetLoanHMDARequest(loan_number_id=loan_number_id, payload_dict=payload_dict,
+                                           session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+                                           pretty_print=pretty_print, **kwargs)
 
-        response = self.post(resource_endpoint=endpoint, response_model=response_model, headers=headers,
-                             params=request_model.as_params_dict, data=request_model.payload)
-        return response
+        return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_HMDA, response_model=SetLoanHMDAResponse,
+                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)
 
-    def set_loan_license_data(self, loan_number_ids=None, session_id=None, nonce=None, **kwargs):
+    def set_loan_license_data(self, loan_number_id=None, session_id=None, nonce=None, pretty_print=False, **kwargs):
         # For valid arguments, use lowercase name of attributes listed in
         # API.loans.request.set_loan_license_data.SetLoanLicenseDataParams, provide via kwargs
 
-        request_model = SetLoanLicenseDataRequest(
-            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
-            loan_number_ids=loan_number_ids, **kwargs)
-        response_model = SetLoanLicenseDataResponse
-        endpoint = ApiEndpoints.SET_LOAN_LICENSE_DATA
+        request_model = SetLoanLicenseDataRequest(loan_number_id=loan_number_id,
+                                    session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+                                        pretty_print=pretty_print, **kwargs)
 
-        response = self.post(resource_endpoint=endpoint, response_model=response_model,
+        return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_LICENSE_DATA,
+                         response_model=SetLoanLicenseDataResponse,
                              params=request_model.as_params_dict, data=request_model.payload)
-        return response
 
-    def set_loan_rate_quote_data(self, vendor_name, loan_number_ids, session_id=None, nonce=None, **kwargs):
-        request_model = SetLoanQuoteRateDataRequest(
-            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
-            vendor_name=vendor_name, loan_number_ids=loan_number_ids, **kwargs)
-        response_model = SetLoanQuoteRateDetailsResponse
-        endpoint = ApiEndpoints.SET_LOAN_RATE_QUOTE_DETAILS
+    def set_loan_rate_quote_details(self, loan_number_id, vendor_name, payload_dict=None,
+                                    session_id=None, nonce=None, pretty_print=False, **kwargs):
+        request_model = SetLoanQuoteRateDetailsRequest(loan_number_id=loan_number_id,
+                                            vendor_name=vendor_name, payload_dict=payload_dict,
+                                            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+                                                pretty_print=pretty_print, **kwargs)
 
-        response = self.post(resource_endpoint=endpoint, response_model=response_model,
+        return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_RATE_QUOTE_DETAILS,
+                             response_model=SetLoanQuoteRateDetailsResponse,
                              params=request_model.as_params_dict, data=request_model.payload)
-        return response
+
+
+    def set_loan_servicing_data(self, loan_number_id, payload_dict=None, session_id=None, nonce=None, pretty_print=False, **kwargs):
+        # For valid arguments, use lowercase name of attributes listed in API.loans.request.set_loan.SetLoanDataPayload
+
+        request_model = SetLoanServicingDataRequest(loan_number_id=loan_number_id, payload_dict=payload_dict,
+                                           session_id=self._get_session_id(session_id),
+                                           nonce=self._get_nonce(nonce), pretty_print=pretty_print, **kwargs)
+
+        return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_SERVICING_DATA,
+                         response_model=SetLoanServicingDataResponse,
+                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)

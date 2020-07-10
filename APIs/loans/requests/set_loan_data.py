@@ -1,19 +1,12 @@
 import typing
 from dataclasses import dataclass, fields
 
-from base.common.models.request import BaseRequestModel, BaseRequestModelKeys
+from base.common.models.request import BaseRequestModelKeys, KwargsRequestModel, DataKeys
 
 
 @dataclass
-class SetAntiSteeringDataRequestKeys(BaseRequestModelKeys):
-    LOAN_NUMBER_IDS: str = "LoanNumberID"
-
-
-@dataclass
-class SetLoanDataKeys:
-    LOAN_FIELDS: str = "LoanFields"
-    FIELD_NAME: str = "FieldName"
-    FIELD_VALUE: str = "FieldValue"
+class SetLoanDataRequestKeys(BaseRequestModelKeys):
+    LOAN_NUMBER_ID: str = "LoanNumberID"
 
 
 @dataclass
@@ -98,58 +91,34 @@ class SetLoanDataPayload:
     SUBMITTER_PERSON_ID: str = "SubmitterPersonID"
 
 
-class SetLoanDataRequest(BaseRequestModel):
-    def __init__(self, session_id, nonce, loan_number_ids, payload_dict=None, **kwargs):
+class SetLoanDataRequest(KwargsRequestModel):
+    data_payload = SetLoanDataPayload
+    REQUEST_PAYLOAD_KEY: str = "LoanFields"
 
-        # Kwargs are key/value pairs where a key can be a lower-case SetLoanDataPayload attribute
-        # e.g. -  SUB_FINANCE_HELOC_AMOUNT -->> sub_finance_heloc_amount
-
-        # Dynamically set all attributes based kwargs that match a SetLoanDataPayload attribute
-        valid_keys = [elem.name for elem in fields(SetLoanDataPayload)]
-        self.attr_list = []
-
-        # Iterate through the kwargs
-        for attr in kwargs.keys():
-
-            # If kwargs.UPPER() matches a SetLoanDataPayload attribute, create a model attribute and store the value.
-            # Also record the name of the attribute for more efficient payload generation
-            if attr.upper() in valid_keys:
-                setattr(self, attr.lower(), kwargs[attr])
-                self.attr_list.append(attr.lower())
-
-        self.loan_number_ids = loan_number_ids
-        super().__init__(session_id=session_id, nonce=nonce, payload=payload_dict)
+    def __init__(self, loan_number_id, payload_dict, session_id, nonce, pretty_print, **kwargs):
+        self.loan_number_id = loan_number_id
+        super().__init__(session_id=session_id, nonce=nonce, payload=payload_dict, pretty_print=pretty_print, **kwargs)
 
     def to_params(self) -> typing.Dict[str, typing.Any]:
-        return {
-            SetAntiSteeringDataRequestKeys.SESSION_ID: self.session_id,
-            SetAntiSteeringDataRequestKeys.NONCE: self.nonce,
-            SetAntiSteeringDataRequestKeys.LOAN_NUMBER_IDS: self.loan_number_ids,
-        }
-
-    def build_payload(self) -> typing.Dict[str, typing.List[typing.Dict[str, typing.Any]]]:
-        payload_list = []
-
-        # For all recorded dynamically created attributes, create a dual entry dictionary:
-        # { FIELD_NAME: attr_name, FIELD_VALUE: attr_value }
-        for payload_key in self.attr_list:
-            if getattr(self, payload_key, None) is not None:
-                payload_list.append(
-                    {SetLoanDataKeys.FIELD_NAME: getattr(SetLoanDataPayload, payload_key.upper()),
-                     SetLoanDataKeys.FIELD_VALUE: getattr(self, payload_key)})
-        payload = {SetLoanDataKeys.LOAN_FIELDS: payload_list}
-        return payload
+        args = super().to_params()
+        args[SetLoanDataRequestKeys.LOAN_NUMBER_ID] = self.loan_number_id
+        return args
 
 
 if __name__ == "__main__":
     import pprint
     args = {
-        "lock_type_id": 123,
-        "flood_zone": True,
-        "flood_nfip_community_name": "Rio Grande",
-        "loan_flood_nfip_community_identifier": "nfip1",
-        "loan_flood_nfip_map_panel_identifier": "D1C8",
+        SetLoanDataPayload.LOCK_TYPE_ID: 123,
+        SetLoanDataPayload.FLOOD_ZONE: True,
+        SetLoanDataPayload.FLOOD_NFIP_COMMUNITY_NAME: "Rio Grande",
+        SetLoanDataPayload.LOAN_FLOOD_NFIP_COMMUNITY_IDENTIFIER: "nfip1",
+        SetLoanDataPayload.LOAN_FLOOD_NFIP_MAP_PANEL_IDENTIFIER: "D1C8"
     }
 
-    obj = SetLoanDataRequest(session_id=123456, nonce=123245687, loan_number_ids=986532147, **args)
+    obj = SetLoanDataRequest(loan_number_id=986532147, payload_dict=None, session_id=123456, nonce=123245687, pretty_print=False, **args)
     print(f"PAYLOAD: {pprint.pformat(obj.payload)}")
+
+    print("\nTesting SetLoanDataRequest - payload_dict")
+    obj_args = SetLoanDataRequest(loan_number_id=986532147, vendor_name="test_vendor", payload_dict=obj.payload,
+                                              pretty_print=False, session_id=123456, nonce=123245687)
+    print(f"PAYLOAD: {pprint.pformat(obj_args.payload)}")

@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 
 from base.responses.base_response import BaseResponse
 
@@ -20,5 +20,5 @@ class MIDetailsKeys:
 
 
 class MIDetails(BaseResponse):
-    _ADD_KEYS = list(getattr(MIDetailsInfoKeys, _) for _ in MIDetailsInfoKeys.__annotations__)
-    _SUB_MODELS = [None for _ in range(len(_ADD_KEYS))]
+    _ADD_KEYS = [field.default for field in fields(MIDetailsInfoKeys)]
+    _SUB_MODELS = [None for _ in _ADD_KEYS]
