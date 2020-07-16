@@ -3,6 +3,7 @@ from enum import Enum
 
 from APIs.loans.requests.set_loan_servicing_data import SetLoanServicingDataRequest
 from APIs.loans.responses.get_loan_mi_detail import GetLoanMIDetailsResponse
+from APIs.loans.responses.set_loan_servicing_data import SetLoanServicingDataResponse
 
 from base.clients.base_client import BaseClient
 from base.common.models.request import SimpleRequestModel
@@ -208,12 +209,11 @@ class LoanClient(BaseClient):
 
         return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_RATE_QUOTE_DETAILS,
                              response_model=SetLoanQuoteRateDetailsResponse,
-                             params=request_model.as_params_dict, data=request_model.payload)
+                             params=request_model.as_params_dict, headers=self.json_headers, data=request_model.payload)
 
 
     def set_loan_servicing_data(self, loan_number_id, payload_dict=None, session_id=None, nonce=None, pretty_print=False, **kwargs):
-        # For valid arguments, use lowercase name of attributes listed in API.loans.request.set_loan.SetLoanDataPayload
-
+        #TODO: add tests
         request_model = SetLoanServicingDataRequest(loan_number_id=loan_number_id, payload_dict=payload_dict,
                                            session_id=self._get_session_id(session_id),
                                            nonce=self._get_nonce(nonce), pretty_print=pretty_print, **kwargs)
