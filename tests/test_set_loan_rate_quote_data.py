@@ -6,7 +6,7 @@ from base.common.models.request import DataKeys
 from base.mocks.mock_requests import MockRequests
 
 from APIs.loans.client import LoanClient
-from APIs.loans.requests.set_loan_rate_quote_data import SetLoanRateQuoteDataPayload, SetLoanQuoteRateDetailsRequest
+from APIs.loans.requests.set_loan_rate_quote_details import SetLoanRateQuoteDataPayload, SetLoanRateQuoteDetailsRequest
 from tests.common.common_request_utils import RequestValidationTools
 from tests.common.common_response_args import CommonResponseValidations, response_args
 
@@ -40,7 +40,7 @@ def _build_payload(args_dict: typing.Dict[str, typing.Any]) -> typing.Dict[
     :param args_dict: Dictionary of the payload data arguments
     :return: Dict of lists of key/value dicts (data)
     """
-    return {SetLoanQuoteRateDetailsRequest.REQUEST_PAYLOAD_KEY:
+    return {SetLoanRateQuoteDetailsRequest.REQUEST_PAYLOAD_KEY:
                 [{DataKeys.FIELD_NAME: getattr(SetLoanRateQuoteDataPayload, key.upper()),
                   DataKeys.FIELD_VALUE: value} for key, value in args_dict.items()]}
 

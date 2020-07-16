@@ -29,7 +29,7 @@ from APIs.loans.requests.set_anti_steering_data import SetAntiSteeringDataReques
 from APIs.loans.requests.set_loan_data import SetLoanDataRequest
 from APIs.loans.requests.set_loan_hmda import SetLoanHMDARequest
 from APIs.loans.requests.set_loan_license_details import SetLoanLicenseDataRequest
-from APIs.loans.requests.set_loan_rate_quote_data import SetLoanQuoteRateDetailsRequest
+from APIs.loans.requests.set_loan_rate_quote_details import SetLoanRateQuoteDetailsRequest
 
 
 class ImportFromFileFileTypes(Enum):
@@ -202,10 +202,10 @@ class LoanClient(BaseClient):
 
     def set_loan_rate_quote_details(self, loan_number_id, vendor_name, payload_dict=None,
                                     session_id=None, nonce=None, pretty_print=False, **kwargs):
-        request_model = SetLoanQuoteRateDetailsRequest(loan_number_id=loan_number_id,
-                                            vendor_name=vendor_name, payload_dict=payload_dict,
-                                            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
-                                                pretty_print=pretty_print, **kwargs)
+        request_model = SetLoanRateQuoteDetailsRequest(loan_number_id=loan_number_id,
+                                                       vendor_name=vendor_name, payload_dict=payload_dict,
+                                                       session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+                                                       pretty_print=pretty_print, **kwargs)
 
         return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_RATE_QUOTE_DETAILS,
                              response_model=SetLoanQuoteRateDetailsResponse,

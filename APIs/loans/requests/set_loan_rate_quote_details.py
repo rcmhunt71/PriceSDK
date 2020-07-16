@@ -20,12 +20,12 @@ class SetLoanRateQuoteDataPayload:
 
 
 @dataclass
-class SetLoanQuoteRateDataRequestKeys(BaseRequestModelKeys):
+class SetLoanRateQuoteDataRequestKeys(BaseRequestModelKeys):
     LOAN_NUMBER_ID: str = "LoanNumberID"
     VENDOR_NAME: str = "VendorName"
 
 
-class SetLoanQuoteRateDetailsRequest(KwargsRequestModel):
+class SetLoanRateQuoteDetailsRequest(KwargsRequestModel):
     data_payload = SetLoanRateQuoteDataPayload
     REQUEST_PAYLOAD_KEY: str = "LoanRateQuoteDetails"
 
@@ -37,8 +37,8 @@ class SetLoanQuoteRateDetailsRequest(KwargsRequestModel):
     def to_params(self) -> typing.Dict[str, typing.Any]:
         args = super().to_params()
         args.update({
-            SetLoanQuoteRateDataRequestKeys.LOAN_NUMBER_ID: self.loan_number_id,
-            SetLoanQuoteRateDataRequestKeys.VENDOR_NAME: self.vendor_name
+            SetLoanRateQuoteDataRequestKeys.LOAN_NUMBER_ID: self.loan_number_id,
+            SetLoanRateQuoteDataRequestKeys.VENDOR_NAME: self.vendor_name
         })
         return args
 
@@ -53,17 +53,17 @@ if __name__ == "__main__":
     }
 
     def _build_payload(data_dict):
-        primary_key = SetLoanQuoteRateDetailsRequest.REQUEST_PAYLOAD_KEY
+        primary_key = SetLoanRateQuoteDetailsRequest.REQUEST_PAYLOAD_KEY
         payload_list = [{DataKeys.FIELD_NAME: key,
                          DataKeys.FIELD_VALUE: value} for key, value in args.items()]
         return {primary_key: payload_list}
 
-    print("Testing SetLoanQuoteRateDetailsRequest - payload_dict()")
-    obj_payload = SetLoanQuoteRateDetailsRequest(loan_number_id=986532147, vendor_name="test_vendor", payload_dict=_build_payload(args),
+    print("Testing SetLoanRateQuoteDetailsRequest - payload_dict()")
+    obj_payload = SetLoanRateQuoteDetailsRequest(loan_number_id=986532147, vendor_name="test_vendor", payload_dict=_build_payload(args),
                                                  pretty_print=False, session_id=123456, nonce=123245687)
     print(f"PAYLOAD: {pprint.pformat(obj_payload.payload)}")
 
-    print("Testing SetLoanQuoteRateDetailsRequest - kwargs")
-    obj_args = SetLoanQuoteRateDetailsRequest(loan_number_id=986532147, vendor_name="test_vendor", payload_dict=None,
+    print("Testing SetLoanRateQuoteDetailsRequest - kwargs")
+    obj_args = SetLoanRateQuoteDetailsRequest(loan_number_id=986532147, vendor_name="test_vendor", payload_dict=None,
                                               pretty_print=False, session_id=123456, nonce=123245687, **args)
     print(f"PAYLOAD: {pprint.pformat(obj_args.payload)}")
