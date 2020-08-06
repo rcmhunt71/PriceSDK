@@ -5,7 +5,7 @@ from base.common.models.request import BaseRequestModelKeys, KwargsRequestModel
 
 
 @dataclass
-class SetLoanLicenseDataParams:
+class SetLoanLicenseDetailsRequestParams:
     DATA_FROM: str = "DataFrom"
     LICENSE_ID: str = "LicenseID"
     LICENSE_NAME: str = "LicenseName"
@@ -21,7 +21,7 @@ class SetLoanLicenseDataRequestKeys(BaseRequestModelKeys):
 
 
 class SetLoanLicenseDataRequest(KwargsRequestModel):
-    data_payload = SetLoanLicenseDataParams
+    data_payload = SetLoanLicenseDetailsRequestParams
     REQUEST_PAYLOAD_KEY = None
 
     def __init__(self, loan_number_id, session_id, nonce, pretty_print, **kwargs):
@@ -36,7 +36,7 @@ class SetLoanLicenseDataRequest(KwargsRequestModel):
         args[SetLoanLicenseDataRequestKeys.LOAN_NUMBER_ID] = self.loan_number_id
 
         args.update(
-            dict([(getattr(SetLoanLicenseDataParams, key.upper()), getattr(self, key)) for key in self.attr_list])
+            dict([(getattr(SetLoanLicenseDetailsRequestParams, key.upper()), getattr(self, key)) for key in self.attr_list])
         )
         return args
 

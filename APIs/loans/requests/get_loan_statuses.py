@@ -4,7 +4,7 @@ from base.common.models.request import BaseRequestModelKeys, SimpleRequestModel
 
 
 @dataclass
-class GetLoanStatusesParams(BaseRequestModelKeys):
+class GetLoanStatusesRequestParams(BaseRequestModelKeys):
     LOAN_NUMBER_IDS: str = "LoanNumberIDs"
 
 
@@ -15,5 +15,5 @@ class GetLoanStatusesRequest(SimpleRequestModel):
 
     def to_params(self):
         args = super().to_params()
-        args[GetLoanStatusesParams.LOAN_NUMBER_IDS] = self.loan_number_ids
+        args[GetLoanStatusesRequestParams.LOAN_NUMBER_IDS] = self.loan_number_ids
         return args

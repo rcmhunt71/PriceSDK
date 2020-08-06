@@ -8,7 +8,7 @@ from APIs.loans.client import LoanClient
 from APIs.loans.models.license_data import License, LicenseInfoKeys, Licenses, LicenseDataKeys
 from APIs.loans.requests.get_loan_license_data import UnknownDataFromTypeException, LoanLicenseDataFrom
 from APIs.loans.responses.get_loan_license_data import GetLoanLicenseDataResponse
-from APIs.loans.requests.set_loan_license_details import SetLoanLicenseDataParams
+from APIs.loans.requests.set_loan_license_details import SetLoanLicenseDetailsRequestParams
 
 from logger.logging import Logger
 from tests.common.common_response_args import CommonResponseValidations, response_args
@@ -151,7 +151,7 @@ class TestLoanLicenseClient(unittest.TestCase, CommonResponseValidations):
             session_id=SESSION_ID, nonce=NONCE, loan_number_id=LOAN_NUMEBER_ID, **params)
         self._validate_response(model=response_model, model_data=license_args)
 
-        param_str = "&".join([f"{getattr(SetLoanLicenseDataParams, key.upper())}={value}" for key, value
+        param_str = "&".join([f"{getattr(SetLoanLicenseDetailsRequestParams, key.upper())}={value}" for key, value
                               in params.items()])
         self.assertIn(param_str, response_model.response.params)
 

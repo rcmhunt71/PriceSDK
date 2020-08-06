@@ -40,7 +40,7 @@ class TestSetAntiSteeringDataClient(unittest.TestCase, CommonResponseValidations
 
         # Make and validate client call
         response_model = client.set_anti_steering_data(session_id="123456789", nonce="DEADBEEF15DECEA5ED", rate=RATE,
-                                                       loan_number_ids="12345679", base_loan_amount=BASE_LOAN_AMOUNT,
+                                                       loan_number_id="12345679", base_loan_amount=BASE_LOAN_AMOUNT,
                                                        other_financing=OTHER_FINANCING)
 
         # Validation
@@ -58,7 +58,7 @@ class TestSetAntiSteeringDataClient(unittest.TestCase, CommonResponseValidations
 
         # Make and validate client call
         response_model = client.set_anti_steering_data(session_id="123456789", nonce="DEADBEEF15DECEA5ED", rate=RATE,
-                                                       loan_number_ids="12345679", payload_dict=prebuilt_payload)
+                                                       loan_number_id="12345679", payload_dict=prebuilt_payload)
 
         # Validation
         self.validate_payload(expected_dict=prebuilt_payload, actual_dict=client.payload)

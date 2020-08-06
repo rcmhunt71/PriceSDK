@@ -20,7 +20,7 @@ class SetLoanRateQuoteDataPayload:
 
 
 @dataclass
-class SetLoanRateQuoteDataRequestKeys(BaseRequestModelKeys):
+class SetLoanRateQuoteDetailRequestParams(BaseRequestModelKeys):
     LOAN_NUMBER_ID: str = "LoanNumberID"
     VENDOR_NAME: str = "VendorName"
 
@@ -37,8 +37,8 @@ class SetLoanRateQuoteDetailsRequest(KwargsRequestModel):
     def to_params(self) -> typing.Dict[str, typing.Any]:
         args = super().to_params()
         args.update({
-            SetLoanRateQuoteDataRequestKeys.LOAN_NUMBER_ID: self.loan_number_id,
-            SetLoanRateQuoteDataRequestKeys.VENDOR_NAME: self.vendor_name
+            SetLoanRateQuoteDetailRequestParams.LOAN_NUMBER_ID: self.loan_number_id,
+            SetLoanRateQuoteDetailRequestParams.VENDOR_NAME: self.vendor_name
         })
         return args
 
