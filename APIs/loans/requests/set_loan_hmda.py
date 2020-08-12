@@ -5,7 +5,7 @@ from base.common.models.request import BaseRequestModelKeys, KwargsRequestModel
 
 
 @dataclass
-class SetLoanHMDARequestKeys(BaseRequestModelKeys):
+class SetLoanHMDARequestParams(BaseRequestModelKeys):
     LOAN_NUMBER_ID: str = "LoanNumberID"
 
 
@@ -39,7 +39,7 @@ class SetLoanHMDARequest(KwargsRequestModel):
 
     def to_params(self) -> typing.Dict[str, typing.Any]:
         args = super().to_params()
-        args[SetLoanHMDARequestKeys.LOAN_NUMBER_ID] = self.loan_number_id
+        args[SetLoanHMDARequestParams.LOAN_NUMBER_ID] = self.loan_number_id
         return args
 
 

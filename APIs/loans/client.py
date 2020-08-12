@@ -190,7 +190,7 @@ class LoanClient(BaseClient):
 
     def set_loan_license_data(self, loan_number_id=None, session_id=None, nonce=None, pretty_print=False, **kwargs):
         # For valid arguments, use lowercase name of attributes listed in
-        # API.loans.request.set_loan_license_data.SetLoanLicenseDataParams, provide via kwargs
+        # API.loans.request.set_loan_license_data.SetLoanLicenseDetailsRequestParams, provide via kwargs
 
         request_model = SetLoanLicenseDataRequest(loan_number_id=loan_number_id,
                                     session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),

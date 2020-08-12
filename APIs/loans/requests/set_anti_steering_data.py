@@ -5,7 +5,7 @@ from base.common.models.request import BaseRequestModel, BaseRequestModelKeys
 
 
 @dataclass
-class SetAntiSteeringDataKeys(BaseRequestModelKeys):
+class SetAntiSteeringRequestParams(BaseRequestModelKeys):
     ANTI_STEERING_DATA: str = "AntiSteeringData"
     LOAN_NUMBER_ID: str = "LoanNumberID"
 
@@ -42,7 +42,7 @@ class SetAntiSteeringDataRequest(BaseRequestModel):
 
     def to_params(self) -> typing.Dict[str, typing.Any]:
         args = super().to_params()
-        args[SetAntiSteeringDataKeys.LOAN_NUMBER_ID] = self.loan_number_id
+        args[SetAntiSteeringRequestParams.LOAN_NUMBER_ID] = self.loan_number_id
         return args
 
     def build_payload(self) -> typing.Dict[str, typing.Any]:
