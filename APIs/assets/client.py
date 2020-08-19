@@ -12,43 +12,11 @@ from APIs.assets.requests.get_assets import GetAssetsRequest
 from APIs.assets.requests.set_assets import SetAssetsRequest
 from APIs.assets.responses.add_automobile import AddAutomobileResponse
 from APIs.assets.responses.get_assets import GetAssetsResponse
-from APIs.loans.requests.set_loan_servicing_data import SetLoanServicingDataRequest
-from APIs.loans.responses.get_loan_mi_detail import GetLoanMIDetailsResponse
-from APIs.loans.responses.set_loan_servicing_data import SetLoanServicingDataResponse
 
 from base.clients.base_client import BaseClient
-from base.common.models.request import SimpleRequestModel
-
-from APIs.loans.responses.add_loan import AddALoanResponse, ImportFromFileResponse, ImportFromFileWithDateResponse
-from APIs.loans.responses.get_loan import GetLoanResponse, GetLoanDetailResponse
-from APIs.loans.responses.get_final_value_tags import GetFinalValueTagsResponse
-from APIs.loans.responses.get_loan_license_data import GetLoanLicenseDataResponse
-from APIs.loans.responses.get_loan_rate_quote_details import GetLoanRateQuoteDetailsResponse
-from APIs.loans.responses.get_loan_statuses import GetLoanStatusesResponse
-from APIs.loans.responses.set_anti_steering_data import SetAntiSteeringDataResponse
 from APIs.loans.responses.set_loan_data import SetLoanDataResponse
 from APIs.loans.responses.set_loan_hdma import SetLoanHMDAResponse
-from APIs.loans.responses.set_loan_license_data import SetLoanLicenseDataResponse
-from APIs.loans.responses.set_loan_rate_quote_details import SetLoanQuoteRateDetailsResponse
-
-from APIs.loans.requests.add_loan import ImportFromFileRequest, ImportFromFileWithDateRequest
-from APIs.loans.requests.get_loan import GetLoanRequest, GetLoanDetailRequest, GetFinalValueTagsRequest, \
-    GetLoanRateQuoteDetailsRequest, GetLoanMIDetailRequest
-from APIs.loans.requests.get_loan_license_data import GetLoanLicenseDataRequest
-from APIs.loans.requests.get_loan_statuses import GetLoanStatusesRequest
-from APIs.loans.requests.set_anti_steering_data import SetAntiSteeringDataRequest
-from APIs.loans.requests.set_loan_data import SetLoanDataRequest
 from APIs.loans.requests.set_loan_hmda import SetLoanHMDARequest
-from APIs.loans.requests.set_loan_license_details import SetLoanLicenseDataRequest
-from APIs.loans.requests.set_loan_rate_quote_details import SetLoanRateQuoteDetailsRequest
-
-
-class ImportFromFileFileTypes(Enum):
-    LOSFILE = 0
-    FANNIE_MAE = 1
-    MISMO_AUS = 2
-    IHM = 3
-    MISMO_NYLX = 4
 
 
 @dataclass
