@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from enum import Enum
 
+from APIs.property.requests.add_property import AddPropertyRequest
+from APIs.property.responses.add_property import AddPropertyResponse
 from APIs.property.responses.get_property_liens import GetPropertyLiensResponse
 
 from APIs.property.requests.get_properties import GetPropertiesRequest, GetPropertyLiensRequest, \
@@ -50,7 +52,8 @@ class PropertiesClient(BaseClient):
                         params=request_model.as_params_dict)
 
 
-    def is_present_address_and_subject_property_linked(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
+    def is_present_address_and_subject_property_linked(self, loan_number_id,
+                                                       session_id=None, nonce=None, pretty_print=False):
         request_model = IsPresentAddressAndSubjectPropertyLinkedRequest(loan_number_id=loan_number_id,
                                          session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
                                          pretty_print=pretty_print)
@@ -58,10 +61,16 @@ class PropertiesClient(BaseClient):
         return self.get(resource_endpoint=ApiEndpoints.IS_PRESENT_ADDRESS_AND_SUBJECT_PROPERTY_LINKED,
                         response_model=IsPresentAddressAndSubjectPropertyLinkedResponse, params=request_model.as_params_dict)
 
-    # GET
-    # is_present_address_and_subject_property_linked
-    # POST
-    # add_property
+
+    def add_property(self, loan_number_id, customer_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = AddPropertyRequest(loan_number_id=loan_number_id, customer_id=customer_id,
+                                           session_id=self._get_session_id(session_id),
+                                           nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.ADD_PROPERTY, response_model=AddPropertyResponse,
+                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)
+
+
     # POST
     # add_property_lien
     # POST

@@ -9,15 +9,15 @@ class PropertyLiensKeys:
 
 @dataclass
 class PropertyLienKeys:
-    CUSTOMERID: str = 'CustomerID'
-    PROPERTYLIENID: str = 'PropertyLienID'
-    PROPERTYID: str = 'PropertyID'
-    INSTITUTIONID: str = 'InstitutionID'
-    ACCOUNTNUMBER: str = 'AccountNumber'
+    CUSTOMER_ID: str = 'CustomerID'
+    PROPERTY_LIEN_ID: str = 'PropertyLienID'
+    PROPERTY_ID: str = 'PropertyID'
+    INSTITUTION_ID: str = 'InstitutionID'
+    ACCOUNT_NUMBER: str = 'AccountNumber'
     BALANCE: str = 'Balance'
     PAYMENT: str = 'Payment'
     TERM: str = 'Term'
-    TOBEPAIDOFF: str = 'ToBePaidOff'
+    TO_BE_PAID_OFF: str = 'ToBePaidOff'
 
 
 class PropertyLien(BaseResponse):
