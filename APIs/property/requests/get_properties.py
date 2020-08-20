@@ -21,3 +21,14 @@ class GetPropertiesRequest(SimpleRequestModel):
 
 class GetPropertyLiensRequest(GetPropertiesRequest):
     pass
+
+class IsPresentAddressAndSubjectPropertyLinkedRequest(GetPropertiesRequest):
+    pass
+
+
+
+if __name__ == "__main__":
+    import pprint
+
+    obj = GetPropertiesRequest(loan_number_id=10000001, session_id=123456, nonce=123245687, pretty_print=False)
+    print(f"\nPARAMS: {pprint.pformat(obj.as_json)}")

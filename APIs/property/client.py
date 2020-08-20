@@ -1,8 +1,13 @@
 from dataclasses import dataclass
 from enum import Enum
 
-from APIs.property.requests.get_properties import GetPropertiesRequest, GetPropertyLiensRequest
+from APIs.property.responses.get_property_liens import GetPropertyLiensResponse
+
+from APIs.property.requests.get_properties import GetPropertiesRequest, GetPropertyLiensRequest, \
+    IsPresentAddressAndSubjectPropertyLinkedRequest
 from APIs.property.responses.get_properties import GetPropertiesResponse
+from APIs.property.responses.is_present_address_and_subject_property_linked import \
+    IsPresentAddressAndSubjectPropertyLinkedResponse
 from base.clients.base_client import BaseClient
 
 
@@ -44,7 +49,15 @@ class PropertiesClient(BaseClient):
         return self.get(resource_endpoint=ApiEndpoints.GET_PROPERTY_LIENS, response_model=GetPropertyLiensResponse,
                         params=request_model.as_params_dict)
 
-    
+
+    def is_present_address_and_subject_property_linked(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = IsPresentAddressAndSubjectPropertyLinkedRequest(loan_number_id=loan_number_id,
+                                         session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+                                         pretty_print=pretty_print)
+
+        return self.get(resource_endpoint=ApiEndpoints.IS_PRESENT_ADDRESS_AND_SUBJECT_PROPERTY_LINKED,
+                        response_model=IsPresentAddressAndSubjectPropertyLinkedResponse, params=request_model.as_params_dict)
+
     # GET
     # is_present_address_and_subject_property_linked
     # POST
