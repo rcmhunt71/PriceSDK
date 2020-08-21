@@ -5,7 +5,7 @@ from APIs.assets.models.asset import AssetKeys, Asset
 from APIs.assets.models.assets import AssetsKeys, Assets
 from APIs.assets.models.automobile import AutomobileKeys
 from APIs.assets.responses.add_automobile import AddAutomobileResponse
-from APIs.assets.responses.get_assets import AssetsResponse
+from APIs.assets.responses.get_assets import GetAssetsResponse
 from logger.logging import Logger
 from tests.common.common_response_args import CommonResponseValidations, response_args
 
@@ -53,7 +53,7 @@ class TestAssets(unittest.TestCase, CommonResponseValidations):
     def test_assets_response(self):
         assets_args = response_args.copy()
         assets_args[AssetsKeys.ASSETS] = assets_list
-        assets_list_resp = AssetsResponse(**assets_args)
+        assets_list_resp = GetAssetsResponse(**assets_args)
 
         self._verify(
             descript=f"{assets_list_resp}: Has {AssetsKeys.ASSETS}",
