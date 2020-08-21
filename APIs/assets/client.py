@@ -92,13 +92,13 @@ class AssetsClient(BaseClient):
         return self.post(resource_endpoint=ApiEndpoints.SET_ASSETS, response_model=SetAssetsResponse,
                         params=request_model.as_params_dict, data=request_model.payload)
 
-    def delete_automobile(self, loan_number_id=None,
-                      session_id=None, nonce=None, pretty_print=False, **kwargs):
+    def delete_automobile(self, loan_number_id=None, customer_id=None, asset_id=None,
+                      session_id=None, nonce=None, pretty_print=False):
         # For valid arguments, use lowercase name of attributes listed in API.loans.request.set_loan_hdma.SetLoanHMDAPayload
 
-        request_model = DeleteAutomobileRequest(loan_number_id=loan_number_id,
+        request_model = DeleteAutomobileRequest(loan_number_id=loan_number_id, customer_id=customer_id, asset_id=asset_id,
                                            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
-                                           pretty_print=pretty_print, **kwargs)
+                                           pretty_print=pretty_print)
 
         return self.post(resource_endpoint=ApiEndpoints.DELETE_AUTOMOBILE, response_model=DeleteAutomobileResponse,
                          params=request_model.as_params_dict, data=request_model.payload)
