@@ -1,8 +1,14 @@
 from dataclasses import dataclass
 from enum import Enum
 
+from APIs.properties.requests.delete_property_lien import DeletePropertyLienRequest
+from base.common.response import CommonResponse
+
 from APIs.properties.requests.add_property import AddPropertyRequest
+from APIs.properties.requests.add_property_lien import AddPropertyLienRequest
+from APIs.properties.requests.delete_property import DeletePropertyRequest
 from APIs.properties.responses.add_property import AddPropertyResponse
+from APIs.properties.responses.add_property_lien import AddPropertyLienResponse
 from APIs.properties.responses.get_property_liens import GetPropertyLiensResponse
 
 from APIs.properties.requests.get_properties import GetPropertiesRequest, GetPropertyLiensRequest, \
@@ -68,15 +74,36 @@ class PropertiesClient(BaseClient):
                                            nonce=self._get_nonce(nonce), pretty_print=pretty_print)
 
         return self.post(resource_endpoint=ApiEndpoints.ADD_PROPERTY, response_model=AddPropertyResponse,
-                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)
+                         params=request_model.as_params_dict, data=request_model.payload)
 
 
-    # POST
-    # add_property_lien
-    # POST
-    # delete_property
-    # POST
-    # delete_property_lien
+    def add_property_lien(self, loan_number_id, customer_id, property_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = AddPropertyLienRequest(loan_number_id=loan_number_id, customer_id=customer_id,
+                                           property_id=property_id, session_id=self._get_session_id(session_id),
+                                           nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.ADD_PROPERTY_LIEN, response_model=AddPropertyLienResponse,
+                         params=request_model.as_params_dict, data=request_model.payload)
+
+
+    def delete_property(self, loan_number_id, customer_id, property_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = DeletePropertyRequest(loan_number_id=loan_number_id, customer_id=customer_id,
+                                           property_id=property_id, session_id=self._get_session_id(session_id),
+                                           nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.DELETE_PROPERTY, response_model=CommonResponse,
+                         params=request_model.as_params_dict, data=request_model.payload)
+
+
+    def delete_property_lien(self, loan_number_id, customer_id, property_id, property_lien_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = DeletePropertyLienRequest(loan_number_id=loan_number_id, customer_id=customer_id,
+                                           property_id=property_id, property_lien_id=property_lien_id,
+                                           session_id=self._get_session_id(session_id),
+                                           nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.DELETE_PROPERTY_LIEN, response_model=CommonResponse,
+                         params=request_model.as_params_dict, data=request_model.payload)
+
     # POST
     # link_or_unlink_present_address_and_subject_property
     # POST
