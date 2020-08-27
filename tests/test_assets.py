@@ -1,8 +1,7 @@
 import unittest
 from random import randrange, choice
 
-from APIs.assets.models.asset import AssetKeys, Asset
-from APIs.assets.models.assets import AssetsKeys, Assets
+from APIs.assets.models.assets import AssetsKeys, Assets, AssetInfoKeys, Asset
 from APIs.assets.models.automobile import AutomobileKeys
 from APIs.assets.responses.add_automobile import AddAutomobileResponse
 from APIs.assets.responses.get_assets import GetAssetsResponse
@@ -22,18 +21,18 @@ number_of_assets = 3
 
 def build_asset():
     return {
-        AssetKeys.CUSTOMER_ID: randrange(999999),
-        AssetKeys.ASSET_ID: f"A-{randrange(999999)}",
-        AssetKeys.ASSET_NAME: f"TestAsset_{randrange(9)}",
-        AssetKeys.ASSET_TYPE: "Test",
-        AssetKeys.MARKET_VALUE: f"{randrange(99999)}",
-        AssetKeys.FIX_DESCRIPTION: "Broken",
-        AssetKeys.INSURANCE_FACE_VALUE: f"{randrange(99999)}",
-        AssetKeys.VERIFY: choice(booleans),
-        AssetKeys.VERIFY_DATE: f"{randrange(1990, 2019)}{randrange(1,12):02}{randrange(1,28):02}",
-        AssetKeys.BOTH: choice(booleans),
-        AssetKeys.LIQUID: choice(booleans),
-        AssetKeys.RETIREMENT_FUND_DETAIL: "{0}-{0}-{0}".format(choice(details))}
+        AssetInfoKeys.CUSTOMER_ID: randrange(999999),
+        AssetInfoKeys.ASSET_ID: f"A-{randrange(999999)}",
+        AssetInfoKeys.ASSET_NAME: f"TestAsset_{randrange(9)}",
+        AssetInfoKeys.ASSET_TYPE: "Test",
+        AssetInfoKeys.MARKET_VALUE: f"{randrange(99999)}",
+        AssetInfoKeys.FIX_DESCRIPTION: "Broken",
+        AssetInfoKeys.INSURANCE_FACE_VALUE: f"{randrange(99999)}",
+        AssetInfoKeys.VERIFY: choice(booleans),
+        AssetInfoKeys.VERIFY_DATE: f"{randrange(1990, 2019)}{randrange(1,12):02}{randrange(1,28):02}",
+        AssetInfoKeys.BOTH: choice(booleans),
+        AssetInfoKeys.LIQUID: choice(booleans),
+        AssetInfoKeys.RETIREMENT_FUND_DETAIL: "{0}-{0}-{0}".format(choice(details))}
 
 
 assets_list = [build_asset() for _ in range(number_of_assets)]
