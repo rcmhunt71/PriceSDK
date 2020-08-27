@@ -1,14 +1,14 @@
 from dataclasses import dataclass
 from enum import Enum
 
-from APIs.property.requests.add_property import AddPropertyRequest
-from APIs.property.responses.add_property import AddPropertyResponse
-from APIs.property.responses.get_property_liens import GetPropertyLiensResponse
+from APIs.properties.requests.add_property import AddPropertyRequest
+from APIs.properties.responses.add_property import AddPropertyResponse
+from APIs.properties.responses.get_property_liens import GetPropertyLiensResponse
 
-from APIs.property.requests.get_properties import GetPropertiesRequest, GetPropertyLiensRequest, \
+from APIs.properties.requests.get_properties import GetPropertiesRequest, GetPropertyLiensRequest, \
     IsPresentAddressAndSubjectPropertyLinkedRequest
-from APIs.property.responses.get_properties import GetPropertiesResponse
-from APIs.property.responses.is_present_address_and_subject_property_linked import \
+from APIs.properties.responses.get_properties import GetPropertiesResponse
+from APIs.properties.responses.is_present_address_and_subject_property_linked import \
     IsPresentAddressAndSubjectPropertyLinkedResponse
 from base.clients.base_client import BaseClient
 

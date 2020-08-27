@@ -149,7 +149,11 @@ class BaseClient:
         log.debug(f"{response_type}: {response.content}")
 
         if response.status_code !=200:
-            return {'status_code': response.status_code, 'error_message': response.text}
+            return {
+                'status_code': response.status_code,
+                'error_message': response.text,
+                'response': response
+            }
         response_content = response.content if type(response.content) is dict else json.loads(response.content)
 
         response_model = response_model_class(**response_content)

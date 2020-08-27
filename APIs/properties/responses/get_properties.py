@@ -1,4 +1,4 @@
-from APIs.property.models.properties import Properties, PropertiesKeys
+from APIs.properties.models.properties import Properties, PropertiesKeys
 from base.common.response import CommonResponse
 
 

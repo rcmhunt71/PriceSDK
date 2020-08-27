@@ -14,9 +14,6 @@ from APIs.assets.responses.add_automobile import AddAutomobileResponse
 from APIs.assets.responses.get_assets import GetAssetsResponse
 
 from base.clients.base_client import BaseClient
-from APIs.loans.responses.set_loan_data import SetLoanDataResponse
-from APIs.loans.responses.set_loan_hdma import SetLoanHMDAResponse
-from APIs.loans.requests.set_loan_hmda import SetLoanHMDARequest
 
 
 @dataclass
@@ -58,7 +55,7 @@ class AssetsClient(BaseClient):
                                            nonce=self._get_nonce(nonce), pretty_print=pretty_print, **kwargs)
 
         return self.post(resource_endpoint=ApiEndpoints.SET_ASSETS, response_model=SetAssetsResponse,
-                        params=request_model.as_params_dict, data=request_model.payload)
+                        params=request_model.as_params_dict, data=request_model.payload, headers=self.json_headers)
 
     def delete_automobile(self, loan_number_id=None, customer_id=None, asset_id=None,
                       session_id=None, nonce=None, pretty_print=False):
