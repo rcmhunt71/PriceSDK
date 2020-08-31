@@ -8,7 +8,7 @@ from APIs.loans.client import LoanClient
 from APIs.loans.models.license_data import License, LicenseInfoKeys, Licenses, LicenseDataKeys
 from APIs.loans.requests.get_loan_license_data import UnknownDataFromTypeException, LoanLicenseDataFrom
 from APIs.loans.responses.get_loan_license_data import GetLoanLicenseDataResponse
-from APIs.loans.requests.set_loan_license_details import SetLoanLicenseDetailsRequestParams
+from APIs.loans.requests.set_loan_license_data import SetLoanLicenseDetailsRequestParams
 
 from logger.logging import Logger
 from tests.common.common_response_args import CommonResponseValidations, response_args

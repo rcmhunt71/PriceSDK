@@ -28,7 +28,7 @@ from APIs.loans.requests.get_loan_statuses import GetLoanStatusesRequest
 from APIs.loans.requests.set_anti_steering_data import SetAntiSteeringDataRequest
 from APIs.loans.requests.set_loan_data import SetLoanDataRequest
 from APIs.loans.requests.set_loan_hmda import SetLoanHMDARequest
-from APIs.loans.requests.set_loan_license_details import SetLoanLicenseDataRequest
+from APIs.loans.requests.set_loan_license_data import SetLoanLicenseDataRequest
 from APIs.loans.requests.set_loan_rate_quote_details import SetLoanRateQuoteDetailsRequest
 
 

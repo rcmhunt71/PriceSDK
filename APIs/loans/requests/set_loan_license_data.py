@@ -1,5 +1,6 @@
 import typing
 from dataclasses import dataclass
+from enum import Enum
 
 from base.common.models.request import BaseRequestModelKeys, KwargsRequestModel
 
@@ -18,6 +19,18 @@ class SetLoanLicenseDetailsRequestParams:
 @dataclass
 class SetLoanLicenseDataRequestKeys(BaseRequestModelKeys):
     LOAN_NUMBER_ID: str = "LoanNumberID"
+
+
+class LoanLicenseType(Enum):
+    BLANK = 0  # Will not set/update value
+    REMOVE_VALUE = 1  # Remove whatever value was before
+    GENERAL = 2
+    FHA = 3
+    VA = 4
+    GENERAL_FHA_VA = 5
+    GENERAL_FHA = 6
+    GENERAL_VA = 7
+    FHA_VA = 8
 
 
 class SetLoanLicenseDataRequest(KwargsRequestModel):
