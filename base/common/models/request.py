@@ -17,6 +17,11 @@ class BaseRequestModelKeys:
 
 
 @dataclass
+class LoanNumberIdRequestModelParams(BaseRequestModelKeys):
+    LOAN_NUMBER_ID: str = "LoanNumberId"
+
+
+@dataclass
 class DataKeys:
     FIELD_NAME: str = "FieldName"
     FIELD_VALUE: str = "FieldValue"
@@ -74,7 +79,7 @@ class KwargsRequestModel(BaseRequestModel):
             # Also record the name of the attribute for more efficient payload generation
             if attr.upper() in valid_keys or os.environ.get('TEST_ENV'):
                 setattr(self, attr.lower(), kwargs[attr])
-                self.attr_list.append(attr.lower())
+                self.attr_list.append(attr)
 
         super().__init__(session_id=session_id, nonce=nonce, payload=payload, pretty_print=pretty_print)
 
@@ -95,3 +100,13 @@ class KwargsRequestModel(BaseRequestModel):
 class SimpleRequestModel(BaseRequestModel):
     def build_payload(self):
         return {}
+
+class LoanNumberIdRequestModel(SimpleRequestModel):
+    def __init__(self, loan_number_id, session_id, nonce, pretty_print):
+        self.loan_number_id = loan_number_id
+        super().__init__(session_id=session_id, nonce=nonce, pretty_print=pretty_print)
+
+    def to_params(self):
+        args = super().to_params()
+        args[LoanNumberIdRequestModelParams.LOAN_NUMBER_ID] = self.loan_number_id
+        return args
