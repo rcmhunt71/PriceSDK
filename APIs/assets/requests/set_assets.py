@@ -38,21 +38,21 @@ class SetAssetsRequest(KwargsRequestModel):
     def build_payload(self) -> Dict[str, List[Dict[Any, Union[List[Dict[str, Any]], Any]]]]:
         payload_dict = {}
 
-        # For all recorded dynamically created attributes, create a dual entry dictionary:
+        # For all fields create a dual entry dictionary:
         # { FIELD_NAME: attr_name, FIELD_VALUE: attr_value }
         for payload_key in self.attr_list:
-            if getattr(self, payload_key, None) is not None:
+            if getattr(self, payload_key.lower(), None) is not None:
 
-                if payload_key == SetAssetsPayload.FIELDS.lower():
+                if payload_key.title() == SetAssetsPayload.FIELDS:
                     fields_list = []
                     for key, value in getattr(self, payload_key).items():
                         fields_list.append(
                             {DataKeys.FIELD_NAME: key,
                              DataKeys.FIELD_VALUE: value})
-                    payload_dict.update({payload_key: fields_list})
+                    payload_dict.update({SetAssetsPayload.FIELDS: fields_list})
                     continue
 
-                payload_dict.update({getattr(self.data_payload, payload_key.upper(), payload_key): getattr(self, payload_key)})
+                payload_dict.update({getattr(self.data_payload, payload_key.upper(), payload_key): getattr(self, payload_key.lower())})
 
         return {self.REQUEST_PAYLOAD_KEY: [payload_dict]}
 
