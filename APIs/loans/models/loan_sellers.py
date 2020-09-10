@@ -1,9 +1,8 @@
 from dataclasses import dataclass, fields
-
 from base.responses.base_response import BaseResponse, BaseListResponse
 
 
-@dataclass()
+@dataclass
 class LoanSellersInfoKeys:
     SELLER_NUMBER: str = "SellerNumber"
     FIRST_NAME: str = "FirstName"
@@ -18,7 +17,7 @@ class LoanSellersInfoKeys:
     PARTIAL_EXEMPTION: str = "PartialExemption"
 
 
-@dataclass()
+@dataclass
 class LoanSellersKeys:
     LOAN_SELLERS: str = "LoanSellers"
 

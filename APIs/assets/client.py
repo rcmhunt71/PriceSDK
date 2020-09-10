@@ -3,10 +3,6 @@ from enum import Enum
 
 from APIs.assets.requests.delete_automobile import DeleteAutomobileRequest
 
-from APIs.assets.responses.delete_automobile import DeleteAutomobileResponse
-
-from APIs.assets.responses.set_assets import SetAssetsResponse
-
 from APIs.assets.requests.add_automobile import AddAutomobileRequest
 from APIs.assets.requests.get_assets import GetAssetsRequest
 from APIs.assets.requests.set_assets import SetAssetsRequest
@@ -14,6 +10,7 @@ from APIs.assets.responses.add_automobile import AddAutomobileResponse
 from APIs.assets.responses.get_assets import GetAssetsResponse
 
 from base.clients.base_client import BaseClient
+from base.common.response import CommonResponse
 
 
 @dataclass
@@ -33,28 +30,28 @@ class AssetsClient(BaseClient):
 
     def get_assets(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
         request_model = GetAssetsRequest(loan_number_id=loan_number_id,
-                                       session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
-                                       pretty_print=pretty_print)
+                                         session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+                                         pretty_print=pretty_print)
 
         return self.get(resource_endpoint=ApiEndpoints.GET_ASSETS, response_model=GetAssetsResponse,
                         params=request_model.as_params_dict)
 
     def add_automobile(self, loan_number_id, customer_id, session_id=None, nonce=None, pretty_print=False):
         request_model = AddAutomobileRequest(loan_number_id=loan_number_id, customer_id=customer_id,
-                                       session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
-                                       pretty_print=pretty_print)
+                                             session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+                                             pretty_print=pretty_print)
         return self.post(resource_endpoint=ApiEndpoints.ADD_AUTOMOBILE, response_model=AddAutomobileResponse,
-                        params=request_model.as_params_dict, data=request_model.payload)
+                         params=request_model.as_params_dict, data=request_model.payload)
 
 
     def set_assets(self, loan_number_id, payload_dict=None, session_id=None, nonce=None, pretty_print=False, **kwargs):
         # For valid arguments, use lowercase name of attributes listed in API.assets.requests.set_assets.SetAssetsRequests
 
         request_model = SetAssetsRequest(loan_number_id=loan_number_id, payload_dict=payload_dict,
-                                           session_id=self._get_session_id(session_id),
-                                           nonce=self._get_nonce(nonce), pretty_print=pretty_print, **kwargs)
+                                         session_id=self._get_session_id(session_id),
+                                         nonce=self._get_nonce(nonce), pretty_print=pretty_print, **kwargs)
 
-        return self.post(resource_endpoint=ApiEndpoints.SET_ASSETS, response_model=SetAssetsResponse,
+        return self.post(resource_endpoint=ApiEndpoints.SET_ASSETS, response_model=CommonResponse,
                         params=request_model.as_params_dict, data=request_model.payload, headers=self.json_headers)
 
     def delete_automobile(self, loan_number_id=None, customer_id=None, asset_id=None,
@@ -65,5 +62,5 @@ class AssetsClient(BaseClient):
                                            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
                                            pretty_print=pretty_print)
 
-        return self.post(resource_endpoint=ApiEndpoints.DELETE_AUTOMOBILE, response_model=DeleteAutomobileResponse,
+        return self.post(resource_endpoint=ApiEndpoints.DELETE_AUTOMOBILE, response_model=CommonResponse,
                          params=request_model.as_params_dict, data=request_model.payload)
