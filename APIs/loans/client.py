@@ -1,6 +1,9 @@
 from dataclasses import dataclass
 from enum import Enum
 
+
+from APIs.loans.requests.set_loan_mi_grid_detail import SetLoanMIGridDetailRequest
+
 from base.clients.base_client import BaseClient
 from base.common.models.request import SimpleRequestModel, LoanNumberIdRequestModel
 from base.common.response import CommonResponse
@@ -56,6 +59,7 @@ class ApiEndpoints:
     SET_LOAN_LICENSE_DATA: str = "set_loan_license_data"
     SET_LOAN_RATE_QUOTE_DETAILS: str = "set_loan_rate_quote_details"
     SET_LOAN_SERVICING_DATA: str = "set_loan_servicing_data"
+    SET_LOAN_MI_GRID_DETAIL: str = "set_loan_mi_grid_detail"
 
 
 class LoanClient(BaseClient):
@@ -225,3 +229,15 @@ class LoanClient(BaseClient):
 
         return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_SERVICING_DATA, response_model=CommonResponse,
                          headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)
+
+
+    def set_loan_mi_grid_detail(self, loan_number_id, payload_dict=None,
+                                    session_id=None, nonce=None, pretty_print=False, **kwargs):
+        request_model = SetLoanMIGridDetailRequest(loan_number_id=loan_number_id,
+                                                       payload_dict=payload_dict,
+                                                       session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+                                                       pretty_print=pretty_print, **kwargs)
+
+        return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_MI_GRID_DETAIL,
+                             response_model=CommonResponse,
+                             params=request_model.as_params_dict, headers=self.json_headers, data=request_model.payload)
