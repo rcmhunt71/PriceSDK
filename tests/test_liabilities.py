@@ -1,10 +1,9 @@
 from random import choice, randrange
 import unittest
 
-from APIs.liability.models.liability import (LiabilitiesKeys, LiabilityEntryKeys, LiabilityEntry,
-                                                   LiabilityEntriesList, AddLiabilityKeys)
-from APIs.liability.responses.get_liabilities import GetLiabilities
-from APIs.liability.responses.add_liability import AddLiability
+from APIs.liabilities.models.liability import LiabilitiesKeys, Liability, LiabilitiesInfoKeys, Liabilities
+from APIs.liabilities.responses.get_liabilities import GetLiabilitiesResponse
+from APIs.liabilities.responses.add_liability import AddLiabilityResponse
 from tests.common.common_response_args import CommonResponseValidations, response_args
 
 liability_types = ["other", "revolving", "HELOC", "auto"]
@@ -16,17 +15,17 @@ NUMBER_OF_LIABILITIES = 15
 
 def build_liability_entry():
     return {
-        LiabilityEntryKeys.LIABILITY_ID: randrange(10),
-        LiabilityEntryKeys.CUSTOMER_ID: randrange(99999999),
-        LiabilityEntryKeys.INSTITUTION_ID: randrange(99999999),
-        LiabilityEntryKeys.LIABILITY_TYPE: choice(liability_types),
-        LiabilityEntryKeys.ACCOUNT_NAME: choice(applicant_names),
-        LiabilityEntryKeys.ACCOUNT_NUMBER: randrange(99999999),
-        LiabilityEntryKeys.BALANCE: randrange(100000),
-        LiabilityEntryKeys.TERM: randrange(60),
-        LiabilityEntryKeys.PAYMENT: randrange(10, 1000),
-        LiabilityEntryKeys.PAYOFF: randrange(100000),
-        LiabilityEntryKeys.TO_BE_PAID_OFF: choice(yes_no)
+        LiabilitiesInfoKeys.LIABILITY_ID: randrange(10),
+        LiabilitiesInfoKeys.CUSTOMER_ID: randrange(99999999),
+        LiabilitiesInfoKeys.INSTITUTION_ID: randrange(99999999),
+        LiabilitiesInfoKeys.LIABILITY_TYPE: choice(liability_types),
+        LiabilitiesInfoKeys.ACCOUNT_NAME: choice(applicant_names),
+        LiabilitiesInfoKeys.ACCOUNT_NUMBER: randrange(99999999),
+        LiabilitiesInfoKeys.BALANCE: randrange(100000),
+        LiabilitiesInfoKeys.TERM: randrange(60),
+        LiabilitiesInfoKeys.PAYMENT: randrange(10, 1000),
+        LiabilitiesInfoKeys.PAYOFF: randrange(100000),
+        LiabilitiesInfoKeys.TO_BE_PAID_OFF: choice(yes_no)
     }
 
 
@@ -37,12 +36,12 @@ def build_liabilities_data():
 class TestLiabilities(unittest.TestCase, CommonResponseValidations):
     def test_liability_entry_model(self):
         data = build_liability_entry()
-        model = LiabilityEntry(**data)
+        model = Liability(**data)
         self._validate_response(model=model, model_data=data)
 
     def test_liabilities_entries_list_model(self):
         data = build_liabilities_data()
-        model = LiabilityEntriesList(*data)
+        model = Liabilities(*data)
 
         self._verify(descript=f"{model.model_name} has the correct number of elements.",
                      actual=len(model), expected=len(data))
@@ -54,7 +53,7 @@ class TestLiabilities(unittest.TestCase, CommonResponseValidations):
         key = LiabilitiesKeys.LIABILITIES
         data = response_args.copy()
         data[key] = build_liabilities_data()
-        response = GetLiabilities(**data)
+        response = GetLiabilitiesResponse(**data)
 
         self._verify(descript=f"{response.model_name} has {key} attribute",
                      actual=hasattr(response, key), expected=True)
@@ -64,8 +63,8 @@ class TestLiabilities(unittest.TestCase, CommonResponseValidations):
 class TestAddLiability(unittest.TestCase, CommonResponseValidations):
     def test_AddLiability_response(self):
         data = response_args.copy()
-        data[AddLiabilityKeys.LIABILITY_ID] = randrange(999999)
-        response = AddLiability(**data)
+        data[LiabilitiesInfoKeys.LIABILITY_ID] = randrange(999999)
+        response = AddLiabilityResponse(**data)
         self._validate_response(model=response, model_data=data)
 
 

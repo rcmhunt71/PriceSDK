@@ -4,7 +4,7 @@ from base.clients.base_client import BaseClient
 from APIs.loans.client import LoanClient
 from APIs.assets.client import AssetsClient
 from APIs.properties.client import PropertiesClient
-
+from APIs.liabilities.client import LiabilitiesClient
 
 class Client(BaseClient):
     def __init__(self, base_url, database, port=None, headers=None):
@@ -13,3 +13,4 @@ class Client(BaseClient):
         self.assets = AssetsClient(client = self)
         self.properties = PropertiesClient(client = self)
         self.deposits = DepositsClient(client=self)
+        self.liabilities = LiabilitiesClient(client = self)
