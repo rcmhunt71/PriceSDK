@@ -1,3 +1,4 @@
+from APIs.deposits.client import DepositsClient
 from base.clients.base_client import BaseClient
 
 from APIs.loans.client import LoanClient
@@ -11,3 +12,4 @@ class Client(BaseClient):
         self.loan = LoanClient(client=self)
         self.assets = AssetsClient(client = self)
         self.properties = PropertiesClient(client = self)
+        self.deposits = DepositsClient(client=self)

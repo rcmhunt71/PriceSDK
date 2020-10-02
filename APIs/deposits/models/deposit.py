@@ -1,15 +1,14 @@
-from dataclasses import dataclass
-
+from dataclasses import dataclass, fields
 from base.responses.base_response import BaseResponse, BaseListResponse
 
 
 @dataclass
-class DepositKeys:
+class DepositsInfoKeys:
     CUSTOMER_ID: str = "CustomerID"
     DEPOSIT_ID: str = "DepositID"
     INSTITUTION_ID: str = "InstitutionID"
     VERIFY: str = "Verify"
-    VERIFY_DATA: str = "VerifyDate"
+    VERIFY_DATE: str = "VerifyDate"
     BOTH: str = "Both"
 
 
@@ -19,8 +18,7 @@ class DepositsKeys:
 
 
 class Deposit(BaseResponse):
-    _ADD_KEYS = [DepositKeys.CUSTOMER_ID, DepositKeys.DEPOSIT_ID, DepositKeys.INSTITUTION_ID, DepositKeys.VERIFY,
-                DepositKeys.VERIFY_DATA, DepositKeys.BOTH]
+    _ADD_KEYS = [field.default for field in fields(DepositsInfoKeys)]
 
 
 class Deposits(BaseListResponse):

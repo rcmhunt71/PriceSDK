@@ -1,15 +1,15 @@
 import unittest
 from random import randrange, choice
 
-from APIs.deposit.models.add_deposit import AddDepositKeys
-from APIs.deposit.models.deposit import DepositKeys, Deposit, DepositsKeys, Deposits
-from APIs.deposit.models.deposit_account import (DepositAccountKeys, DepositAccount,
-                                                 DepositAccounts, DepositAccountsKeys,
-                                                 DepositAccountsFieldsKeys, DepositAccountFieldEntry,
-                                                 DepositAccountFieldList, DepositAccountRequestModel)
-from APIs.deposit.responses.add_deposit import AddDeposit
-from APIs.deposit.responses.get_deposit_accounts import GetDepositAccounts
-from APIs.deposit.responses.get_deposits import GetDeposits
+from APIs.deposits.models.add_deposit import AddDepositKeys
+from APIs.deposits.models.deposit import DepositsInfoKeys, Deposit, DepositsKeys, Deposits
+from APIs.deposits.models.deposit_account import (DepositAccountsInfoKeys, DepositAccount,
+                                                  DepositAccounts, DepositAccountsKeys,
+                                                  DepositAccountsFieldsKeys, DepositAccountFieldEntry,
+                                                  DepositAccountFieldList, DepositAccountRequestModel)
+from APIs.deposits.responses.add_deposit import AddDepositResponse
+from APIs.deposits.responses.get_deposit_accounts import GetDepositAccountsResponse
+from APIs.deposits.responses.get_deposits import GetDepositsResponse
 from tests.common.common_response_args import CommonResponseValidations, response_args
 
 YES_NO = ["Yes", "No"]
@@ -29,21 +29,21 @@ DEPOSIT_ACCOUNT_FIELD_VALUES = {
 
 
 def build_deposit_data_format():
-    return {DepositKeys.CUSTOMER_ID: randrange(4455669985),
-            DepositKeys.DEPOSIT_ID: randrange(1122334455),
-            DepositKeys.INSTITUTION_ID: randrange(5566884423),
-            DepositKeys.VERIFY: choice(YES_NO),
-            DepositKeys.VERIFY_DATA: f"{randrange(9999):04}-{randrange(99):02}-{randrange(99):02}",
-            DepositKeys.BOTH: choice(YES_NO)}
+    return {DepositsInfoKeys.CUSTOMER_ID: randrange(4455669985),
+            DepositsInfoKeys.DEPOSIT_ID: randrange(1122334455),
+            DepositsInfoKeys.INSTITUTION_ID: randrange(5566884423),
+            DepositsInfoKeys.VERIFY: choice(YES_NO),
+            DepositsInfoKeys.VERIFY_DATE: f"{randrange(9999):04}-{randrange(99):02}-{randrange(99):02}",
+            DepositsInfoKeys.BOTH: choice(YES_NO)}
 
 
 def build_deposit_account_format():
-    return {DepositAccountKeys.CUSTOMER_ID: randrange(1122344566),
-            DepositAccountKeys.DEPOSIT_ID: randrange(10),
-            DepositAccountKeys.DEPOSIT_ACCOUNT_ID: randrange(10),
-            DepositAccountKeys.ACCOUNT_TYPE: choice(ACCOUNT_TYPES),
-            DepositAccountKeys.ACCOUNT_NUMBER: "",
-            DepositAccountKeys.BALANCE: randrange(9999999)}
+    return {DepositAccountsInfoKeys.CUSTOMER_ID: randrange(1122344566),
+            DepositAccountsInfoKeys.DEPOSIT_ID: randrange(10),
+            DepositAccountsInfoKeys.DEPOSIT_ACCOUNT_ID: randrange(10),
+            DepositAccountsInfoKeys.ACCOUNT_TYPE: choice(ACCOUNT_TYPES),
+            DepositAccountsInfoKeys.ACCOUNT_NUMBER: "",
+            DepositAccountsInfoKeys.BALANCE: randrange(9999999)}
 
 
 def build_set_deposit_account_fields():
@@ -63,10 +63,10 @@ deposit_account_field_data_list = [build_set_deposit_account_fields() for _ in
 
 def build_deposit_account_data_model():
     return {
-        DepositAccountKeys.CUSTOMER_ID: randrange(99),
-        DepositAccountKeys.DEPOSIT_ID: randrange(999999),
-        DepositAccountKeys.DEPOSIT_ACCOUNT_ID: f"{randrange(99999999):08}",
-        DepositAccountKeys.FIELDS: deposit_account_field_data_list,
+        DepositAccountsInfoKeys.CUSTOMER_ID: randrange(99),
+        DepositAccountsInfoKeys.DEPOSIT_ID: randrange(999999),
+        DepositAccountsInfoKeys.DEPOSIT_ACCOUNT_ID: f"{randrange(99999999):08}",
+        DepositAccountsInfoKeys.FIELDS: deposit_account_field_data_list,
     }
 
 
@@ -89,7 +89,7 @@ class TestDepositAccount(unittest.TestCase, CommonResponseValidations):
 
         dep_args = response_args.copy()
         dep_args[dep_key] = deposit_accounts_data_list
-        dep_accts_resp = GetDepositAccounts(**dep_args)
+        dep_accts_resp = GetDepositAccountsResponse(**dep_args)
 
         self._verify(descript=f"{dep_accts_resp.model_name}: has '{dep_key}' attribute",
                      actual=hasattr(dep_accts_resp, dep_key), expected=True)
@@ -115,7 +115,7 @@ class TestDeposits(unittest.TestCase, CommonResponseValidations):
 
         dep_args = response_args.copy()
         dep_args[dep_key] = deposits_data_list
-        deposits_resp = GetDeposits(**dep_args)
+        deposits_resp = GetDepositsResponse(**dep_args)
 
         self._verify(descript=f"{deposits_resp.model_name}: has '{dep_key}' attribute",
                      actual=hasattr(deposits_resp, dep_key), expected=True)
@@ -127,7 +127,7 @@ class TestAddDeposit(unittest.TestCase, CommonResponseValidations):
         add_deposit_args = response_args.copy()
         add_deposit_args[AddDepositKeys.DEPOSIT_ACCOUNT_ID] = DEPOSIT_ACCOUNT_ID
         add_deposit_args[AddDepositKeys.DEPOSIT_ID] = DEPOSIT_ID
-        add_dep_resp = AddDeposit(**add_deposit_args)
+        add_dep_resp = AddDepositResponse(**add_deposit_args)
 
         self._validate_response(model=add_dep_resp, model_data=add_deposit_args)
 
@@ -152,9 +152,9 @@ class TestSetDepositAccounts(unittest.TestCase, CommonResponseValidations):
         model_data = build_deposit_account_data_model()
         deposit_account_model = DepositAccountRequestModel(**model_data)
         self._verify(descript=f"{deposit_account_model.model_name}: "
-                              f"has correct number of elements in {DepositAccountKeys.FIELDS}.",
-                     actual=len(getattr(deposit_account_model, DepositAccountKeys.FIELDS)),
-                     expected=len(model_data.get(DepositAccountKeys.FIELDS)))
+                              f"has correct number of elements in {DepositAccountsInfoKeys.FIELDS}.",
+                     actual=len(getattr(deposit_account_model, DepositAccountsInfoKeys.FIELDS)),
+                     expected=len(model_data.get(DepositAccountsInfoKeys.FIELDS)))
 
         self._validate_response(model=deposit_account_model, model_data=model_data)
 

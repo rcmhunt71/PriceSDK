@@ -1,10 +1,9 @@
-from dataclasses import dataclass
-
+from dataclasses import dataclass, fields
 from base.responses.base_response import BaseResponse, BaseListResponse
 
 
 @dataclass
-class DepositAccountKeys:
+class DepositAccountsInfoKeys:
     CUSTOMER_ID: str = "CustomerID"
     DEPOSIT_ID: str = "DepositID"
     DEPOSIT_ACCOUNT_ID: str = "DepositAccountID"
@@ -12,6 +11,9 @@ class DepositAccountKeys:
     ACCOUNT_NUMBER: str = "AccountNumber"
     ACCOUNT_NAME: str = "AccountName"
     BALANCE: str = "Balance"
+    GIFT_DEPOSITED:  str = "GiftDeposited"
+    GIFT_SOURCE: str = "GiftSource"
+    GIFT_DEPOSITED_AMOUNT: str = "GiftDepositedAmount"
     FIELDS: str = "Fields"
 
 
@@ -27,11 +29,7 @@ class DepositAccountsFieldsKeys:
 
 
 class DepositAccount(BaseResponse):
-    _ADD_KEYS = [
-        DepositAccountKeys.CUSTOMER_ID, DepositAccountKeys.DEPOSIT_ID, DepositAccountKeys.DEPOSIT_ACCOUNT_ID,
-        DepositAccountKeys.ACCOUNT_TYPE, DepositAccountKeys.ACCOUNT_NUMBER, DepositAccountKeys.ACCOUNT_NAME,
-        DepositAccountKeys.BALANCE]
-    _SUB_MODELS = None
+    _ADD_KEYS = [field.default for field in fields(DepositAccountsInfoKeys)]
 
 
 class DepositAccounts(BaseListResponse):
@@ -39,8 +37,7 @@ class DepositAccounts(BaseListResponse):
 
 
 class DepositAccountFieldEntry(BaseResponse):
-    _ADD_KEYS = [DepositAccountsFieldsKeys.FIELD_NAME, DepositAccountsFieldsKeys.FIELD_VALUE]
-    _SUB_MODELS = None
+    _ADD_KEYS = [field.default for field in fields(DepositAccountsFieldsKeys)]
 
 
 class DepositAccountFieldList(BaseListResponse):
@@ -48,6 +45,6 @@ class DepositAccountFieldList(BaseListResponse):
 
 
 class DepositAccountRequestModel(BaseResponse):
-    _ADD_KEYS = [DepositAccountKeys.CUSTOMER_ID, DepositAccountKeys.DEPOSIT_ID,
-                DepositAccountKeys.DEPOSIT_ACCOUNT_ID, DepositAccountKeys.FIELDS]
+    _ADD_KEYS = [DepositAccountsInfoKeys.CUSTOMER_ID, DepositAccountsInfoKeys.DEPOSIT_ID,
+                 DepositAccountsInfoKeys.DEPOSIT_ACCOUNT_ID, DepositAccountsInfoKeys.FIELDS]
     _SUB_MODELS = [None, None, None, DepositAccountFieldList]
