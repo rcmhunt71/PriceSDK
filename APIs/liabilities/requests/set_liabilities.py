@@ -41,9 +41,6 @@ class SetLiabilitiesRequest(KwargsRequestModel):
 
     def build_payload(self) -> Dict[str, List[Dict[Any, Union[List[Dict[str, Any]], Any]]]]:
         payload_dict = {}
-
-        # For all fields create a dual entry dictionary:
-        # { FIELD_NAME: attr_name, FIELD_VALUE: attr_value }
         for payload_key in self.attr_list:
             if getattr(self, payload_key.lower(), None) is not None:
                 if payload_key.title() == SetLiabilitiesPayload.FIELDS:
@@ -73,10 +70,8 @@ if __name__ == "__main__":
         }
     }
     print(f"KWARGS: {pprint.pformat(kwargs)}")
-
     obj = SetLiabilitiesRequest(loan_number_id=10000001, payload_dict=None, session_id=123456, nonce=123245687, pretty_print=False, **kwargs)
     print(f"\nPAYLOAD: {pprint.pformat(obj.payload)}")
-
     print("\nTesting SetLiabilitiesRequest - payload_dict")
     obj_args = SetLiabilitiesRequest(loan_number_id=986532147, vendor_name="test_vendor", payload_dict=obj.payload,
                                               pretty_print=False, session_id=123456, nonce=123245687)

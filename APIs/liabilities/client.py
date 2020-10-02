@@ -1,7 +1,5 @@
 from dataclasses import dataclass
-
 from base.common.models.request import LoanNumberIdRequestModel
-
 from APIs.liabilities.requests.add_liability import AddLiabilityRequest
 from APIs.liabilities.requests.delete_liability import DeleteLiabilityRequest
 from APIs.liabilities.requests.set_liabilities import SetLiabilitiesRequest

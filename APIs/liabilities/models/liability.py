@@ -1,7 +1,6 @@
 from dataclasses import dataclass, fields
 from base.responses.base_response import BaseResponse, BaseListResponse
 
-
 @dataclass
 class LiabilitiesInfoKeys:
     LIABILITY_ID: str = "LiabilityID"
