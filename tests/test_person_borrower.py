@@ -1,51 +1,39 @@
 from random import choice, randrange
 import unittest
 
-from APIs.person.borrower.models.borrower import Borrower, BorrowerKeys, BorrowerDetailList, BorrowerDetailKeys
-from APIs.person.borrower.models.loan_list import (
-    LoanListHeaderEntryKeys, LoanListHeaderEntry, LoanListHeaderList, LoanListRowValueEntryKeys, LoanListRowValueEntry,
-    LoanListRowValuesList, LoanListRowColValueEntryKeys, LoanListRowCol, LoanListRowColList, LoanListRowsKeys,
-    LoanListHeaderColumnKeys, CustomerLoanListKeys, CustomerLoanList
-)
-from APIs.person.borrower.responses.get_borrower import GetBorrower
-from APIs.person.borrower.responses.get_customers import GetCustomers
-from APIs.person.borrower.responses.get_customer_loan_list import GetCustomerLoanList
-from APIs.person.borrower.responses.set_customer import SetCustomer
-from APIs.person.borrower.models.customers import Customer, CustomerKeys, CustomerList, CustomerListKeys
+from APIs.persons.borrowers.models.borrower import Borrower, BorrowersInfoKeys, Borrowers, BorrowersKeys
+from APIs.persons.borrowers.models.loan_list import CustomerLoanListsInfoKeys,CustomerLoanListsKeys, CustomerLoanList
+from APIs.persons.borrowers.responses.get_borrower import GetBorrowerResponse
+from APIs.persons.borrowers.responses.get_customers import GetCustomersResponse
+from APIs.persons.borrowers.responses.get_customer_loan_list import GetCustomerLoanListResponse
+from APIs.persons.borrowers.models.customer import Customer, CustomersInfoKeys, Customers, CustomersKeys
 from tests.common.common_response_args import CommonResponseValidations, response_args
 
 NUMBER_OF_BORROWERS = 7
 NUMBER_OF_CUSTOMERS = 5
-NUMBER_OF_HEADERS = 4
-NUMBER_OF_ROWS = 10
 
 
 def build_borrower():
     return {
-        BorrowerKeys.PERSON_ID: randrange(9999),
-        BorrowerKeys.FIRST_NAME: choice(["Fred", "John", "Jane", "Jill", "Mortimer", "Frieda"]),
-        BorrowerKeys.LAST_NAME: choice(["Jones", "Smith", "McTavish", "Beaumont", "Humphries", "Katovich"]),
+        BorrowersInfoKeys.PERSON_ID: randrange(9999),
+        BorrowersInfoKeys.FIRST_NAME: choice(["Fred", "John", "Jane", "Jill", "Mortimer", "Frieda"]),
+        BorrowersInfoKeys.LAST_NAME: choice(["Jones", "Smith", "McTavish", "Beaumont", "Humphries", "Katovich"]),
     }
 
 
 def build_customer():
     return {
-        CustomerKeys.CUSTOMER_ID: randrange(999999),
-        CustomerKeys.DECLARE_A: choice(["A", "B", "C", "D", "E"]),
-        CustomerKeys.DECLARE_B: choice(["V", "W", "X", "Y", "Z"]),
+        CustomersInfoKeys.CUSTOMER_ID: randrange(999999),
+        CustomersInfoKeys.DECLARE_A: choice(["A", "B", "C", "D", "E"]),
+        CustomersInfoKeys.DECLARE_B: choice(["V", "W", "X", "Y", "Z"]),
     }
 
 
-def build_loan_list_entry():
+def build_customer_loan_list():
     return {
-        LoanListHeaderEntryKeys.ID: choice(["Loan_Number", "Borrower_Number", "Customer_ID"]),
-        LoanListHeaderEntryKeys.LABEL: choice(["Loan Number", "Borrower Name", "Customer ID"]),
-        LoanListHeaderEntryKeys.TYPE: choice(["number", "string", "UUID", "CTYPE"])
+        CustomerLoanListsInfoKeys.BORROWER_NUMBER: randrange(999999),
+        CustomerLoanListsInfoKeys.CUSTOMER_ID: randrange(10)
     }
-
-
-def build_loan_list_row_entry():
-    return {LoanListRowValueEntryKeys.VALUE: randrange(999999)}
 
 
 class TestPersonBorrower(unittest.TestCase, CommonResponseValidations):
@@ -56,7 +44,7 @@ class TestPersonBorrower(unittest.TestCase, CommonResponseValidations):
 
     def test_borrower_list_model(self):
         data = [build_borrower() for _ in range(NUMBER_OF_BORROWERS)]
-        model = BorrowerDetailList(*data)
+        model = Borrowers(*data)
 
         self._verify(f"{model.model_name}: Verify correct number of elements.",
                      actual=len(model), expected=len(data))
@@ -65,11 +53,11 @@ class TestPersonBorrower(unittest.TestCase, CommonResponseValidations):
             self._validate_response(model=sub_model, model_data=data[index])
 
     def test_GetBorrower_Response(self):
-        key = BorrowerDetailKeys.BORROWER_DETAIL
+        key = BorrowersKeys.BORROWER_DETAIL
 
         data = response_args.copy()
         data[key] = [build_borrower() for _ in range(NUMBER_OF_BORROWERS)]
-        response = GetBorrower(**data)
+        response = GetBorrowerResponse(**data)
 
         self._verify(f"{response.model_name}: Verify response has '{key}' attribute.",
                      actual=hasattr(response, key), expected=True)
@@ -84,7 +72,7 @@ class TestPersonCustomer(unittest.TestCase, CommonResponseValidations):
 
     def test_customer_list(self):
         data = [build_customer() for _ in range(NUMBER_OF_CUSTOMERS)]
-        model = CustomerList(*data)
+        model = Customers(*data)
 
         self._verify(f"{model.model_name}: Verify correct number of elements.",
                      actual=len(model), expected=len(data))
@@ -93,22 +81,10 @@ class TestPersonCustomer(unittest.TestCase, CommonResponseValidations):
             self._validate_response(model=sub_model, model_data=data[index])
 
     def test_GetCustomer_response(self):
-        key = CustomerListKeys.CUSTOMERS
-
+        key = CustomersKeys.CUSTOMERS
         data = response_args.copy()
         data[key] = [build_customer() for _ in range(NUMBER_OF_CUSTOMERS)]
-        response = GetCustomers(**data)
-
-        self._verify(f"{response.model_name}: Verify response has '{key}' attribute.",
-                     actual=hasattr(response, key), expected=True)
-        self._validate_response(model=response, model_data=data)
-
-    def test_SetCustomer_response(self):
-        key = CustomerListKeys.CUSTOMERS
-
-        data = response_args.copy()
-        data[key] = [build_customer() for _ in range(NUMBER_OF_CUSTOMERS)]
-        response = SetCustomer(**data)
+        response = GetCustomersResponse(**data)
 
         self._verify(f"{response.model_name}: Verify response has '{key}' attribute.",
                      actual=hasattr(response, key), expected=True)
@@ -117,71 +93,19 @@ class TestPersonCustomer(unittest.TestCase, CommonResponseValidations):
 
 class TestCustomerLoanList(unittest.TestCase, CommonResponseValidations):
     def test_loan_list_header_entries_model(self):
-        data = build_loan_list_entry()
-        model = LoanListHeaderEntry(**data)
-        self._validate_response(model=model, model_data=data)
-
-    def test_loan_list_header_list_model(self):
-        data = [build_loan_list_entry() for _ in range(NUMBER_OF_HEADERS)]
-        model = LoanListHeaderList(*data)
-
-        self._verify(f"{model.model_name}: Verify correct number of elements.",
-                     actual=len(model), expected=len(data))
-
-        for index, sub_model in enumerate(model):
-            self._validate_response(model=sub_model, model_data=data[index])
-
-    def test_loan_list_row_value_model(self):
-        data = build_loan_list_row_entry()
-        model = LoanListRowValueEntry(**data)
-        self._validate_response(model=model, model_data=data)
-
-    def test_loan_list_row_list_model(self):
-        data = [build_loan_list_row_entry() for _ in range(NUMBER_OF_ROWS)]
-        model = LoanListRowValuesList(*data)
-
-        self._verify(f"{model.model_name}: Verify correct number of elements.",
-                     actual=len(model), expected=len(data))
-
-        for index, sub_model in enumerate(model):
-            self._validate_response(model=sub_model, model_data=data[index])
-
-    def test_loan_list_rew_col_model(self):
-        data = {LoanListRowColValueEntryKeys.COL: [build_loan_list_row_entry() for _ in range(NUMBER_OF_HEADERS)]}
-        model = LoanListRowCol(**data)
-        self._validate_response(model=model, model_data=data)
-
-    def test_loan_list_row_col_list(self):
-        data = [{LoanListRowColValueEntryKeys.COL:
-                     [build_loan_list_row_entry() for _ in range(NUMBER_OF_HEADERS)]} for _ in range(NUMBER_OF_ROWS)]
-        model = LoanListRowColList(*data)
-
-        self._verify(f"{model.model_name}: Verify correct number of elements.",
-                     actual=len(model), expected=len(data))
-
-        for index, sub_model in enumerate(model):
-            self._validate_response(model=sub_model, model_data=data[index])
-
-    def test_customer_loan_list_model(self):
-        header_data = [build_loan_list_entry() for _ in range(NUMBER_OF_HEADERS)]
-        row_data = [{LoanListRowColValueEntryKeys.COL:
-                    [build_loan_list_row_entry() for _ in range(NUMBER_OF_HEADERS)]} for _ in range(NUMBER_OF_ROWS)]
-
-        data = {LoanListHeaderColumnKeys.COLS: header_data,
-                LoanListRowsKeys.ROWS: row_data}
+        data = build_customer_loan_list()
         model = CustomerLoanList(**data)
         self._validate_response(model=model, model_data=data)
 
     def test_CustomerLoanList_response(self):
-        header_data = [build_loan_list_entry() for _ in range(NUMBER_OF_HEADERS)]
-        row_data = [{LoanListRowColValueEntryKeys.COL:
-                    [build_loan_list_row_entry() for _ in range(NUMBER_OF_HEADERS)]} for _ in range(NUMBER_OF_ROWS)]
+        key = CustomerLoanListsKeys.CUSTOMER_LOANS
+        data = response_args.copy()
+        data[key] = [build_customer_loan_list() for _ in range(NUMBER_OF_BORROWERS)]
+        response = GetCustomerLoanListResponse(**data)
 
-        args = response_args.copy()
-        args[CustomerLoanListKeys.CUSTOMER_LOAN] = {LoanListHeaderColumnKeys.COLS: header_data,
-                                                    LoanListRowsKeys.ROWS: row_data}
-        response = GetCustomerLoanList(**args)
-        self._validate_response(model=response, model_data=args)
+        self._verify(f"{response.model_name}: Verify response has '{key}' attribute.", actual = hasattr(response, key),
+            expected = True)
+        self._validate_response(model = response, model_data = data)
 
 
 if __name__ == "__main__":
