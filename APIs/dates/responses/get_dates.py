@@ -1,7 +1,7 @@
-from APIs.dates.models.dates import DatesList, DatesListKeys
+from APIs.dates.models.dates import DatesList, DatesKeys
 from base.common.response import CommonResponse
 
 
-class GetDates(CommonResponse):
-    _ADD_KEYS = [DatesListKeys.DATES_LIST]
+class GetDatesResponse(CommonResponse):
+    _ADD_KEYS = [DatesKeys.DATES_LIST]
     _SUB_MODELS = [DatesList]
