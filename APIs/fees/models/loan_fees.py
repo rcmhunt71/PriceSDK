@@ -66,6 +66,11 @@ class LoanFeeKeys:
     LOAN_FEES: str = "LoanFees"
 
 
+@dataclass
+class AddLoanFeeKeys:
+    LOAN_FEE_ID: str = "LoanFeeID"
+
+
 class LoanFees(BaseResponse):
     _ADD_KEYS = [LoanFeeColumnKeys.COLS, LoanFeeRowKeys.ROWS]
     _SUB_MODELS = [LoanFeeColumnEntryList, LoanFeeRowColList]
