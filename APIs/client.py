@@ -1,3 +1,4 @@
+from APIs.persons.contacts.client import ContactsClient
 from APIs.dates.client import DatesClient
 from APIs.deposits.client import DepositsClient
 from APIs.fees.client import FeesClient
@@ -15,6 +16,7 @@ class Client(BaseClient):
         super().__init__(base_url=base_url, database=database, port=port, headers=headers)
         self.assets = AssetsClient(client=self)
         self.borrowers = BorrowersClient(client=self)
+        self.contacts = ContactsClient(client=self)
         self.dates = DatesClient(client=self)
         self.deposits = DepositsClient(client=self)
         self.fees = FeesClient(client=self)
