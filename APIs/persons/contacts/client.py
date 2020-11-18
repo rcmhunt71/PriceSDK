@@ -9,6 +9,10 @@ from APIs.persons.contacts.requests.get_contact_interface_credentials import Get
 from APIs.persons.contacts.requests.get_contact_user_groups import GetContactUserGroupsRequest
 from APIs.persons.contacts.requests.get_contacts import GetContactsRequest
 from APIs.persons.contacts.responses.add_contact import AddContactResponse
+from APIs.persons.contacts.requests.set_contact_interface_credential import SetContactInterfaceCredentialRequest
+from APIs.persons.contacts.requests.set_contact_lockout import SetContactLockoutRequest
+from APIs.persons.contacts.requests.set_contact_no_longer_employed import SetContactNoLongerEmployedRequest
+from APIs.persons.contacts.requests.set_contacts import SetContactsRequest
 from APIs.persons.contacts.responses.get_contact_group_member_list import GetContactGroupMemberListResponse
 from APIs.persons.contacts.responses.get_contact_ids import GetContactIDsResponse
 from APIs.persons.contacts.responses.get_contact_interface_credentials import GetContactInterfaceCredentialsResponse
@@ -31,7 +35,10 @@ class ApiEndpoints:
     ADD_CONTACT: str = "add_contact"
     ADD_CONTACT_LICENSE: str = "add_contact_license"
     ADD_LOAN_CONTACT: str = "add_loan_contact"
-
+    SET_CONTACT_INTERFACE_CREDENTIAL: str = "set_contact_interface_credential"
+    SET_CONTACT_LOCKOUT: str = "set_contact_lockout"
+    SET_CONTACTS: str = "set_contacts"
+    SET_CONTACT_NO_LONGER_EMPLOYED: str = "set_contact_no_longer_employed"
 
 class ContactsClient(BaseClient):
     CONTENT_TYPE = "Content-Type"
@@ -100,3 +107,31 @@ class ContactsClient(BaseClient):
             nonce=self._get_nonce(nonce), pretty_print=pretty_print)
         return self.post(resource_endpoint=ApiEndpoints.ADD_LOAN_CONTACT, response_model=CommonResponse,
             params=request_model.as_params_dict, data=request_model.payload)
+
+    def set_contact_interface_credential(self, company_id, contact_id, interface_type, interface_data_name,
+            interface_password, session_id=None, nonce=None, pretty_print=False):
+        request_model = SetContactInterfaceCredentialRequest(company_id=company_id, contact_id=contact_id,
+            interface_type=interface_type, interface_data_name=interface_data_name, interface_password=interface_password,
+            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+            pretty_print=pretty_print)
+        return self.post(resource_endpoint=ApiEndpoints.SET_CONTACT_INTERFACE_CREDENTIAL, response_model=CommonResponse,
+            params=request_model.as_params_dict, data=request_model.payload)
+
+    def set_contact_lockout(self, contact_id, locked_out, session_id=None, nonce=None, pretty_print=False):
+        request_model = SetContactLockoutRequest(contact_id=contact_id, locked_out=locked_out,
+            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+        return self.post(resource_endpoint=ApiEndpoints.SET_CONTACT_LOCKOUT, response_model=CommonResponse,
+            params=request_model.as_params_dict, data=request_model.payload)
+
+    def set_contact_no_longer_employed(self, contact_id, no_longer_employed, session_id=None, nonce=None, pretty_print=False):
+        request_model = SetContactNoLongerEmployedRequest(contact_id=contact_id, no_longer_employed=no_longer_employed,
+            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+        return self.post(resource_endpoint=ApiEndpoints.SET_CONTACT_NO_LONGER_EMPLOYED, response_model=CommonResponse,
+            params=request_model.as_params_dict, data=request_model.payload)
+
+    def set_contacts(self, payload_dict=None, session_id=None, nonce=None, pretty_print=False, **kwargs):
+        request_model = SetContactsRequest(payload_dict=payload_dict, session_id=self._get_session_id(session_id),
+            nonce=self._get_nonce(nonce), pretty_print=pretty_print, **kwargs)
+        return self.post(resource_endpoint=ApiEndpoints.SET_CONTACTS, response_model=CommonResponse,
+            params=request_model.as_params_dict, data=request_model.payload, headers=self.json_headers)
+
