@@ -1,3 +1,4 @@
+from APIs.persons.employees.client import EmployeesClient
 from APIs.persons.contacts.client import ContactsClient
 from APIs.dates.client import DatesClient
 from APIs.deposits.client import DepositsClient
@@ -19,6 +20,7 @@ class Client(BaseClient):
         self.contacts = ContactsClient(client=self)
         self.dates = DatesClient(client=self)
         self.deposits = DepositsClient(client=self)
+        self.employees = EmployeesClient(client=self)
         self.fees = FeesClient(client=self)
         self.incomes = IncomesClient(client=self)
         self.liabilities = LiabilitiesClient(client=self)
