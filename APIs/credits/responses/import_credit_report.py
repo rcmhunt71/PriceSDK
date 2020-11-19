@@ -1,4 +1,4 @@
-from APIs.credit.models.import_credit_report import ImportCreditReportKeys
+from APIs.credits.models.credit_report_import import ImportCreditReportKeys
 from base.common.response import CommonResponse
 
 
