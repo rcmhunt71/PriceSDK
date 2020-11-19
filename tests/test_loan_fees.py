@@ -5,25 +5,25 @@ from APIs.fees.models.loan_fees import (LoanFeeColumnEntry, LoanFeeColumnEntryKe
                                               LoanFeeRowEntryKeys, LoanFeeRowEntry, LoanFeeRowEntryList,
                                               LoanFeeRowColEntryKey, LoanFeeRowCol, LoanFeeRowColList,
                                               LoanFeeKeys, LoanFeeRowKeys, LoanFeeColumnKeys, LoanFees)
-from APIs.fees.responses.get_loan_fees import GetLoanFees
+from APIs.fees.responses.get_loan_fees import GetLoanFeesResponse
 from tests.common.common_response_args import CommonResponseValidations, response_args
 
 # ========================================
 # ============ TEST DATA =================
 # ========================================
 NUMBER_COLUMN_ENTRIES = 3
-NUMBER_ROW_ENTRIES = 8
+NUMBER_ROW_ENTRIES = 3
 
 column_entry_data = {
-    LoanFeeColumnEntryKeys.LABEL: ["Loan Number ID", "Fee ID", "Random ID"],
+    LoanFeeColumnEntryKeys.LABEL: choice(["Loan Number ID", "Fee ID", "Random ID"]),
     LoanFeeColumnEntryKeys.TYPE: ["number", "text", "xml"]
 }
 
 
 def build_loan_fee_column_entry():
     return {
-        LoanFeeColumnEntryKeys.ID: randrange(999),
-        LoanFeeColumnEntryKeys.LABEL: choice(column_entry_data[LoanFeeColumnEntryKeys.LABEL]),
+        LoanFeeColumnEntryKeys.ID: column_entry_data[LoanFeeColumnEntryKeys.LABEL],
+        LoanFeeColumnEntryKeys.LABEL: column_entry_data[LoanFeeColumnEntryKeys.LABEL],
         LoanFeeColumnEntryKeys.TYPE: choice(column_entry_data[LoanFeeColumnEntryKeys.TYPE]),
     }
 
@@ -100,7 +100,7 @@ class TestGetLoanResponse(unittest.TestCase, CommonResponseValidations):
     def test_GetLoanFees_response(self):
         fee_data = response_args.copy()
         fee_data[LoanFeeKeys.LOAN_FEES] = fee_response_data
-        get_loan_fees_response = GetLoanFees(**fee_data)
+        get_loan_fees_response = GetLoanFeesResponse(**fee_data)
         self._validate_response(model=get_loan_fees_response, model_data=fee_data)
 
 

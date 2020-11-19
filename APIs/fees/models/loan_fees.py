@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 
 from base.responses.base_response import BaseResponse, BaseListResponse
 
@@ -18,7 +18,7 @@ class LoanFeeColumnKeys:
 
 
 class LoanFeeColumnEntry(BaseResponse):
-    _ADD_KEYS = [LoanFeeColumnEntryKeys.ID, LoanFeeColumnEntryKeys.LABEL, LoanFeeColumnEntryKeys.TYPE]
+    _ADD_KEYS = [field.default for field in fields(LoanFeeColumnEntryKeys)]
 
 
 class LoanFeeColumnEntryList(BaseListResponse):
