@@ -1,7 +1,7 @@
 import unittest
 
 from APIs.credits.models.credit_report_import import IsCreditReportImportReadyKeys, ImportCreditReportKeys
-from APIs.credits.responses.import_credit_report import ImportCreditReport
+from APIs.credits.responses.import_credit_report import ImportCreditReportResponse
 from APIs.credits.responses.is_credit_report_import_ready import IsCreditReportImportReadyResponse
 from tests.common.common_response_args import CommonResponseValidations, response_args
 
@@ -24,7 +24,7 @@ class TestCreditReports(unittest.TestCase, CommonResponseValidations):
         import_report_args = response_args.copy()
         import_report_args[key] = False
 
-        import_report_response = ImportCreditReport(**import_report_args)
+        import_report_response = ImportCreditReportResponse(**import_report_args)
         self._validate_response(model=import_report_response, model_data=import_report_args)
 
 

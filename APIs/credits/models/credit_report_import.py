@@ -16,6 +16,7 @@ class IsCreditReportImportReady(BaseResponse):
 @dataclass
 class ImportCreditReportKeys:
     WAS_THERE_ANYTHING_IMPORTED: str = "WasThereAnythingImported"
+    IMPORT_ERROR_MESSAGE: str = "ImportErrorMessage"
 
 
 class ImportCreditReport(BaseResponse):

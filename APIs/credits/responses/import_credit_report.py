@@ -2,6 +2,6 @@ from APIs.credits.models.credit_report_import import ImportCreditReportKeys
 from base.common.response import CommonResponse
 
 
-class ImportCreditReport(CommonResponse):
-    _ADD_KEYS = [ImportCreditReportKeys.WAS_THERE_ANYTHING_IMPORTED]
-    _SUB_MODELS = [None]
+class ImportCreditReportResponse(CommonResponse):
+    _ADD_KEYS = [ImportCreditReportKeys.WAS_THERE_ANYTHING_IMPORTED, ImportCreditReportKeys.IMPORT_ERROR_MESSAGE]
+    _SUB_MODELS = [None, None]
