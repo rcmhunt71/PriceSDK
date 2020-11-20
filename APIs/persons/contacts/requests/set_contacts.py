@@ -1,11 +1,6 @@
 from typing import List, Dict, Any, Union
 from dataclasses import dataclass
-from base.common.models.request import BaseRequestModelKeys, KwargsRequestModel, DataKeys
-
-
-@dataclass
-class SetContactsRequestParams(BaseRequestModelKeys):
-    pass
+from base.common.models.request import KwargsRequestModel, DataKeys
 
 
 @dataclass
@@ -25,6 +20,7 @@ class SetContactsFieldNames:
     VOICE: str = "Voice"
     FAX: str = "Fax"
     NOTIFICATION_EMAILS: str = "Notification_Emails"
+    #TODO Revise lines 24-25 after clarification (currently internal error for this two objects)
     CONTACT_NO_LONGER_EMPLOYED: str = "Contact_No_Longer_Employed"
     CONTACT_LOCKOUT: str = "Contact_Lockout"
     NMLS_ID: str = "NMLSID"
