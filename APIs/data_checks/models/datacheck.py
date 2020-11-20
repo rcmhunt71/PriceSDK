@@ -1,10 +1,10 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 
 from base.responses.base_response import BaseResponse, BaseListResponse
 
 
 @dataclass
-class DataCheckKeys:
+class DataCheckInfoKeys:
     DATA_CHECK_ID: str = "DataCheckID"
     NAME: str = "Name"
     DESCRIPTION: str = "Description"
@@ -17,8 +17,7 @@ class EvaluateDataCheckBundleKeys:
 
 
 class DataCheck(BaseResponse):
-    _ADD_KEYS = [DataCheckKeys.DATA_CHECK_ID, DataCheckKeys.NAME,
-                DataCheckKeys.DESCRIPTION, DataCheckKeys.RESULT, ]
+    _ADD_KEYS = [field.default for field in fields(DataCheckInfoKeys)]
 
 
 class DataChecks(BaseListResponse):

@@ -1,8 +1,8 @@
 import unittest
 from random import randrange, choice
 
-from APIs.data_check.models.datacheck import DataCheckKeys, DataCheck, DataChecks, EvaluateDataCheckBundleKeys
-from APIs.data_check.responses.evaluate_data_check_bundle import EvaluateDataCheckBundle
+from APIs.data_checks.models.datacheck import DataCheckInfoKeys, DataCheck, DataChecks, EvaluateDataCheckBundleKeys
+from APIs.data_checks.responses.evaluate_data_check_bundle import EvaluateDataCheckBundleResponse
 from tests.common.common_response_args import CommonResponseValidations, response_args
 
 number_of_bundles = 3
@@ -13,10 +13,10 @@ results = ['Pass', 'Fail']
 
 def build_data_check_data():
     return {
-        DataCheckKeys.DATA_CHECK_ID: randrange(1, 99),
-        DataCheckKeys.NAME: choice(names),
-        DataCheckKeys.DESCRIPTION: f'The Loan Number "{randrange(1, 9999):04}" is {choice(is_valid)}',
-        DataCheckKeys.RESULT: choice(results)
+        DataCheckInfoKeys.DATA_CHECK_ID: randrange(1, 99),
+        DataCheckInfoKeys.NAME: choice(names),
+        DataCheckInfoKeys.DESCRIPTION: f'The Loan Number "{randrange(1, 9999):04}" is {choice(is_valid)}',
+        DataCheckInfoKeys.RESULT: choice(results)
     }
 
 
@@ -43,7 +43,7 @@ class TestDataCheck(unittest.TestCase, CommonResponseValidations):
 
         data_args = response_args.copy()
         data_args[attr] = data_check_bundle_args
-        eval_data_resp = EvaluateDataCheckBundle(**data_args)
+        eval_data_resp = EvaluateDataCheckBundleResponse(**data_args)
 
         self._verify(descript=f"{eval_data_resp.model_name}: has {attr}",
                      actual=hasattr(eval_data_resp, attr), expected=True)
