@@ -1,8 +1,7 @@
 import unittest
 from random import choice, randrange
 
-from APIs.companies.models.companies import CompaniesKeys, Companies
-from APIs.companies.models.company import CompanyKeys, Company
+from APIs.companies.models.companies import CompaniesKeys, Companies, CompaniesInfoKeys
 from APIs.companies.responses.add_company import AddCompanyResponse
 from APIs.companies.responses.get_companies import GetCompaniesResponse
 from APIs.companies.responses.get_company_ids import GetCompanyIDsResponse, GetCompanyIDsKeys
@@ -24,13 +23,13 @@ company_ids_list = [randrange(999) for _ in range(num_company_ids)]
 
 def build_company_args():
     return {
-        CompanyKeys.COMPANY_ID: choice(company_ids_list),
-        CompanyKeys.COMPANY_NAME: f"Test Company {randrange(99):02}",
-        CompanyKeys.VOICE: f'555{randrange(9999999):07}',
-        CompanyKeys.ADDRESS: f"{randrange(9999)} SomePlace Drive",
-        CompanyKeys.CITY: choice(cities),
-        CompanyKeys.STATE: choice(states),
-        CompanyKeys.ZIP: f"{randrange(99999):05}",
+        CompaniesInfoKeys.COMPANY_ID: choice(company_ids_list),
+        CompaniesInfoKeys.COMPANY_NAME: f"Test Company {randrange(99):02}",
+        CompaniesInfoKeys.VOICE: f'555{randrange(9999999):07}',
+        CompaniesInfoKeys.ADDRESS: f"{randrange(9999)} SomePlace Drive",
+        CompaniesInfoKeys.CITY: choice(cities),
+        CompaniesInfoKeys.STATE: choice(states),
+        CompaniesInfoKeys.ZIP: f"{randrange(99999):05}",
     }
 
 
@@ -41,11 +40,6 @@ companies_arg_list = [build_company_args() for _ in range(num_companies)]
 #     TEST COMPANY MODELS AND RESPONSES
 # ---------------------------------------------------------------
 class TestCompany(unittest.TestCase, CommonResponseValidations):
-    def test_company_model(self):
-        company_model = Company(**companies_arg_list[0])
-
-        # Verify model has correct data
-        self._validate_response(model=company_model, model_data=companies_arg_list[0])
 
     def test_companies_model(self):
         companies_model = Companies(*companies_arg_list)

@@ -16,3 +16,7 @@ class GetCompanyLicenseTypesRequest(SimpleRequestModel):
         args = super().to_params()
         args[GetCompanyLicenseTypesParams.COMPANY_ID] = self.company_id
         return args
+
+
+class GetCompanyMembersRequest(GetCompanyLicenseTypesRequest):
+    pass

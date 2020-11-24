@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 
-from APIs.companies.requests.get_company_license_types import GetCompanyLicenseTypesRequest
+from APIs.companies.requests.get_company_license_types import GetCompanyLicenseTypesRequest, GetCompanyMembersRequest
 from APIs.companies.requests.get_company_logo import GetCompanyLogoRequest
+from APIs.companies.requests.set_companies import SetCompaniesRequest
+from APIs.companies.requests.set_company_license_type import SetCompanyLicenseTypeRequest
 from APIs.companies.responses.get_company_ids import GetCompanyIDsResponse
 from APIs.companies.requests.add_company import AddCompanyRequest
 from APIs.companies.requests.get_companies_by_ids import GetCompaniesByIDsRequest
@@ -9,6 +11,7 @@ from APIs.companies.requests.get_company_ids import GetCompanyIDsRequest
 from APIs.companies.responses.add_company import AddCompanyResponse
 from APIs.companies.responses.get_companies import GetCompaniesResponse, GetCompaniesByIDsResponse
 from APIs.companies.responses.get_company_license_types import GetCompanyLicenseTypesResponse
+from APIs.companies.responses.get_company_members import GetCompanyMembersResponse
 from base.common.models.request import LoanNumberIdRequestModel
 from base.clients.base_client import BaseClient
 from base.common.response import CommonResponse
@@ -22,6 +25,9 @@ class ApiEndpoints:
     GET_COMPANY_IDS: str = "get_company_ids"
     GET_COMPANY_LICENSE_TYPES: str = "get_company_license_types"
     GET_COMPANY_LOGO: str = "get_company_logo"
+    GET_COMPANY_MEMBERS: str = "get_company_members"
+    SET_COMPANIES: str = "set_companies"
+    SET_COMPANY_LICENSE_TYPE: str = "set_company_license_type"
 
 
 class CompaniesClient(BaseClient):
@@ -45,8 +51,8 @@ class CompaniesClient(BaseClient):
             params=request_model.as_params_dict)
 
     def get_companies_by_ids(self, company_ids, session_id=None, nonce=None, pretty_print=False):
-        request_model = GetCompaniesByIDsRequest(company_ids=company_ids,
-            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+        request_model = GetCompaniesByIDsRequest(company_ids=company_ids, session_id=self._get_session_id(session_id),
+            nonce=self._get_nonce(nonce), pretty_print=pretty_print)
         return self.get(resource_endpoint=ApiEndpoints.GET_COMPANIES_BY_IDS, response_model=GetCompaniesByIDsResponse,
             params=request_model.as_params_dict)
 
@@ -68,9 +74,31 @@ class CompaniesClient(BaseClient):
         return self.get(resource_endpoint=ApiEndpoints.GET_COMPANY_LICENSE_TYPES,
             response_model=GetCompanyLicenseTypesResponse, params=request_model.as_params_dict)
 
-    #TODO Need to revisit Response later
+    # TODO Need to revisit Response later
     def get_company_logo(self, loan_number_id, height, width, session_id=None, nonce=None, pretty_print=False):
         request_model = GetCompanyLogoRequest(loan_number_id=loan_number_id, height=height, width=width,
             session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print)
         return self.get(resource_endpoint=ApiEndpoints.GET_COMPANY_LOGO, response_model=CommonResponse,
             params=request_model.as_params_dict)
+
+    def get_company_members(self, company_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = GetCompanyMembersRequest(company_id=company_id, session_id=self._get_session_id(session_id),
+            nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+        return self.get(resource_endpoint=ApiEndpoints.GET_COMPANY_MEMBERS, response_model=GetCompanyMembersResponse,
+            params=request_model.as_params_dict)
+
+    def set_companies(self, loan_number_id, payload_dict=None, session_id=None, nonce=None, pretty_print=False,
+            **kwargs):
+        request_model = SetCompaniesRequest(loan_number_id=loan_number_id, payload_dict=payload_dict,
+            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print,
+            **kwargs)
+        return self.post(resource_endpoint=ApiEndpoints.SET_COMPANIES, response_model=CommonResponse,
+            params=request_model.as_params_dict, data=request_model.payload, headers=self.json_headers)
+
+    def set_company_license_type(self, company_id, license_number, company_type, session_id=None, nonce=None,
+            pretty_print=False):
+        request_model = SetCompanyLicenseTypeRequest(company_id=company_id, license_number=license_number,
+            company_type=company_type, session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+            pretty_print=pretty_print)
+        return self.post(resource_endpoint=ApiEndpoints.SET_COMPANY_LICENSE_TYPE, response_model=CommonResponse,
+            params=request_model.as_params_dict, data=request_model.payload)
