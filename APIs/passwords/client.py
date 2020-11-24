@@ -5,6 +5,7 @@ from base.common.models.request import SimpleRequestModel
 from base.common.response import CommonResponse
 
 from APIs.passwords.requests.set_lockout import SetLockoutRequest
+from APIs.passwords.requests.validate_reset_password_token import ValidateResetPasswordTokenRequest
 
 from APIs.passwords.responses.check_for_force_change_password import CheckForForceChangePasswordResponse
 from APIs.passwords.responses.get_employee_password_age import GetEmployeePasswordAgeResponse
@@ -15,6 +16,7 @@ class ApiEndpoints:
     CHECK_FOR_FORCE_CHANGE_PASSWORD: str = "check_for_force_change_password"
     GET_EMPLOYEE_PASSWORD_AGE: str = "get_employee_password_age"
     SET_LOCKOUT: str = "set_lockout"
+    VALIDATE_RESET_PASSWORD_TOKEN: str = "validate_reset_password_token"
 
 
 class PasswordsClient(BaseClient):
@@ -39,4 +41,13 @@ class PasswordsClient(BaseClient):
                                           nonce=self._get_nonce(nonce), pretty_print=pretty_print)
 
         return self.post(resource_endpoint=ApiEndpoints.SET_LOCKOUT, response_model=CommonResponse,
+                         params=request_model.as_params_dict, data=request_model.payload)
+
+    def validate_reset_password_token(self, token, login_name, mac_address, session_id=None, nonce=None,
+                                      pretty_print=False):
+        request_model = ValidateResetPasswordTokenRequest(token=token, login_name=login_name, mac_address=mac_address,
+                                                          session_id=self._get_session_id(session_id),
+                                                          nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.VALIDATE_RESET_PASSWORD_TOKEN, response_model=CommonResponse,
                          params=request_model.as_params_dict, data=request_model.payload)
