@@ -3,7 +3,7 @@ import unittest
 
 from APIs.passwords.models.password import ForceChangePasswordKeys, PasswordAgeKeys
 from APIs.passwords.responses.check_for_force_change_password import CheckForForceChangePasswordResponse
-from APIs.passwords.responses.get_employee_password_age import GetEmployeePasswordAge
+from APIs.passwords.responses.get_employee_password_age import GetEmployeePasswordAgeResponse
 from tests.common.common_response_args import CommonResponseValidations, response_args
 
 booleans = [True, False]
@@ -26,7 +26,7 @@ class TestChangePassword(unittest.TestCase, CommonResponseValidations):
 
         model_args = response_args.copy()
         model_args.update(password_age_args)
-        response = GetEmployeePasswordAge(**model_args)
+        response = GetEmployeePasswordAgeResponse(**model_args)
         self._validate_response(model=response, model_data=model_args)
 
 
