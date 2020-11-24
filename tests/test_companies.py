@@ -1,11 +1,11 @@
 import unittest
 from random import choice, randrange
 
-from APIs.company.models.companies import CompaniesKeys, Companies
-from APIs.company.models.company import CompanyKeys, Company
-from APIs.company.responses.add_company import AddCompanyResponse
-from APIs.company.responses.get_companies import GetCompaniesResponse
-from APIs.company.responses.get_company_ids import GetCompanyIDsResponse, GetCompanyIDsKeys
+from APIs.companies.models.companies import CompaniesKeys, Companies
+from APIs.companies.models.company import CompanyKeys, Company
+from APIs.companies.responses.add_company import AddCompanyResponse
+from APIs.companies.responses.get_companies import GetCompaniesResponse
+from APIs.companies.responses.get_company_ids import GetCompanyIDsResponse, GetCompanyIDsKeys
 from logger.logging import Logger
 from tests.common.common_response_args import CommonResponseValidations, response_args
 
