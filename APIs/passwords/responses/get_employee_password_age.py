@@ -1,4 +1,4 @@
-from APIs.password.models.password import PasswordAgeKeys
+from APIs.passwords.models.password import PasswordAgeKeys
 from base.common.response import CommonResponse
 
 
