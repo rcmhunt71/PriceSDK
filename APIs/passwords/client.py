@@ -5,6 +5,7 @@ from base.common.models.request import SimpleRequestModel
 from base.common.response import CommonResponse
 
 from APIs.passwords.requests.change_password import ChangePasswordRequest
+from APIs.passwords.requests.request_reset_password import RequestResetPasswordRequest
 from APIs.passwords.requests.set_lockout import SetLockoutRequest
 from APIs.passwords.requests.validate_reset_password_token import ValidateResetPasswordTokenRequest
 
@@ -17,6 +18,7 @@ class ApiEndpoints:
     CHANGE_PASSWORD: str = "change_password"
     CHECK_FOR_FORCE_CHANGE_PASSWORD: str = "check_for_force_change_password"
     GET_EMPLOYEE_PASSWORD_AGE: str = "get_employee_password_age"
+    REQUEST_RESET_PASSWORD: str = "request_reset_password"
     SET_LOCKOUT: str = "set_lockout"
     VALIDATE_RESET_PASSWORD_TOKEN: str = "validate_reset_password_token"
 
@@ -45,6 +47,16 @@ class PasswordsClient(BaseClient):
 
         return self.get(resource_endpoint=ApiEndpoints.GET_EMPLOYEE_PASSWORD_AGE,
                         response_model=GetEmployeePasswordAgeResponse, params=request_model.as_params_dict)
+
+    def request_reset_password(self, delivery_method, login_name, reset_link, mac_address, session_id=None, nonce=None,
+                               pretty_print=False):
+        request_model = RequestResetPasswordRequest(delivery_method=delivery_method, login_name=login_name,
+                                                    reset_link=reset_link, mac_address=mac_address,
+                                                    session_id=self._get_session_id(session_id),
+                                                    nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.REQUEST_RESET_PASSWORD, response_model=CommonResponse,
+                         params=request_model.as_params_dict, data=request_model.payload)
 
     def set_lockout(self, employee_id, lockout, session_id=None, nonce=None, pretty_print=False):
         request_model = SetLockoutRequest(employee_id=employee_id, lockout=lockout,
