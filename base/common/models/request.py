@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, fields
 import json
 
+
 @dataclass
 class DataPayload:
     pass
@@ -100,6 +101,7 @@ class KwargsRequestModel(BaseRequestModel):
 class SimpleRequestModel(BaseRequestModel):
     def build_payload(self):
         return {}
+
 
 class LoanNumberIdRequestModel(SimpleRequestModel):
     def __init__(self, loan_number_id, session_id, nonce, pretty_print):

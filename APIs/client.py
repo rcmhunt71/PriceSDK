@@ -1,5 +1,5 @@
 from APIs.companies.client import CompaniesClient
-from APIs.extra_and_virtual_data.client import ExtraDataClient
+from APIs.extra_and_virtual_data.client import ExtraDataClient, VirtualDataClient
 from APIs.passwords.client import PasswordsClient
 from APIs.persons.employees.client import EmployeesClient
 from APIs.persons.client import PersonsClient
@@ -40,3 +40,4 @@ class Client(BaseClient):
         self.passwords = PasswordsClient(client=self)
         self.properties = PropertiesClient(client=self)
         self.security = SecurityClient(client=self)
+        self.virtual_data = VirtualDataClient(client=self)
