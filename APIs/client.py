@@ -16,6 +16,7 @@ from APIs.assets.client import AssetsClient
 from APIs.properties.client import PropertiesClient
 from APIs.liabilities.client import LiabilitiesClient
 from APIs.incomes.client import IncomesClient
+from APIs.security.client import SecurityClient
 
 
 class Client(BaseClient):
@@ -38,3 +39,4 @@ class Client(BaseClient):
         self.persons = PersonsClient(client=self)
         self.passwords = PasswordsClient(client=self)
         self.properties = PropertiesClient(client=self)
+        self.security = SecurityClient(client=self)
