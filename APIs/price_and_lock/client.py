@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from base.clients.base_client import BaseClient
-from base.common.models.request import SimpleRequestModel
+from base.common.models.request import SimpleRequestModel, LoanNumberIdRequestModel
 from base.common.response import CommonResponse
 
 from APIs.price_and_lock.requests.request_lock import RequestLockRequest
@@ -9,6 +9,8 @@ from APIs.price_and_lock.requests.request_lock import RequestLockRequest
 
 @dataclass
 class ApiEndpoints:
+    BREAK_LOCK: str = "break_lock"
+    CONFIRM_LOCK: str = "confirm_lock"
     PROCESS_LOCK: str = "process_lock"
     REQUEST_LOCK: str = "request_lock"
 
@@ -19,6 +21,22 @@ class LockClient(BaseClient):
     json_headers = {
         CONTENT_TYPE: APPLICATION_JSON
     }
+
+    def break_lock(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = LoanNumberIdRequestModel(loan_number_id=loan_number_id,
+                                                 session_id=self._get_session_id(session_id),
+                                                 nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.BREAK_LOCK, response_model=CommonResponse,
+                         params=request_model.as_params_dict, data=request_model.payload)
+
+    def confirm_lock(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = LoanNumberIdRequestModel(loan_number_id=loan_number_id,
+                                                 session_id=self._get_session_id(session_id),
+                                                 nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.CONFIRM_LOCK, response_model=CommonResponse,
+                         params=request_model.as_params_dict, data=request_model.payload)
 
     def process_lock(self, payload_dict=None, session_id=None, nonce=None, pretty_print=False):
         request_model = SimpleRequestModel(payload=payload_dict, session_id=self._get_session_id(session_id),
