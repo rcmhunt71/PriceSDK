@@ -10,6 +10,7 @@ from APIs.dates.client import DatesClient
 from APIs.deposits.client import DepositsClient
 from APIs.fees.client import FeesClient
 from APIs.persons.borrowers.client import BorrowersClient
+from APIs.price_and_lock.client import LockClient
 from base.clients.base_client import BaseClient
 from APIs.loans.client import LoanClient
 from APIs.assets.client import AssetsClient
@@ -36,6 +37,7 @@ class Client(BaseClient):
         self.incomes = IncomesClient(client=self)
         self.liabilities = LiabilitiesClient(client=self)
         self.loan = LoanClient(client=self)
+        self.lock = LockClient(client=self)
         self.persons = PersonsClient(client=self)
         self.passwords = PasswordsClient(client=self)
         self.properties = PropertiesClient(client=self)
