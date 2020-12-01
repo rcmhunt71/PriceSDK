@@ -15,6 +15,8 @@ class ApiEndpoints:
     CONFIRM_LOCK: str = "confirm_lock"
     DELETE_PRICING_ADJUSTMENT: str = "delete_pricing_adjustment"
     MAKE_COMMITMENT: str = "make_commitment"
+    MODIFY_COMMITMENT: str = "modify_commitment"
+    MODIFY_LOCK: str = "modify_lock"
     PROCESS_LOCK: str = "process_lock"
     REQUEST_LOCK: str = "request_lock"
 
@@ -60,6 +62,24 @@ class PriceAndLockClient(BaseClient):
                                               nonce=self._get_nonce(nonce), pretty_print=pretty_print)
 
         return self.post(resource_endpoint=ApiEndpoints.MAKE_COMMITMENT, response_model=CommonResponse,
+                         params=request_model.as_params_dict, data=request_model.payload)
+
+    def modify_commitment(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = LoanNumberIdRequestModel(loan_number_id=loan_number_id,
+                                                 session_id=self._get_session_id(session_id),
+                                                 nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.MODIFY_COMMITMENT, response_model=CommonResponse,
+                         params=request_model.as_params_dict, data=request_model.payload)
+
+    # FIXME Response has the 'Invalid number of parameters' error code (MD-15230)
+    def modify_lock(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
+        """ API call doesn't work. Issue MD-15230. """
+        request_model = LoanNumberIdRequestModel(loan_number_id=loan_number_id,
+                                                 session_id=self._get_session_id(session_id),
+                                                 nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.MODIFY_LOCK, response_model=CommonResponse,
                          params=request_model.as_params_dict, data=request_model.payload)
 
     def process_lock(self, payload_dict=None, session_id=None, nonce=None, pretty_print=False):
