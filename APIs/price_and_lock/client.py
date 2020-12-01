@@ -8,6 +8,10 @@ from APIs.price_and_lock.requests.delete_pricing_adjustment import DeletePricing
 from APIs.price_and_lock.requests.make_commitment import MakeCommitmentRequest
 from APIs.price_and_lock.requests.request_lock import RequestLockRequest
 
+from APIs.price_and_lock.responses.pull_qualified_loan_programs import PullQualifiedLoanProgramsResponse
+from APIs.price_and_lock.responses.pull_qualified_loan_scenario_programs import \
+                                                                            PullQualifiedLoanScenarioProgramsResponse
+
 
 @dataclass
 class ApiEndpoints:
@@ -18,6 +22,8 @@ class ApiEndpoints:
     MODIFY_COMMITMENT: str = "modify_commitment"
     MODIFY_LOCK: str = "modify_lock"
     PROCESS_LOCK: str = "process_lock"
+    PULL_QUALIFIED_LOAN_PROGRAMS: str = "pull_qualified_loan_programs"
+    PULL_QUALIFIED_LOAN_SCENARIO_PROGRAMS: str = "pull_qualified_loan_scenario_programs"
     REQUEST_LOCK: str = "request_lock"
 
 
@@ -88,6 +94,22 @@ class PriceAndLockClient(BaseClient):
 
         return self.post(resource_endpoint=ApiEndpoints.PROCESS_LOCK, response_model=CommonResponse,
                          headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)
+
+    def pull_qualified_loan_programs(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = LoanNumberIdRequestModel(loan_number_id=loan_number_id,
+                                                 session_id=self._get_session_id(session_id),
+                                                 nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.get(resource_endpoint=ApiEndpoints.PULL_QUALIFIED_LOAN_PROGRAMS,
+                        response_model=PullQualifiedLoanProgramsResponse, params=request_model.as_params_dict)
+
+    def pull_qualified_loan_scenario_programs(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = LoanNumberIdRequestModel(loan_number_id=loan_number_id,
+                                                 session_id=self._get_session_id(session_id),
+                                                 nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.get(resource_endpoint=ApiEndpoints.PULL_QUALIFIED_LOAN_SCENARIO_PROGRAMS,
+                        response_model=PullQualifiedLoanScenarioProgramsResponse, params=request_model.as_params_dict)
 
     def request_lock(self, loan_number_id, base_price, session_id=None, nonce=None, pretty_print=False):
         request_model = RequestLockRequest(loan_number_id=loan_number_id, base_price=base_price,
