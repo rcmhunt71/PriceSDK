@@ -56,8 +56,8 @@ class CompaniesClient(BaseClient):
         return self.get(resource_endpoint=ApiEndpoints.GET_COMPANIES_BY_IDS, response_model=GetCompaniesByIDsResponse,
             params=request_model.as_params_dict)
 
-    def get_company_ids(self, company_name, company_state, company_type, company_status, show_missing_data_companies,
-            show_loan_specific_companies, show_loan_imported_companies, session_id=None, nonce=None,
+    def get_company_ids(self, company_name, company_state=None, company_type=None, company_status=None, show_missing_data_companies=None,
+            show_loan_specific_companies=None, show_loan_imported_companies=None, session_id=None, nonce=None,
             pretty_print=False):
         request_model = GetCompanyIDsRequest(company_name=company_name, company_state=company_state,
             company_type=company_type, company_status=company_status,
