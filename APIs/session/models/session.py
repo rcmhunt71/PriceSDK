@@ -4,6 +4,14 @@ from base.responses.base_response import BaseResponse
 
 
 # ===================
+# ECHO
+# ===================
+@dataclass
+class EchoKeys:
+    MESSAGE: str = "Message"
+
+
+# ===================
 # SERVER_TIME
 # ===================
 @dataclass
