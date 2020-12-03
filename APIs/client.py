@@ -1,5 +1,6 @@
 from APIs.companies.client import CompaniesClient
 from APIs.extra_and_virtual_data.client import ExtraDataClient, VirtualDataClient
+from APIs.data_upload.client import DataUploadClient
 from APIs.passwords.client import PasswordsClient
 from APIs.persons.employees.client import EmployeesClient
 from APIs.persons.client import PersonsClient
@@ -30,6 +31,7 @@ class Client(BaseClient):
         self.contacts = ContactsClient(client=self)
         self.credits = CreditsClient(client=self)
         self.data_checks = DataChecksClient(client=self)
+        self.data_upload = DataUploadClient(client=self)
         self.dates = DatesClient(client=self)
         self.deposits = DepositsClient(client=self)
         self.employees = EmployeesClient(client=self)
