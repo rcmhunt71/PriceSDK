@@ -25,7 +25,7 @@ class Methods(Enum):
 
 class BaseClient:
     headers = {'Content-Type': 'application/x-www-form-urlencoded',
-              'cache-control': 'no-cache'}
+               'cache-control': 'no-cache'}
 
     def __init__(self, base_url=None, database=None, port=None, headers=None, client=None, payload=None):
 
@@ -39,6 +39,7 @@ class BaseClient:
             self.database = client.database
             self.nonce = client.nonce
             self.session_id = client.session_id
+            self.server_response = client.server_response
 
         # Otherwise, instantiate a client.
         else:
@@ -50,7 +51,7 @@ class BaseClient:
             self.database = database
             self.nonce = None
             self.session_id = None
-
+            self.server_response = None
 
             port_info = '' if port is None else f":{port}"
             self.url = f"{self.base_url}{port_info}/{database}"
@@ -76,14 +77,14 @@ class BaseClient:
 
         # Create a session in PRICE
         params = {"AppID": app_id,
-                      "AppSecret": hashed_app_secret,
-                      "LoginName": username,
-                      "APIVersion": "0.0.0"}
+                  "AppSecret": hashed_app_secret,
+                  "LoginName": username,
+                  "APIVersion": "0.0.0"}
         pay_load = {"Password": password}
 
         # Post the request
         response_model = self._make_call('CREATE_SESSION', CommonResponse, data=pay_load,
-                               method=Methods.POST, headers=self.headers, params=params)
+                                         method=Methods.POST, headers=self.headers, params=params)
         self.session_id = response_model.raw.get(BaseRequestModelKeys.SESSION_ID)
         return response_model
 
@@ -148,13 +149,21 @@ class BaseClient:
             response_type = "TEST RESPONSE"
         log.debug(f"{response_type}: {response.content}")
 
-        if response.status_code !=200:
+        if response.status_code != 200:
             return {
                 'status_code': response.status_code,
                 'error_message': response.text,
                 'response': response
             }
         response_content = response.content if type(response.content) is dict else json.loads(response.content)
+
+        if getattr(self, 'client', False):
+            self.client.server_response = f"RESPONSE\n{response.text}\n\n" \
+                                          f"PAYLOAD\n{response.request.body}\n\n" \
+                                          f"{response.request.method} {response.request.url}"
+        self.server_response = f"RESPONSE\n>{response.text}\n\n" \
+                               f"PAYLOAD\n{response.request.body}\n\n" \
+                               f"{response.request.method} {response.request.url}"
 
         response_model = response_model_class(**response_content)
         log.debug(f"Response Model: {type(response_model)}")
