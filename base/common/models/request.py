@@ -34,8 +34,8 @@ class BaseRequestModel(ABC):
         self.nonce = nonce
         self.pretty_print = pretty_print
         self.as_params_dict = self.to_params()
-        self.as_json = self.to_json()
         self.payload = payload if payload is not None else self.build_payload()
+        self.as_json = self.to_json()
 
     def to_params(self):
         args = {
@@ -47,7 +47,7 @@ class BaseRequestModel(ABC):
         return args
 
     def to_json(self):
-        return json.dumps(self.to_params())
+        return json.dumps(self.payload) if type(self.payload) is not str else self.payload
 
     @abstractmethod
     def build_payload(self):
