@@ -2,11 +2,11 @@ from dataclasses import dataclass
 
 
 @dataclass
-class EmailMergeKeys:
+class MergeEmailTemplateKeys:
     SUBJECT: str = "Subject"
-    BODY: str = "Body"
+    EMAIL_BODY: str = "EmailBody"
 
 
 @dataclass
-class EmailConvLogKeys:
+class SendEmailAndMakeConvLogKeys:
     MEMO_ID: str = "MemoID"

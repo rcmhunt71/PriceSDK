@@ -1,19 +1,19 @@
 import unittest
 
-from APIs.notification.models.email import EmailMergeKeys, EmailConvLogKeys
-from APIs.notification.responses.merge_email_template import MergeEmailTemplate
-from APIs.notification.responses.send_email_and_make_conv_log import SendEmailAndMakeConvLog
+from APIs.notifications.models.notifications import MergeEmailTemplateKeys, SendEmailAndMakeConvLogKeys
+from APIs.notifications.responses.merge_email_template import MergeEmailTemplateResponse
+from APIs.notifications.responses.send_email_and_make_conv_log import SendEmailAndMakeConvLogResponse
 from tests.common.common_response_args import CommonResponseValidations, response_args
 
 # --------------------------------------------------
 #             EMAIL NOTIFICATION TEST DATA
 # --------------------------------------------------
 email_status = {
-    EmailMergeKeys.SUBJECT: "Test Subject",
-    EmailMergeKeys.BODY: "Blah Blah Blah"
+    MergeEmailTemplateKeys.SUBJECT: "Test Subject",
+    MergeEmailTemplateKeys.EMAIL_BODY: "Blah Blah Blah"
 }
 
-email_memo_id = {EmailConvLogKeys.MEMO_ID: 1}
+email_memo_id = {SendEmailAndMakeConvLogKeys.MEMO_ID: 1}
 
 
 # --------------------------------------------------
@@ -24,7 +24,7 @@ class TestEmailAPIs(unittest.TestCase, CommonResponseValidations):
         merge_data = response_args.copy()
         merge_data.update(email_status)
 
-        email_merge_resp = MergeEmailTemplate(**merge_data)
+        email_merge_resp = MergeEmailTemplateResponse(**merge_data)
 
         for attr in email_status.keys():
             self._verify(
@@ -36,7 +36,7 @@ class TestEmailAPIs(unittest.TestCase, CommonResponseValidations):
         merge_data = response_args.copy()
         merge_data.update(email_memo_id)
 
-        send_email_resp = SendEmailAndMakeConvLog(**merge_data)
+        send_email_resp = SendEmailAndMakeConvLogResponse(**merge_data)
 
         for attr in email_memo_id.keys():
             self._verify(
