@@ -69,8 +69,8 @@ class BaseResponse:
                 setattr(self, keyword, value)
             else:
                 quote = "'" if isinstance(value, str) else ''
-                print(f"Unrecognized argument for '{self.__class__.__name__}': "
-                      f"Keyword: '{keyword}' --> Value: {quote}{value}{quote}")
+                log.debug(f"Unrecognized argument for '{self.__class__.__name__}': "
+                          f"Keyword: '{keyword}' --> Value: {quote}{value}{quote}")
 
     def _combine_args(self, keys=None, objs=None):
         if keys is not None:
