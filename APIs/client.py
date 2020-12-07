@@ -2,6 +2,7 @@ from APIs.companies.client import CompaniesClient
 from APIs.extra_and_virtual_data.client import ExtraDataClient, VirtualDataClient
 from APIs.data_upload.client import DataUploadClient
 from APIs.notifications.client import NotificationsClient
+from APIs.los_configuration.client import LOSConfigurationClient
 from APIs.passwords.client import PasswordsClient
 from APIs.persons.employees.client import EmployeesClient
 from APIs.persons.client import PersonsClient
@@ -29,6 +30,7 @@ class Client(BaseClient):
         self.assets = AssetsClient(client=self)
         self.borrowers = BorrowersClient(client=self)
         self.companies = CompaniesClient(client=self)
+        self.los_configuration = LOSConfigurationClient(client=self)
         self.contacts = ContactsClient(client=self)
         self.credits = CreditsClient(client=self)
         self.data_checks = DataChecksClient(client=self)
