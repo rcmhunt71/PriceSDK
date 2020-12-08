@@ -90,10 +90,10 @@ class KwargsRequestModel(BaseRequestModel):
         # For all recorded dynamically created attributes, create a dual entry dictionary:
         # { FIELD_NAME: attr_name, FIELD_VALUE: attr_value }
         for payload_key in self.attr_list:
-            if getattr(self, payload_key, None) is not None:
+            if getattr(self, payload_key.lower(), None) is not None:
                 payload_list.append(
                     {DataKeys.FIELD_NAME: getattr(self.data_payload, payload_key.upper(), payload_key),
-                     DataKeys.FIELD_VALUE: getattr(self, payload_key)})
+                     DataKeys.FIELD_VALUE: getattr(self, payload_key.lower())})
         payload = {self.REQUEST_PAYLOAD_KEY: payload_list}
         return payload
 

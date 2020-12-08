@@ -1,8 +1,8 @@
 import pprint
-from typing import List, Dict, Any, Union
+from typing import Dict, List, Any
 from dataclasses import dataclass
 
-from base.common.models.request import BaseRequestModelKeys, KwargsRequestModel, DataKeys
+from base.common.models.request import BaseRequestModelKeys, KwargsRequestModel
 
 
 @dataclass
@@ -75,11 +75,20 @@ class SetAdjustmentRequest(KwargsRequestModel):
         args[SetAdjustmentRequestParams.LOAN_NUMBER_ID] = self.loan_number_id
         return args
 
-    def build_payload(self):
+    def build_payload(self) -> Dict[str, List[Dict[str, Any]]]:
         return super().build_payload()
 
 
 if __name__ == "__main__":
+    lock_confirm = {"Adjustments": [{"FieldName": "Lock_Confirm_Adj_Data", "FieldValue": "",
+                                     "LockConfirmData": [
+                                         {"SectionData": "test", "SectionField": "id", "SectionValue": "1"}],
+                                     "PurchaseAdjustment": []}]}
+
+    purchase = {"Adjustments": [{"FieldName": "PurchaseAdjustmentsData", "FieldValue": "", "LockConfirmData": [],
+                                 "PurchaseAdjustment": [
+                                     {"SectionData": "test", "SectionField": "id", "SectionValue": "1"}]}]}
+
     kwargs = {
         "GROSS_REVENUe": 1000.1,
         "Pool_Number": 102,
