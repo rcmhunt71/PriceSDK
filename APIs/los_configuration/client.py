@@ -1,13 +1,17 @@
 from dataclasses import dataclass
+from APIs.los_configuration.responses.get_configuration_list import GetConfigurationListResponse
 from APIs.los_configuration.requests.get_configuration_list import GetConfigurationListRequest
 from APIs.los_configuration.requests.get_loan_pipeline import GetLoanPipelineRequest
 from APIs.los_configuration.requests.get_program import GetProgramRequest
-from APIs.los_configuration.responses.get_configuration_list import GetConfigurationListResponse
+from APIs.los_configuration.requests.run_query import RunQueryRequest
+from APIs.los_configuration.requests.run_query_grid_fields import RunQueryGridFieldsRequest
 from APIs.los_configuration.responses.get_fees import GetFeesResponse
 from APIs.los_configuration.responses.get_loan_pipeline import GetLoanPipelineResponse
 from APIs.los_configuration.responses.get_loan_status_config import GetLoanStatusConfigResponse
 from APIs.los_configuration.responses.get_program import GetProgramResponse
 from APIs.los_configuration.responses.get_property_types import GetPropertyTypesResponse
+from APIs.los_configuration.responses.run_query import RunQueryResponse
+from APIs.los_configuration.responses.run_query_grid_fields import RunQueryGridFieldsResponse
 from base.common.models.request import SimpleRequestModel
 from base.clients.base_client import BaseClient
 
@@ -20,6 +24,8 @@ class ApiEndpoints:
     GET_LOAN_STATUS_CONFIG: str = "get_loan_status_config"
     GET_PROGRAM: str = "get_program"
     GET_PROPERTY_TYPES: str = "get_property_types"
+    RUN_QUERY: str = "run_query"
+    RUN_QUERY_GRID_FIELDS: str = "run_query_grid_fields"
 
 
 class LOSConfigurationClient(BaseClient):
@@ -66,4 +72,20 @@ class LOSConfigurationClient(BaseClient):
         request_model = SimpleRequestModel(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
             pretty_print=pretty_print)
         return self.get(resource_endpoint=ApiEndpoints.GET_PROPERTY_TYPES, response_model=GetPropertyTypesResponse,
+            params=request_model.as_params_dict)
+
+    def run_query(self, loan_id_list, loan_query_id, sort_field, sort_ascending, session_id=None, nonce=None,
+            pretty_print=False):
+        request_model = RunQueryRequest(loan_id_list=loan_id_list, loan_query_id=loan_query_id, sort_field=sort_field,
+            sort_ascending=sort_ascending, session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+            pretty_print=pretty_print)
+        return self.get(resource_endpoint=ApiEndpoints.RUN_QUERY, response_model=RunQueryResponse,
+            params=request_model.as_params_dict)
+
+    def run_query_grid_fields(self, loan_query_id, sort_fields, sort_ascending, session_id=None, nonce=None,
+            pretty_print=False):
+        request_model = RunQueryGridFieldsRequest(loan_query_id=loan_query_id, sort_fields=sort_fields,
+            sort_ascending=sort_ascending, session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+            pretty_print=pretty_print)
+        return self.get(resource_endpoint=ApiEndpoints.RUN_QUERY_GRID_FIELDS, response_model=RunQueryGridFieldsResponse,
             params=request_model.as_params_dict)
