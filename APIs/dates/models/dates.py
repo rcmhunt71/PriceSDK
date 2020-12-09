@@ -1,3 +1,4 @@
+import re
 from dataclasses import dataclass, fields
 
 from base.responses.base_response import BaseResponse
@@ -24,7 +25,8 @@ class Dates(BaseResponse):
         self.model_name = self.__class__.__name__
         self.raw = arg_list[::]
 
-        self._ADD_KEYS = [date.get(DatesInfoKeys.DATE_NAME).replace(' ','_').lower() for date in arg_list]
+        self._ADD_KEYS = [
+            re.sub('\s+','_',re.sub('[^A-Za-z\s]','',date.get(DatesInfoKeys.DATE_NAME)).lower()) for date in arg_list]
         self._SUB_MODELS = [Date for _ in range(len(self._ADD_KEYS))]
         kwargs = dict(zip(self._ADD_KEYS, arg_list))
         super().__init__(**kwargs)
