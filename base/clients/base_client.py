@@ -160,13 +160,23 @@ class BaseClient:
             response_type = "TEST RESPONSE"
         log.debug(f"{response_type}: {response.content}")
 
+        response_content_type = response.headers._store['content-type'][1].partition('/')
+
         if response.status_code != 200:
-            return {
-                'status_code': response.status_code,
-                'error_message': response.text,
-                'response': response
+            response_content = {
+                "Successful": False,
+                "ErrorMessage": response.text,
+                "Nonce": self._get_nonce(None)
             }
-        response_content = response.content if type(response.content) is dict else json.loads(response.content)
+        elif response_content_type[2] in ['csv', 'pdf', 'xml']:  # For API calls returning binary file
+            response_content = {
+                "Successful": True,
+                "Tags": response_content_type[2],
+                "raw_response": response.content,
+                "Nonce": self._get_nonce(None)
+            }
+        else:
+            response_content = response.content if type(response.content) is dict else json.loads(response.content)
 
         if resource_endpoint.lower() not in [ApiEndpoints.CREATE_SESSION.lower(), ApiEndpoints.END_SESSION.lower()]:
             if getattr(self, 'client', False):
