@@ -17,6 +17,7 @@ from APIs.persons.borrowers.client import BorrowersClient
 from APIs.price_and_lock.client import PriceAndLockClient
 from APIs.secondary.client import SecondaryClient
 from APIs.session.client import SessionClient
+from APIs.task_items.client import TaskItemsClient
 from APIs.tpo.client import TPOClient
 from base.clients.base_client import BaseClient
 from APIs.loans.client import LoanClient
@@ -55,5 +56,6 @@ class Client(BaseClient):
         self.secondary = SecondaryClient(client=self)
         self.security = SecurityClient(client=self)
         self.session = SessionClient(client=self)
+        self.task_items = TaskItemsClient(client=self)
         self.tpo = TPOClient(client=self)
         self.virtual_data = VirtualDataClient(client=self)
