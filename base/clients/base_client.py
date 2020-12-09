@@ -23,6 +23,11 @@ class Methods(Enum):
     OPTIONS = 'options'
 
 
+class ApiEndpoints:
+    CREATE_SESSION = "CREATE_SESSION"
+    END_SESSION = "END_SESSION"
+
+
 class BaseClient:
     headers = {'Content-Type': 'application/x-www-form-urlencoded',
                'cache-control': 'no-cache'}
@@ -39,7 +44,10 @@ class BaseClient:
             self.database = client.database
             self.nonce = client.nonce
             self.session_id = client.session_id
-            self.server_response = client.server_response
+            # For writing data to test_output/file
+            self.response_raw = client.response_raw
+            self.request_url = client.request_url
+            self.request_body = client.request_body
 
         # Otherwise, instantiate a client.
         else:
@@ -51,7 +59,10 @@ class BaseClient:
             self.database = database
             self.nonce = None
             self.session_id = None
-            self.server_response = None
+            # For writing data to test_output/file
+            self.response_raw = None
+            self.request_url = None
+            self.request_body = None
 
             port_info = '' if port is None else f":{port}"
             self.url = f"{self.base_url}{port_info}/{database}"
@@ -83,14 +94,14 @@ class BaseClient:
         pay_load = {"Password": password}
 
         # Post the request
-        response_model = self._make_call('CREATE_SESSION', CommonResponse, data=pay_load,
+        response_model = self._make_call(ApiEndpoints.CREATE_SESSION, CommonResponse, data=pay_load,
                                          method=Methods.POST, headers=self.headers, params=params)
         self.session_id = response_model.raw.get(BaseRequestModelKeys.SESSION_ID)
         return response_model
 
     def end_session(self, session_id=None, nonce=None):
         request_model = SimpleRequestModel(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
-        return self._make_call('END_SESSION', CommonResponse, method=Methods.POST,
+        return self._make_call(ApiEndpoints.END_SESSION, CommonResponse, method=Methods.POST,
                                params=request_model.as_params_dict)
 
     def insert_test_response_data(self, data):
@@ -157,13 +168,14 @@ class BaseClient:
             }
         response_content = response.content if type(response.content) is dict else json.loads(response.content)
 
-        if getattr(self, 'client', False):
-            self.client.server_response = f"RESPONSE\n{response.text}\n\n" \
-                                          f"PAYLOAD\n{response.request.body}\n\n" \
-                                          f"{response.request.method} {response.request.url}"
-        self.server_response = f"RESPONSE\n>{response.text}\n\n" \
-                               f"PAYLOAD\n{response.request.body}\n\n" \
-                               f"{response.request.method} {response.request.url}"
+        if resource_endpoint.lower() not in [ApiEndpoints.CREATE_SESSION.lower(), ApiEndpoints.END_SESSION.lower()]:
+            if getattr(self, 'client', False):
+                self.client.response_raw = response_content
+                self.client.request_url = f"{response.request.method} {response.request.url}"
+                self.client.request_body = response.request.body
+            self.response_raw = response_content
+            self.request_url = f"{response.request.method} {response.request.url}"
+            self.request_body = response.request.body
 
         response_model = response_model_class(**response_content)
         log.debug(f"Response Model: {type(response_model)}")
