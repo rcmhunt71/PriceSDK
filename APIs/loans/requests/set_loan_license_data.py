@@ -38,9 +38,7 @@ class SetLoanLicenseDataRequest(KwargsRequestModel):
     REQUEST_PAYLOAD_KEY = None
 
     def __init__(self, loan_number_id, session_id, nonce, pretty_print, **kwargs):
-        '''
-        This request does not rely on json payload, only URL parameters are used
-        '''
+        """ This request does not rely on json payload, only URL parameters are used """
         self.loan_number_id = loan_number_id
         super().__init__(session_id=session_id, nonce=nonce, payload=None, pretty_print=pretty_print, **kwargs)
 
@@ -49,12 +47,13 @@ class SetLoanLicenseDataRequest(KwargsRequestModel):
         args[SetLoanLicenseDataRequestKeys.LOAN_NUMBER_ID] = self.loan_number_id
 
         args.update(
-            dict([(getattr(SetLoanLicenseDetailsRequestParams, key.upper()), getattr(self, key)) for key in self.attr_list])
+            dict(
+                [(getattr(SetLoanLicenseDetailsRequestParams, key.upper()), getattr(self, key.lower()))
+                 for key in self.attr_list]
+            )
         )
-        return args
 
-    def build_payload(self):
-        return {}
+        return args
 
 
 if __name__ == "__main__":
