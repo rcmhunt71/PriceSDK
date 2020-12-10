@@ -1,5 +1,5 @@
 import pprint
-from typing import Dict, List, Any
+from typing import Dict, Any
 from dataclasses import dataclass
 
 from base.common.models.request import BaseRequestModelKeys, KwargsRequestModel
@@ -74,9 +74,6 @@ class SetAdjustmentRequest(KwargsRequestModel):
         args = super().to_params()
         args[SetAdjustmentRequestParams.LOAN_NUMBER_ID] = self.loan_number_id
         return args
-
-    def build_payload(self) -> Dict[str, List[Dict[str, Any]]]:
-        return super().build_payload()
 
 
 if __name__ == "__main__":
