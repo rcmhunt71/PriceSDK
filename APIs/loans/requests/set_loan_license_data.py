@@ -55,6 +55,13 @@ class SetLoanLicenseDataRequest(KwargsRequestModel):
 
         return args
 
+    def build_payload(self) -> typing.Dict[str, typing.List[typing.Dict[str, typing.Any]]]:
+        # When no kwargs, request body should be None in order to send headers "Content-Length": 0
+        if not len(self.attr_list):
+            return None
+        else:
+            super().build_payload()
+
 
 if __name__ == "__main__":
     import pprint
