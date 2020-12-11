@@ -63,7 +63,7 @@ class DataTable(list):
                 raise ValueError('mismatch between number of fields and values')
             for field, value in zip(cols, row_data):
                 field_id = field.get(DataColEntryKeys.ID)
-                value_content = value.get(RowValueKeys.VALUE)
+                value_content = value.get(RowValueKeys.VALUE) or ""
                 if field_id == 'Data':
                     raw_data = Row()
                     for line in value_content.splitlines():
