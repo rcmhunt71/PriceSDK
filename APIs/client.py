@@ -20,6 +20,7 @@ from APIs.secondary.client import SecondaryClient
 from APIs.session.client import SessionClient
 from APIs.task_items.client import TaskItemsClient
 from APIs.tpo.client import TPOClient
+from APIs.vendor_integration.client import VendorIntegrationClient
 from base.clients.base_client import BaseClient
 from APIs.loans.client import LoanClient
 from APIs.assets.client import AssetsClient
@@ -60,4 +61,5 @@ class Client(BaseClient):
         self.session = SessionClient(client=self)
         self.task_items = TaskItemsClient(client=self)
         self.tpo = TPOClient(client=self)
+        self.vendor_integration = VendorIntegrationClient(client=self)
         self.virtual_data = VirtualDataClient(client=self)
