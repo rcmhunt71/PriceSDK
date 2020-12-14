@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-
+from APIs.data_upload.requests.retrieve_data import RetrieveDataRequest
 from APIs.data_upload.responses.register_parameter_set import RegisterParameterSetResponse
 from APIs.data_upload.requests.process_string import ProcessStringRequest
 from APIs.data_upload.requests.upload_data import UploadDataRequest
@@ -7,6 +7,7 @@ from APIs.data_upload.responses.process_string import ProcessStringResponse
 from APIs.data_upload.responses.upload_data import UploadDataResponse
 from base.clients.base_client import BaseClient
 from base.common.models.request import SimpleRequestModel
+from base.common.response import CommonResponse
 
 
 @dataclass
@@ -14,6 +15,7 @@ class ApiEndpoints:
     PROCESS_STRING: str = "process_string"
     UPLOAD_DATA: str = "upload_data"
     REGISTER_PARAMETER_SET: str = "register_parameter_set"
+    RETRIEVE_DATA: str = "retrieve_data"
 
 
 class DataUploadClient(BaseClient):
@@ -43,3 +45,9 @@ class DataUploadClient(BaseClient):
         return self.post(resource_endpoint=ApiEndpoints.REGISTER_PARAMETER_SET,
             response_model=RegisterParameterSetResponse, params=request_model.as_params_dict,
             data=request_model.payload)
+
+    def retrieve_data(self, token, type, hash, session_id=None, nonce=None, pretty_print=False):
+        request_model = RetrieveDataRequest(token=token, type=type, hash=hash,
+            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+        return self.get(resource_endpoint=ApiEndpoints.RETRIEVE_DATA, response_model=CommonResponse,
+            params=request_model.as_params_dict)
