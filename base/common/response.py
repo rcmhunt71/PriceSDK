@@ -1,4 +1,6 @@
+import os
 from dataclasses import dataclass
+from os.path import dirname, abspath
 
 from base.responses.base_response import BaseResponse
 from base.common.models.stats import StatsModel
@@ -40,3 +42,21 @@ class CommonResponse(BaseResponse):
             response[obj] = None if getattr(self, obj) is None else getattr(self, obj).to_struct()
 
         return response
+
+
+class FileResponse(CommonResponse):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.content = kwargs
+
+    def save_file(self, name_with_extension: str):
+        """ Will save file under test_output/files/ """
+        result_dir = os.path.join(dirname(abspath('')), 'test_output')
+        if not os.path.exists(result_dir):
+            os.mkdir(result_dir)
+        test_output_dir = os.path.join(result_dir, 'files')
+        if not os.path.exists(test_output_dir):
+            os.mkdir(test_output_dir)
+        file_path = os.path.join(test_output_dir, name_with_extension)
+        with open(file_path, "wb") as f:
+            f.write(self.content['raw_response'])
