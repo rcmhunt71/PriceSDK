@@ -7,8 +7,10 @@ from APIs.task_items.requests.download_image_files import DownloadImageFilesRequ
 from APIs.task_items.requests.download_image_files_by_status_id_list import DownloadImageFilesByStatusIdListRequest
 from APIs.task_items.requests.get_all_print_forms import GetAllPrintFormsRequest
 from APIs.task_items.requests.get_image import GetImageRequest
+from APIs.task_items.requests.get_image_access_logs import GetImageAccessLogsRequest
 
 from APIs.task_items.responses.get_all_print_forms import GetAllPrintFormsResponse
+from APIs.task_items.responses.get_image_access_logs import GetImageAccessLogsResponse
 
 
 @dataclass
@@ -17,6 +19,7 @@ class ApiEndpoints:
     DOWNLOAD_IMAGE_FILES_BY_STATUS_ID_LIST: str = "download_image_files_by_status_id_list"
     GET_ALL_PRINT_FORMS: str = "get_all_print_forms"
     GET_IMAGE: str = "get_image"
+    GET_IMAGE_ACCESS_LOGS: str = "get_image_access_logs"
 
 
 class TaskItemsClient(BaseClient):
@@ -54,4 +57,12 @@ class TaskItemsClient(BaseClient):
                                         nonce=self._get_nonce(nonce), pretty_print=pretty_print)
 
         return self.get(resource_endpoint=ApiEndpoints.GET_IMAGE, response_model=CommonResponse,
+                        params=request_model.as_params_dict)
+
+    def get_image_access_logs(self, loan_number_id, status_id, limit, session_id=None, nonce=None, pretty_print=False):
+        request_model = GetImageAccessLogsRequest(loan_number_id=loan_number_id, status_id=status_id, limit=limit,
+                                                  session_id=self._get_session_id(session_id),
+                                                  nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.get(resource_endpoint=ApiEndpoints.GET_IMAGE_ACCESS_LOGS, response_model=GetImageAccessLogsResponse,
                         params=request_model.as_params_dict)
