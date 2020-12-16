@@ -10,10 +10,12 @@ from APIs.task_items.requests.get_image import GetImageRequest
 from APIs.task_items.requests.get_image_access_logs import GetImageAccessLogsRequest
 from APIs.task_items.requests.get_image_thumbnail import GetImageThumbnailRequest
 from APIs.task_items.requests.get_loan_conditions_with_param import GetLoanConditionsWithParamRequest
+from APIs.task_items.requests.get_loan_print_forms import GetLoanPrintFormsRequest
 
 from APIs.task_items.responses.get_all_print_forms import GetAllPrintFormsResponse
 from APIs.task_items.responses.get_image_access_logs import GetImageAccessLogsResponse
 from APIs.task_items.responses.get_loan_conditions_with_param import GetLoanConditionsWithParamResponse
+from APIs.task_items.responses.get_loan_print_forms import GetLoanPrintFormsResponse
 
 
 @dataclass
@@ -25,6 +27,7 @@ class ApiEndpoints:
     GET_IMAGE_ACCESS_LOGS: str = "get_image_access_logs"
     GET_IMAGE_THUMBNAIL: str = "get_image_thumbnail"
     GET_LOAN_CONDITIONS_WITH_PARAM: str = "get_loan_conditions_with_param"
+    GET_LOAN_PRINT_FORMS: str = "get_loan_print_forms"
 
 
 class TaskItemsClient(BaseClient):
@@ -90,3 +93,11 @@ class TaskItemsClient(BaseClient):
 
         return self.get(resource_endpoint=ApiEndpoints.GET_LOAN_CONDITIONS_WITH_PARAM,
                         response_model=GetLoanConditionsWithParamResponse, params=request_model.as_params_dict)
+
+    def get_loan_print_forms(self, loan_number_id, sort_by=None, session_id=None, nonce=None, pretty_print=False):
+        request_model = GetLoanPrintFormsRequest(loan_number_id=loan_number_id, sort_by=sort_by,
+                                                          session_id=self._get_session_id(session_id),
+                                                          nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.get(resource_endpoint=ApiEndpoints.GET_LOAN_PRINT_FORMS, response_model=GetLoanPrintFormsResponse,
+                        params=request_model.as_params_dict)
