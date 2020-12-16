@@ -12,6 +12,7 @@ from APIs.task_items.requests.get_image_access_logs import GetImageAccessLogsReq
 from APIs.task_items.requests.get_image_thumbnail import GetImageThumbnailRequest
 from APIs.task_items.requests.get_loan_conditions_with_param import GetLoanConditionsWithParamRequest
 from APIs.task_items.requests.get_loan_print_forms import GetLoanPrintFormsRequest
+from APIs.task_items.requests.get_print_form_pdf import GetPrintFormPdfRequest
 
 from APIs.task_items.responses.get_all_print_forms import GetAllPrintFormsResponse
 from APIs.task_items.responses.get_image_access_logs import GetImageAccessLogsResponse
@@ -32,6 +33,7 @@ class ApiEndpoints:
     GET_LOAN_PRINT_FORMS: str = "get_loan_print_forms"
     GET_LOAN_STATUS_IMAGES: str = "get_loan_status_images"
     GET_LOAN_STATUS_PDF: str = "get_loan_status_pdf"
+    GET_PRINT_FORM_PDF: str = "get_print_form_pdf"
 
 
 class TaskItemsClient(BaseClient):
@@ -120,4 +122,15 @@ class TaskItemsClient(BaseClient):
                                                  nonce=self._get_nonce(nonce), pretty_print=pretty_print)
 
         return self.get(resource_endpoint=ApiEndpoints.GET_LOAN_STATUS_PDF, response_model=CommonResponse,
+                        params=request_model.as_params_dict)
+
+    def get_print_form_pdf(self, loan_number_id, print_form_comma_list, document_password=None, print_ln_name=None,
+                           session_id=None, nonce=None, pretty_print=False):
+        request_model = GetPrintFormPdfRequest(loan_number_id=loan_number_id,
+                                               print_form_comma_list=print_form_comma_list,
+                                               document_password=document_password, print_ln_name=print_ln_name,
+                                               session_id=self._get_session_id(session_id),
+                                               nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.get(resource_endpoint=ApiEndpoints.GET_PRINT_FORM_PDF, response_model=CommonResponse,
                         params=request_model.as_params_dict)
