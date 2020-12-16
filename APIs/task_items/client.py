@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from base.clients.base_client import BaseClient
-from base.common.models.request import LoanNumberIdRequestModel
+from base.common.models.request import LoanNumberIdRequestModel, SimpleRequestModel
 from base.common.response import CommonResponse
 
 from APIs.task_items.requests.download_image_files import DownloadImageFilesRequest
@@ -19,6 +19,7 @@ from APIs.task_items.responses.get_image_access_logs import GetImageAccessLogsRe
 from APIs.task_items.responses.get_loan_conditions_with_param import GetLoanConditionsWithParamResponse
 from APIs.task_items.responses.get_loan_print_forms import GetLoanPrintFormsResponse
 from APIs.task_items.responses.get_loan_status_images import GetLoanStatusImagesResponse
+from APIs.task_items.responses.get_task_item_group_list import GetTaskItemGroupListResponse
 
 
 @dataclass
@@ -34,6 +35,7 @@ class ApiEndpoints:
     GET_LOAN_STATUS_IMAGES: str = "get_loan_status_images"
     GET_LOAN_STATUS_PDF: str = "get_loan_status_pdf"
     GET_PRINT_FORM_PDF: str = "get_print_form_pdf"
+    GET_TASK_ITEM_GROUP_LIST: str = "get_task_item_group_list"
 
 
 class TaskItemsClient(BaseClient):
@@ -134,3 +136,10 @@ class TaskItemsClient(BaseClient):
 
         return self.get(resource_endpoint=ApiEndpoints.GET_PRINT_FORM_PDF, response_model=CommonResponse,
                         params=request_model.as_params_dict)
+
+    def get_task_item_group_list(self, session_id=None, nonce=None, pretty_print=False):
+        request_model = SimpleRequestModel(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+                                           pretty_print=pretty_print)
+
+        return self.get(resource_endpoint=ApiEndpoints.GET_TASK_ITEM_GROUP_LIST,
+                        response_model=GetTaskItemGroupListResponse, params=request_model.as_params_dict)
