@@ -33,11 +33,11 @@ class DataUploadClient(BaseClient):
         return self.get(resource_endpoint=ApiEndpoints.PROCESS_STRING, response_model=ProcessStringResponse,
             params=request_model.as_params_dict)
 
-    def upload_data(self, token, append, type, payload_dict=None, session_id=None, nonce=None, pretty_print=False):
-        request_model = UploadDataRequest(token=token, append=append, type=type, payload_dict=payload_dict,
+    def upload_data(self, token, append, type, binary_file=None, session_id=None, nonce=None, pretty_print=False):
+        request_model = UploadDataRequest(token=token, append=append, type=type, binary_file=binary_file,
             session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print)
         return self.post(resource_endpoint=ApiEndpoints.UPLOAD_DATA, response_model=UploadDataResponse,
-            params=request_model.as_params_dict, data=request_model.payload, headers=self.upload_headers)
+            params=request_model.as_params_dict, data={}, binary_data=binary_file, headers=self.upload_headers)
 
     def register_parameter_set(self, payload_dict=None, session_id=None, nonce=None, pretty_print=False):
         request_model = SimpleRequestModel(payload=payload_dict, session_id=self._get_session_id(session_id),

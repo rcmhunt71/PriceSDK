@@ -10,11 +10,12 @@ class UploadDataParams(BaseRequestModelKeys):
 
 
 class UploadDataRequest(SimpleRequestModel):
-    def __init__(self, token, append, type, session_id, nonce, payload_dict, pretty_print):
+    def __init__(self, token, append, type, binary_file, session_id, nonce, pretty_print):
         self.token = token
         self.append = append
         self.type = type
-        super().__init__(session_id=session_id, nonce=nonce, payload=payload_dict, pretty_print=pretty_print)
+        self.binary_file = binary_file
+        super().__init__(session_id=session_id, nonce=nonce, pretty_print=pretty_print)
 
     def to_params(self):
         args = super().to_params()
