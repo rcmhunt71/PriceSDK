@@ -169,7 +169,7 @@ class BaseClient:
                 "Nonce": self._get_nonce(None)
             }
         # For API calls returning binary file
-        elif response_content_type[2] in ['csv', 'pdf', 'xml', 'octet-stream', 'tiff']:
+        elif response_content_type[2] in ['csv', 'pdf', 'xml', 'octet-stream', 'tiff', 'jpeg']:
             response_content = {
                 "Successful": True,
                 "Tags": response_content_type[2],
