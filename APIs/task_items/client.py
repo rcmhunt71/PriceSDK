@@ -14,6 +14,7 @@ from APIs.task_items.requests.get_loan_conditions_with_param import GetLoanCondi
 from APIs.task_items.requests.get_loan_print_forms import GetLoanPrintFormsRequest
 from APIs.task_items.requests.get_print_form_pdf import GetPrintFormPdfRequest
 from APIs.task_items.requests.add_disclosure_histories import AddDisclosureHistoriesRequest
+from APIs.task_items.requests.log_image_access import LogImageAccessRequest
 
 from APIs.task_items.responses.get_all_print_forms import GetAllPrintFormsResponse
 from APIs.task_items.responses.get_image_access_logs import GetImageAccessLogsResponse
@@ -39,6 +40,7 @@ class ApiEndpoints:
     GET_PRINT_FORM_PDF: str = "get_print_form_pdf"
     GET_TASK_ITEM_GROUP_LIST: str = "get_task_item_group_list"
     ADD_DISCLOSURE_HISTORIES: str = "add_disclosure_histories"
+    LOG_IMAGE_ACCESS: str = "log_image_access"
 
 
 class TaskItemsClient(BaseClient):
@@ -156,3 +158,13 @@ class TaskItemsClient(BaseClient):
 
         return self.post(resource_endpoint=ApiEndpoints.ADD_DISCLOSURE_HISTORIES, data=request_model.payload,
                          response_model=AddDisclosureHistoriesResponse, params=request_model.as_params_dict)
+
+    def log_image_access(self, loan_number_id, image_id, person_id, log_option, status_id, session_id=None,
+                         nonce=None, pretty_print=False):
+        request_model = LogImageAccessRequest(loan_number_id=loan_number_id, image_id=image_id, person_id=person_id,
+                                              log_option=log_option, status_id=status_id,
+                                              session_id=self._get_session_id(session_id),
+                                              nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.LOG_IMAGE_ACCESS, data=request_model.payload,
+                         response_model=CommonResponse, params=request_model.as_params_dict)
