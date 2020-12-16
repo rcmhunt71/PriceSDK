@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from APIs.task_items.requests.upload_image_file import UploadImageFileRequest
+from APIs.task_items.responses.upload_image_file import UploadImageFileResponse
 from base.clients.base_client import BaseClient
 from base.common.models.request import LoanNumberIdRequestModel, SimpleRequestModel
 from base.common.response import CommonResponse
@@ -44,6 +46,7 @@ class ApiEndpoints:
     GET_TASK_ITEM_GROUP_LIST: str = "get_task_item_group_list"
     ADD_DISCLOSURE_HISTORIES: str = "add_disclosure_histories"
     LOG_IMAGE_ACCESS: str = "log_image_access"
+    UPLOAD_IMAGE_FILE: str = "upload_image_file"
 
 
 class TaskItemsClient(BaseClient):
@@ -51,6 +54,12 @@ class TaskItemsClient(BaseClient):
     APPLICATION_JSON = "application/json"
     json_headers = {
         CONTENT_TYPE: APPLICATION_JSON
+    }
+
+    CONTENT_ENCODING = "Content-Encoding"
+    BASE64_COMPRESS = "base64-compress"
+    base64_headers = {
+        CONTENT_ENCODING: BASE64_COMPRESS
     }
 
     def download_image_files(self, loan_number_id, status_id, session_id=None, nonce=None, pretty_print=False):
@@ -186,3 +195,19 @@ class TaskItemsClient(BaseClient):
 
         return self.post(resource_endpoint=ApiEndpoints.LOG_IMAGE_ACCESS, data=request_model.payload,
                          response_model=CommonResponse, params=request_model.as_params_dict)
+
+    def upload_image_file(self, loan_number_id, status_id, mime_sub_type, image_file=None, send_email_notification=None,
+                          b2b_flag=None, image_token=None, hash=None, portal=None, contact_name=None,
+                          session_id=None, nonce=None, pretty_print=False):
+        """ String 'ImageFile=' should be concatenated with base64 encoded file and compressed """
+        request_model = UploadImageFileRequest(loan_number_id=loan_number_id, status_id=status_id,
+                                               mime_sub_type=mime_sub_type, image_file=image_file,
+                                               send_email_notification=send_email_notification, b2b_flag=b2b_flag,
+                                               image_token=image_token, hash=hash, portal=portal,
+                                               contact_name=contact_name, session_id=self._get_session_id(session_id),
+                                               nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.UPLOAD_IMAGE_FILE, data={},
+                         binary_data=request_model.image_file,
+                         response_model=UploadImageFileResponse, params=request_model.as_params_dict,
+                         headers=self.headers.update(self.base64_headers) if image_file is not None else None)
