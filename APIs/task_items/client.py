@@ -9,9 +9,11 @@ from APIs.task_items.requests.get_all_print_forms import GetAllPrintFormsRequest
 from APIs.task_items.requests.get_image import GetImageRequest
 from APIs.task_items.requests.get_image_access_logs import GetImageAccessLogsRequest
 from APIs.task_items.requests.get_image_thumbnail import GetImageThumbnailRequest
+from APIs.task_items.requests.get_loan_conditions_with_param import GetLoanConditionsWithParamRequest
 
 from APIs.task_items.responses.get_all_print_forms import GetAllPrintFormsResponse
 from APIs.task_items.responses.get_image_access_logs import GetImageAccessLogsResponse
+from APIs.task_items.responses.get_loan_conditions_with_param import GetLoanConditionsWithParamResponse
 
 
 @dataclass
@@ -22,6 +24,7 @@ class ApiEndpoints:
     GET_IMAGE: str = "get_image"
     GET_IMAGE_ACCESS_LOGS: str = "get_image_access_logs"
     GET_IMAGE_THUMBNAIL: str = "get_image_thumbnail"
+    GET_LOAN_CONDITIONS_WITH_PARAM: str = "get_loan_conditions_with_param"
 
 
 class TaskItemsClient(BaseClient):
@@ -72,9 +75,18 @@ class TaskItemsClient(BaseClient):
     def get_image_thumbnail(self, loan_number_id, status_id, image_id, page_number, height=None, width=None,
                             session_id=None, nonce=None, pretty_print=False):
         request_model = GetImageThumbnailRequest(loan_number_id=loan_number_id, status_id=status_id, image_id=image_id,
-                                                  page_number=page_number, height=height, width=width,
-                                                  session_id=self._get_session_id(session_id),
-                                                  nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+                                                 page_number=page_number, height=height, width=width,
+                                                 session_id=self._get_session_id(session_id),
+                                                 nonce=self._get_nonce(nonce), pretty_print=pretty_print)
 
         return self.get(resource_endpoint=ApiEndpoints.GET_IMAGE_THUMBNAIL, response_model=CommonResponse,
                         params=request_model.as_params_dict)
+
+    def get_loan_conditions_with_param(self, loan_number_id, other_params, session_id=None, nonce=None,
+                                       pretty_print=False):
+        request_model = GetLoanConditionsWithParamRequest(loan_number_id=loan_number_id, other_params=other_params,
+                                                          session_id=self._get_session_id(session_id),
+                                                          nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.get(resource_endpoint=ApiEndpoints.GET_LOAN_CONDITIONS_WITH_PARAM,
+                        response_model=GetLoanConditionsWithParamResponse, params=request_model.as_params_dict)
