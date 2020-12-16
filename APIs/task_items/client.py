@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from base.clients.base_client import BaseClient
+from base.common.models.request import LoanNumberIdRequestModel
 from base.common.response import CommonResponse
 
 from APIs.task_items.requests.download_image_files import DownloadImageFilesRequest
@@ -16,6 +17,7 @@ from APIs.task_items.responses.get_all_print_forms import GetAllPrintFormsRespon
 from APIs.task_items.responses.get_image_access_logs import GetImageAccessLogsResponse
 from APIs.task_items.responses.get_loan_conditions_with_param import GetLoanConditionsWithParamResponse
 from APIs.task_items.responses.get_loan_print_forms import GetLoanPrintFormsResponse
+from APIs.task_items.responses.get_loan_status_images import GetLoanStatusImagesResponse
 
 
 @dataclass
@@ -28,6 +30,7 @@ class ApiEndpoints:
     GET_IMAGE_THUMBNAIL: str = "get_image_thumbnail"
     GET_LOAN_CONDITIONS_WITH_PARAM: str = "get_loan_conditions_with_param"
     GET_LOAN_PRINT_FORMS: str = "get_loan_print_forms"
+    GET_LOAN_STATUS_IMAGES: str = "get_loan_status_images"
 
 
 class TaskItemsClient(BaseClient):
@@ -101,3 +104,11 @@ class TaskItemsClient(BaseClient):
 
         return self.get(resource_endpoint=ApiEndpoints.GET_LOAN_PRINT_FORMS, response_model=GetLoanPrintFormsResponse,
                         params=request_model.as_params_dict)
+
+    def get_loan_status_images(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = LoanNumberIdRequestModel(loan_number_id=loan_number_id,
+                                                 session_id=self._get_session_id(session_id),
+                                                 nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.get(resource_endpoint=ApiEndpoints.GET_LOAN_STATUS_IMAGES,
+                        response_model=GetLoanStatusImagesResponse, params=request_model.as_params_dict)
