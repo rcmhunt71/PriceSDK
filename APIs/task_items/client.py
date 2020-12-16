@@ -13,6 +13,7 @@ from APIs.task_items.requests.get_image_thumbnail import GetImageThumbnailReques
 from APIs.task_items.requests.get_loan_conditions_with_param import GetLoanConditionsWithParamRequest
 from APIs.task_items.requests.get_loan_print_forms import GetLoanPrintFormsRequest
 from APIs.task_items.requests.get_print_form_pdf import GetPrintFormPdfRequest
+from APIs.task_items.requests.add_disclosure_histories import AddDisclosureHistoriesRequest
 
 from APIs.task_items.responses.get_all_print_forms import GetAllPrintFormsResponse
 from APIs.task_items.responses.get_image_access_logs import GetImageAccessLogsResponse
@@ -20,6 +21,7 @@ from APIs.task_items.responses.get_loan_conditions_with_param import GetLoanCond
 from APIs.task_items.responses.get_loan_print_forms import GetLoanPrintFormsResponse
 from APIs.task_items.responses.get_loan_status_images import GetLoanStatusImagesResponse
 from APIs.task_items.responses.get_task_item_group_list import GetTaskItemGroupListResponse
+from APIs.task_items.responses.add_disclosure_histories import AddDisclosureHistoriesResponse
 
 
 @dataclass
@@ -36,6 +38,7 @@ class ApiEndpoints:
     GET_LOAN_STATUS_PDF: str = "get_loan_status_pdf"
     GET_PRINT_FORM_PDF: str = "get_print_form_pdf"
     GET_TASK_ITEM_GROUP_LIST: str = "get_task_item_group_list"
+    ADD_DISCLOSURE_HISTORIES: str = "add_disclosure_histories"
 
 
 class TaskItemsClient(BaseClient):
@@ -143,3 +146,13 @@ class TaskItemsClient(BaseClient):
 
         return self.get(resource_endpoint=ApiEndpoints.GET_TASK_ITEM_GROUP_LIST,
                         response_model=GetTaskItemGroupListResponse, params=request_model.as_params_dict)
+
+    def add_disclosure_histories(self, loan_number_id, event, document_type_ids, upload_token, session_id=None,
+                                 nonce=None, pretty_print=False):
+        request_model = AddDisclosureHistoriesRequest(loan_number_id=loan_number_id, event=event,
+                                                      document_type_ids=document_type_ids, upload_token=upload_token,
+                                                      session_id=self._get_session_id(session_id),
+                                                      nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.ADD_DISCLOSURE_HISTORIES, data=request_model.payload,
+                         response_model=AddDisclosureHistoriesResponse, params=request_model.as_params_dict)
