@@ -116,7 +116,7 @@ class TestLoanLicenseClient(unittest.TestCase, CommonResponseValidations):
 
         response_model = client.get_loan_license_data(
             session_id=SESSION_ID, nonce=NONCE,
-            loan_number_ids=LOAN_NUMEBER_ID, data_from=LoanLicenseDataFrom.LOAN_OFFICER.value,
+            loan_number_id=LOAN_NUMEBER_ID, data_from=LoanLicenseDataFrom.LOAN_OFFICER.value,
             data_id=randrange(99999999))
 
         self._show_response(response_model=response_model)
@@ -132,7 +132,7 @@ class TestLoanLicenseClient(unittest.TestCase, CommonResponseValidations):
         with self.assertRaises(UnknownDataFromTypeException):
             client.get_loan_license_data(
                 session_id=SESSION_ID, nonce=NONCE,
-                loan_number_ids=LOAN_NUMEBER_ID, data_from=1001, data_id=randrange(99999999))
+                loan_number_id=LOAN_NUMEBER_ID, data_from=1001, data_id=randrange(99999999))
 
     def test_SetLoanLicenseData_client(self):
         license_args = response_args.copy()

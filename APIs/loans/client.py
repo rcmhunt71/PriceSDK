@@ -125,9 +125,9 @@ class LoanClient(BaseClient):
         return self.get(resource_endpoint=ApiEndpoints.GET_FINAL_VALUE_TAG,
                         response_model=GetFinalValueTagsResponse, params=request_model.as_params_dict)
 
-    def get_loan_license_data(self, loan_number_ids, data_from, data_id,
+    def get_loan_license_data(self, loan_number_id, data_from, data_id,
                               session_id=None, nonce=None, pretty_print=False):
-        request_model = GetLoanLicenseDataRequest(loan_number_ids=loan_number_ids, data_from=data_from, data_id=data_id,
+        request_model = GetLoanLicenseDataRequest(loan_number_id=loan_number_id, data_from=data_from, data_id=data_id,
                                                   session_id=self._get_session_id(session_id),
                                                   nonce=self._get_nonce(nonce), pretty_print=pretty_print)
 
