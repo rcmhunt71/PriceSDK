@@ -10,6 +10,7 @@ from APIs.task_items.requests.get_all_print_forms import GetAllPrintFormsRequest
 from APIs.task_items.requests.get_image import GetImageRequest
 from APIs.task_items.requests.get_image_access_logs import GetImageAccessLogsRequest
 from APIs.task_items.requests.get_image_thumbnail import GetImageThumbnailRequest
+from APIs.task_items.requests.get_image_thumbnail_multiple import GetImageThumbnailMultipleRequest
 from APIs.task_items.requests.get_loan_conditions_with_param import GetLoanConditionsWithParamRequest
 from APIs.task_items.requests.get_loan_print_forms import GetLoanPrintFormsRequest
 from APIs.task_items.requests.get_print_form_pdf import GetPrintFormPdfRequest
@@ -18,6 +19,7 @@ from APIs.task_items.requests.log_image_access import LogImageAccessRequest
 
 from APIs.task_items.responses.get_all_print_forms import GetAllPrintFormsResponse
 from APIs.task_items.responses.get_image_access_logs import GetImageAccessLogsResponse
+from APIs.task_items.responses.get_image_thumbnail_multiple import GetImageThumbnailMultipleResponse
 from APIs.task_items.responses.get_loan_conditions_with_param import GetLoanConditionsWithParamResponse
 from APIs.task_items.responses.get_loan_print_forms import GetLoanPrintFormsResponse
 from APIs.task_items.responses.get_loan_status_images import GetLoanStatusImagesResponse
@@ -33,6 +35,7 @@ class ApiEndpoints:
     GET_IMAGE: str = "get_image"
     GET_IMAGE_ACCESS_LOGS: str = "get_image_access_logs"
     GET_IMAGE_THUMBNAIL: str = "get_image_thumbnail"
+    GET_IMAGE_THUMBNAIL_MULTIPLE: str = "get_image_thumbnail_multiple"
     GET_LOAN_CONDITIONS_WITH_PARAM: str = "get_loan_conditions_with_param"
     GET_LOAN_PRINT_FORMS: str = "get_loan_print_forms"
     GET_LOAN_STATUS_IMAGES: str = "get_loan_status_images"
@@ -44,6 +47,11 @@ class ApiEndpoints:
 
 
 class TaskItemsClient(BaseClient):
+    CONTENT_TYPE = "Content-Type"
+    APPLICATION_JSON = "application/json"
+    json_headers = {
+        CONTENT_TYPE: APPLICATION_JSON
+    }
 
     def download_image_files(self, loan_number_id, status_id, session_id=None, nonce=None, pretty_print=False):
         request_model = DownloadImageFilesRequest(loan_number_id=loan_number_id, status_id=status_id,
@@ -97,6 +105,16 @@ class TaskItemsClient(BaseClient):
 
         return self.get(resource_endpoint=ApiEndpoints.GET_IMAGE_THUMBNAIL, response_model=CommonResponse,
                         params=request_model.as_params_dict)
+
+    def get_image_thumbnail_multiple(self, loan_number_id, payload_dict, session_id=None, nonce=None,
+                                     pretty_print=False):
+        request_model = GetImageThumbnailMultipleRequest(loan_number_id=loan_number_id, payload_dict=payload_dict,
+                                                         session_id=self._get_session_id(session_id),
+                                                         nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.GET_IMAGE_THUMBNAIL_MULTIPLE, data=request_model.as_json,
+                         response_model=GetImageThumbnailMultipleResponse, params=request_model.as_params_dict,
+                         headers=self.json_headers)
 
     def get_loan_conditions_with_param(self, loan_number_id, other_params, session_id=None, nonce=None,
                                        pretty_print=False):
