@@ -1,3 +1,4 @@
+from APIs.others.client import OthersClient
 from APIs.conversation_logs.client import ConversationLogsClient
 from APIs.correspondent.client import CorrespondentClient
 from APIs.companies.client import CompaniesClient
@@ -54,6 +55,7 @@ class Client(BaseClient):
         self.loan = LoanClient(client=self)
         self.los_configuration = LOSConfigurationClient(client=self)
         self.notifications = NotificationsClient(client=self)
+        self.others = OthersClient(client=self)
         self.passwords = PasswordsClient(client=self)
         self.persons = PersonsClient(client=self)
         self.price_and_lock = PriceAndLockClient(client=self)
