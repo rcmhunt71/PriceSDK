@@ -10,7 +10,7 @@ from APIs.loans.models.loan_data import (
 from base.common.models.data_table_response import DataColEntryKeys, RowValueKeys, RowColKeys, DataTableKeys
 from APIs.loans.models.final_value import FinalValueFieldsKeys, FinalValueScreenKeys
 from base.common.models.data_table_response import DataTableKeys
-from APIs.loans.responses.add_loan import AddALoanKeys, AddALoanResponse
+from APIs.loans.responses.add_a_loan import AddALoanKeys, AddALoanResponse
 from APIs.loans.responses.get_final_value_tags import GetFinalValueTagsResponse
 from APIs.loans.responses.get_loan import GetLoanResponse, GetLoanDetailResponse
 
@@ -273,7 +273,7 @@ class TestLoanClient(unittest.TestCase, CommonResponseValidations):
         client.insert_test_response_data(data=add_loan_args)
 
         # Make and validate client call
-        response_model = client.add_loan(session_id="123456789", nonce="DEADBEEF15DECEA5ED", )
+        response_model = client.add_a_loan(session_id="123456789", nonce="DEADBEEF15DECEA5ED", )
         self._show_response(response_model=response_model)
         self._validate_response(model=response_model, model_data=add_loan_args)
 
