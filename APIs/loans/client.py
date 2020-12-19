@@ -15,8 +15,10 @@ from APIs.loans.responses.get_loan_mi_detail import GetLoanMIDetailsResponse
 from APIs.loans.responses.get_loan_sellers import GetLoanSellersResponse
 
 from APIs.loans.requests.add_a_loan import ImportFromFileRequest, ImportFromFileWithDateRequest
+from APIs.loans.responses.export_loan import ExportLoanResponse
+from APIs.loans.requests.merge_loan_change_table import MergeLoanChangeTableRequest
 from APIs.loans.requests.get_loan import GetLoanRequest, GetLoanDetailRequest, GetFinalValueTagsRequest, \
-    GetLoanRateQuoteDetailsRequest, GetLoanMIDetailRequest
+                                         GetLoanRateQuoteDetailsRequest, GetLoanMIDetailRequest
 from APIs.loans.requests.get_loan_license_data import GetLoanLicenseDataRequest
 from APIs.loans.requests.get_loan_statuses import GetLoanStatusesRequest
 from APIs.loans.requests.set_anti_steering_data import SetAntiSteeringDataRequest
@@ -41,6 +43,7 @@ class ImportFromFileFileTypes(Enum):
 class ApiEndpoints:
     ADD_A_LOAN: str = "add_a_loan"
     ADD_OR_UPDATE_LOAN_SELLERS: str = "add_or_update_loan_sellers"
+    EXPORT_LOAN: str = "export_loan"
     GET_FINAL_VALUE_TAG: str = "get_final_value_tags"
     GET_LOAN: str = "get_loan"
     GET_LOAN_DETAIL: str = "get_loan_detail"
@@ -51,6 +54,7 @@ class ApiEndpoints:
     GET_LOAN_SELLERS: str = "get_loan_sellers"
     IMPORT_FROM_FILE: str = "import_from_file"
     IMPORT_FROM_FILE_WITH_DATE: str = "import_from_file_with_date"
+    MERGE_LOAN_CHANGE_TABLE: str = "merge_loan_change_table"
     SET_ANTI_STEERING_DATA: str = "set_anti_steering_data"
     SET_LOAN_DATA: str = "set_loan_data"
     SET_LOAN_HMDA: str = "set_loan_hmda"
@@ -83,6 +87,14 @@ class LoanClient(BaseClient):
                          response_model=CommonResponse, headers=self.json_headers,
                          params=request_model.as_params_dict, data=request_model.payload)
 
+    def export_loan(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = LoanNumberIdRequestModel(loan_number_id=loan_number_id,
+                                                 session_id=self._get_session_id(session_id),
+                                                 nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.get(resource_endpoint=ApiEndpoints.EXPORT_LOAN, response_model=ExportLoanResponse,
+                        params=request_model.as_params_dict)
+
     def import_from_file(self, loan_number, base64_file_data, file_type, date_name, session_id=None, nonce=None):
         request_model = ImportFromFileRequest(loan_number=loan_number, base64_file_data=base64_file_data,
                                               file_type=file_type, date_name=date_name,
@@ -101,6 +113,16 @@ class LoanClient(BaseClient):
         return self.post(resource_endpoint=ApiEndpoints.IMPORT_FROM_FILE_WITH_DATE,
                          response_model=ImportFromFileWithDateResponse, data={}, headers=headers,
                          params=request_model.as_params_dict)
+
+    def merge_loan_change_table(self, loan_number_id, fannie_file: str, difference_xml: str, session_id=None,
+                                nonce=None, pretty_print=False):
+        request_model = MergeLoanChangeTableRequest(loan_number_id=loan_number_id, fannie_file=fannie_file,
+                                                    difference_xml=difference_xml,
+                                                    session_id=self._get_session_id(session_id),
+                                                    nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.MERGE_LOAN_CHANGE_TABLE, response_model=CommonResponse,
+                         params=request_model.as_params_dict, data=request_model.payload)
 
     def get_loan(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
         request_model = GetLoanRequest(loan_number_id=loan_number_id,
