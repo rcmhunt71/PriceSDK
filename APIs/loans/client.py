@@ -1,8 +1,8 @@
 from dataclasses import dataclass
-
 from base.clients.base_client import BaseClient
 from base.common.models.request import LoanNumberIdRequestModel
 from base.common.response import CommonResponse
+
 from APIs.loans.responses.get_loan import GetLoanResponse, GetLoanDetailResponse
 from APIs.loans.responses.get_final_value_tags import GetFinalValueTagsResponse
 from APIs.loans.responses.get_loan_license_data import GetLoanLicenseDataResponse
@@ -10,12 +10,15 @@ from APIs.loans.responses.get_loan_rate_quote_details import GetLoanRateQuoteDet
 from APIs.loans.responses.get_loan_statuses import GetLoanStatusesResponse
 from APIs.loans.responses.get_loan_mi_detail import GetLoanMIDetailsResponse
 from APIs.loans.responses.get_loan_sellers import GetLoanSellersResponse
+from APIs.loans.responses.search_loan_unique_id import SearchLoanUniqueIdResponse
 from APIs.loans.responses.export_loan import ExportLoanResponse
+
 from APIs.loans.requests.merge_loan_change_table import MergeLoanChangeTableRequest
 from APIs.loans.requests.get_loan import GetLoanRequest, GetLoanDetailRequest, GetFinalValueTagsRequest, \
                                          GetLoanRateQuoteDetailsRequest, GetLoanMIDetailRequest
 from APIs.loans.requests.get_loan_license_data import GetLoanLicenseDataRequest
 from APIs.loans.requests.get_loan_statuses import GetLoanStatusesRequest
+from APIs.loans.requests.search_loan_unique_id import SearchLoanUniqueIdRequest
 from APIs.loans.requests.set_anti_steering_data import SetAntiSteeringDataRequest
 from APIs.loans.requests.set_loan_correspondent_adjustment import SetLoanCorrespondentAdjustmentRequest
 from APIs.loans.requests.set_loan_data import SetLoanDataRequest
@@ -40,6 +43,7 @@ class ApiEndpoints:
     GET_LOAN_STATUSES: str = "get_loan_statuses"
     GET_LOAN_SELLERS: str = "get_loan_sellers"
     MERGE_LOAN_CHANGE_TABLE: str = "merge_loan_change_table"
+    SEARCH_LOAN_UNIQUE_ID: str = "search_loan_unique_id"
     SET_ANTI_STEERING_DATA: str = "set_anti_steering_data"
     SET_LOAN_CORRESPONDENT_ADJUSTMENT: str = "set_loan_correspondent_adjustment"
     SET_LOAN_DATA: str = "set_loan_data"
@@ -147,6 +151,14 @@ class LoanClient(BaseClient):
                                                  nonce=self._get_nonce(nonce), pretty_print=pretty_print)
 
         return self.get(resource_endpoint=ApiEndpoints.GET_LOAN_SELLERS, response_model=GetLoanSellersResponse,
+                        params=request_model.as_params_dict)
+
+    def search_loan_unique_id(self, loan_number_id, search_mode, session_id=None, nonce=None, pretty_print=False):
+        request_model = SearchLoanUniqueIdRequest(loan_number_id=loan_number_id, search_mode=search_mode,
+                                                  session_id=self._get_session_id(session_id),
+                                                  nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.get(resource_endpoint=ApiEndpoints.SEARCH_LOAN_UNIQUE_ID, response_model=SearchLoanUniqueIdResponse,
                         params=request_model.as_params_dict)
 
     def set_anti_steering_data(self, loan_number_id, index=None, program_id=None, rate=None, loan_origination=None,
