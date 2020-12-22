@@ -8,6 +8,7 @@ from APIs.loans.responses.get_final_value_tags import GetFinalValueTagsResponse
 from APIs.loans.responses.get_loan_license_data import GetLoanLicenseDataResponse
 from APIs.loans.responses.get_loan_rate_quote_details import GetLoanRateQuoteDetailsResponse
 from APIs.loans.responses.get_loan_statuses import GetLoanStatusesResponse
+from APIs.loans.responses.get_loan_status_vendor_types import GetLoanStatusVendorTypesResponse
 from APIs.loans.responses.get_loan_mi_detail import GetLoanMIDetailsResponse
 from APIs.loans.responses.get_loan_sellers import GetLoanSellersResponse
 from APIs.loans.responses.search_loan_unique_id import SearchLoanUniqueIdResponse
@@ -41,6 +42,7 @@ class ApiEndpoints:
     GET_LOAN_RATE_QUOTE_DETAILS: str = "get_loan_rate_quote_details"
     GET_LOAN_MI_DETAILS: str = "get_loan_mi_detail"
     GET_LOAN_STATUSES: str = "get_loan_statuses"
+    GET_LOAN_STATUS_VENDOR_TYPES: str = "get_loan_status_vendor_types"
     GET_LOAN_SELLERS: str = "get_loan_sellers"
     MERGE_LOAN_CHANGE_TABLE: str = "merge_loan_change_table"
     SEARCH_LOAN_UNIQUE_ID: str = "search_loan_unique_id"
@@ -144,6 +146,14 @@ class LoanClient(BaseClient):
 
         return self.get(resource_endpoint=ApiEndpoints.GET_LOAN_STATUSES, response_model=GetLoanStatusesResponse,
                         params=request_model.as_params_dict)
+
+    def get_loan_status_vendor_types(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = LoanNumberIdRequestModel(loan_number_id=loan_number_id,
+                                                 session_id=self._get_session_id(session_id),
+                                                 nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.get(resource_endpoint=ApiEndpoints.GET_LOAN_STATUS_VENDOR_TYPES,
+                        response_model=GetLoanStatusVendorTypesResponse, params=request_model.as_params_dict)
 
     def get_loan_sellers(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
         request_model = LoanNumberIdRequestModel(loan_number_id=loan_number_id,
