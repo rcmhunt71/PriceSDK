@@ -93,7 +93,7 @@ class CompaniesClient(BaseClient):
             session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print,
             **kwargs)
         return self.post(resource_endpoint=ApiEndpoints.SET_COMPANIES, response_model=CommonResponse,
-            params=request_model.as_params_dict, data=request_model.payload, headers=self.json_headers)
+            params=request_model.as_params_dict, data=request_model.as_json, headers=self.json_headers)
 
     def set_company_license_type(self, company_id, license_number, company_type, session_id=None, nonce=None,
             pretty_print=False):

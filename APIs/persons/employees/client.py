@@ -66,4 +66,4 @@ class EmployeesClient(BaseClient):
         request_model = AddOrUpdateEmployeeRequest(payload_dict=payload_dict, session_id=self._get_session_id(session_id),
             nonce=self._get_nonce(nonce), pretty_print=pretty_print, **kwargs)
         return self.post(resource_endpoint=ApiEndpoints.ADD_OR_UPDATE_EMPLOYEE, response_model=CommonResponse,
-            params=request_model.as_params_dict, data=request_model.payload, headers=self.json_headers)
+            params=request_model.as_params_dict, data=request_model.as_json, headers=self.json_headers)

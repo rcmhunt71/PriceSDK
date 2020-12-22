@@ -69,9 +69,8 @@ class LoanClient(BaseClient):
                                                       session_id=self._get_session_id(session_id),
                                                       nonce=self._get_nonce(nonce), pretty_print=pretty_print, **kwargs)
 
-        return self.post(resource_endpoint=ApiEndpoints.ADD_OR_UPDATE_LOAN_SELLERS,
-                         response_model=CommonResponse, headers=self.json_headers,
-                         params=request_model.as_params_dict, data=request_model.payload)
+        return self.post(resource_endpoint=ApiEndpoints.ADD_OR_UPDATE_LOAN_SELLERS, response_model=CommonResponse,
+                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.as_json)
 
     def export_loan(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
         request_model = LoanNumberIdRequestModel(loan_number_id=loan_number_id,
@@ -183,7 +182,7 @@ class LoanClient(BaseClient):
                                                    nonce=self._get_nonce(nonce))
 
         return self.post(resource_endpoint=ApiEndpoints.SET_ANTI_STEERING_DATA, response_model=CommonResponse,
-                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)
+                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.as_json)
 
     def set_loan_correspondent_adjustment(self, loan_number_id, payload_dict=None, session_id=None, nonce=None,
                                           pretty_print=False, **kwargs):
@@ -202,7 +201,7 @@ class LoanClient(BaseClient):
                                            nonce=self._get_nonce(nonce), pretty_print=pretty_print, **kwargs)
 
         return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_DATA, response_model=CommonResponse,
-                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)
+                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.as_json)
 
     def set_loan_hmda(self, loan_number_id=None, payload_dict=None,
                       session_id=None, nonce=None, pretty_print=False, **kwargs):
@@ -211,7 +210,7 @@ class LoanClient(BaseClient):
                                            pretty_print=pretty_print, **kwargs)
 
         return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_HMDA, response_model=CommonResponse,
-                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)
+                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.as_json)
 
     def set_loan_license_data(self, loan_number_id=None, session_id=None, nonce=None, pretty_print=False, **kwargs):
         request_model = SetLoanLicenseDataRequest(loan_number_id=loan_number_id,
@@ -230,7 +229,7 @@ class LoanClient(BaseClient):
                                                        pretty_print=pretty_print, **kwargs)
 
         return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_RATE_QUOTE_DETAILS, response_model=CommonResponse,
-                         params=request_model.as_params_dict, headers=self.json_headers, data=request_model.payload)
+                         params=request_model.as_params_dict, headers=self.json_headers, data=request_model.as_json)
 
     def set_loan_servicing_data(self, loan_number_id, payload_dict=None, session_id=None, nonce=None,
                                 pretty_print=False, **kwargs):
@@ -240,7 +239,7 @@ class LoanClient(BaseClient):
                                                     nonce=self._get_nonce(nonce), pretty_print=pretty_print, **kwargs)
 
         return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_SERVICING_DATA, response_model=CommonResponse,
-                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)
+                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.as_json)
 
     def set_loan_mi_grid_detail(self, loan_number_id, payload_dict=None,
                                 session_id=None, nonce=None, pretty_print=False, **kwargs):
@@ -250,4 +249,4 @@ class LoanClient(BaseClient):
 
         return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_MI_GRID_DETAIL,
                          response_model=CommonResponse,
-                         params=request_model.as_params_dict, headers=self.json_headers, data=request_model.payload)
+                         params=request_model.as_params_dict, headers=self.json_headers, data=request_model.as_json)

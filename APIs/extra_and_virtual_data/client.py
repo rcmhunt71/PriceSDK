@@ -82,4 +82,4 @@ class VirtualDataClient(BaseClient):
                                                   nonce=self._get_nonce(nonce), pretty_print=pretty_print)
 
         return self.post(resource_endpoint=ApiEndpoints.PUT_VIRTUAL_DATA_GRID, response_model=CommonResponse,
-                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)
+                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.as_json)

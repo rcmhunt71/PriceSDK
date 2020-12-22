@@ -30,7 +30,7 @@ class SessionClient(BaseClient):
                                     nonce=self._get_nonce(nonce), pretty_print=pretty_print, **kwargs)
 
         return self.post(resource_endpoint=ApiEndpoints.ECHO, response_model=EchoResponse,
-                         params=request_model.as_params_dict, data=request_model.payload, headers=self.json_headers)
+                         params=request_model.as_params_dict, data=request_model.as_json, headers=self.json_headers)
 
     def ping_session(self, session_id=None, nonce=None, pretty_print=False):
         request_model = SimpleRequestModel(session_id=self._get_session_id(session_id),

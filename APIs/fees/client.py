@@ -48,7 +48,7 @@ class FeesClient(BaseClient):
                                            nonce=self._get_nonce(nonce), pretty_print=pretty_print, **kwargs)
 
         return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_FEES, response_model=CommonResponse,
-                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)
+                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.as_json)
 
     def get_loan_fees(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
         request_model = LoanNumberIdRequestModel(loan_number_id=loan_number_id,

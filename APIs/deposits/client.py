@@ -71,4 +71,4 @@ class DepositsClient(BaseClient):
                                                   pretty_print=pretty_print, **kwargs)
 
         return self.post(resource_endpoint=ApiEndpoints.SET_DEPOSIT_ACCOUNTS, response_model=CommonResponse,
-                         params=request_model.as_params_dict, data=request_model.payload, headers=self.json_headers)
+                         params=request_model.as_params_dict, data=request_model.as_json, headers=self.json_headers)

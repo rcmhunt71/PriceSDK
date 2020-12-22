@@ -44,4 +44,4 @@ class NotificationsClient(BaseClient):
 
         return self.post(resource_endpoint=ApiEndpoints.SEND_EMAIL_AND_MAKE_CONV_LOG,
             response_model=SendEmailAndMakeConvLogResponse, params=request_model.as_params_dict,
-            data=request_model.payload, headers=self.json_headers)
+            data=request_model.as_json, headers=self.json_headers)

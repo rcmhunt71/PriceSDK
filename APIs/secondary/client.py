@@ -36,4 +36,4 @@ class SecondaryClient(BaseClient):
                                              nonce=self._get_nonce(nonce), pretty_print=pretty_print, **kwargs)
 
         return self.post(resource_endpoint=ApiEndpoints.SET_ADJUSTMENT, response_model=CommonResponse,
-                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)
+                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.as_json)

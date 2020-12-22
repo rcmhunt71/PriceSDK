@@ -1,8 +1,6 @@
 from dataclasses import dataclass
-from enum import Enum
 
 from APIs.assets.requests.delete_automobile import DeleteAutomobileRequest
-
 from APIs.assets.requests.add_automobile import AddAutomobileRequest
 from APIs.assets.requests.get_assets import GetAssetsRequest
 from APIs.assets.requests.set_assets import SetAssetsRequest
@@ -43,24 +41,21 @@ class AssetsClient(BaseClient):
         return self.post(resource_endpoint=ApiEndpoints.ADD_AUTOMOBILE, response_model=AddAutomobileResponse,
                          params=request_model.as_params_dict, data=request_model.payload)
 
-
     def set_assets(self, loan_number_id, payload_dict=None, session_id=None, nonce=None, pretty_print=False, **kwargs):
-        # For valid arguments, use lowercase name of attributes listed in API.assets.requests.set_assets.SetAssetsRequests
-
         request_model = SetAssetsRequest(loan_number_id=loan_number_id, payload_dict=payload_dict,
                                          session_id=self._get_session_id(session_id),
                                          nonce=self._get_nonce(nonce), pretty_print=pretty_print, **kwargs)
 
         return self.post(resource_endpoint=ApiEndpoints.SET_ASSETS, response_model=CommonResponse,
-                        params=request_model.as_params_dict, data=request_model.payload, headers=self.json_headers)
+                         params=request_model.as_params_dict, data=request_model.as_json, headers=self.json_headers)
 
     def delete_automobile(self, loan_number_id=None, customer_id=None, asset_id=None,
-                      session_id=None, nonce=None, pretty_print=False):
-        # For valid arguments, use lowercase name of attributes listed in API.loans.request.set_loan_hdma.SetLoanHMDAPayload
-
-        request_model = DeleteAutomobileRequest(loan_number_id=loan_number_id, customer_id=customer_id, asset_id=asset_id,
-                                           session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
-                                           pretty_print=pretty_print)
+                          session_id=None, nonce=None, pretty_print=False):
+        request_model = DeleteAutomobileRequest(loan_number_id=loan_number_id, customer_id=customer_id,
+                                                asset_id=asset_id,
+                                                session_id=self._get_session_id(session_id),
+                                                nonce=self._get_nonce(nonce),
+                                                pretty_print=pretty_print)
 
         return self.post(resource_endpoint=ApiEndpoints.DELETE_AUTOMOBILE, response_model=CommonResponse,
                          params=request_model.as_params_dict, data=request_model.payload)

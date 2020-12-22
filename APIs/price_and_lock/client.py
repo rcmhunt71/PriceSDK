@@ -93,7 +93,7 @@ class PriceAndLockClient(BaseClient):
                                            nonce=self._get_nonce(nonce), pretty_print=pretty_print)
 
         return self.post(resource_endpoint=ApiEndpoints.PROCESS_LOCK, response_model=CommonResponse,
-                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)
+                         headers=self.json_headers, params=request_model.as_params_dict, data=request_model.as_json)
 
     def pull_qualified_loan_programs(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
         request_model = LoanNumberIdRequestModel(loan_number_id=loan_number_id,
