@@ -17,6 +17,7 @@ from APIs.loans.requests.get_loan import GetLoanRequest, GetLoanDetailRequest, G
 from APIs.loans.requests.get_loan_license_data import GetLoanLicenseDataRequest
 from APIs.loans.requests.get_loan_statuses import GetLoanStatusesRequest
 from APIs.loans.requests.set_anti_steering_data import SetAntiSteeringDataRequest
+from APIs.loans.requests.set_loan_correspondent_adjustment import SetLoanCorrespondentAdjustmentRequest
 from APIs.loans.requests.set_loan_data import SetLoanDataRequest
 from APIs.loans.requests.set_loan_hmda import SetLoanHMDARequest
 from APIs.loans.requests.set_loan_license_data import SetLoanLicenseDataRequest
@@ -40,6 +41,7 @@ class ApiEndpoints:
     GET_LOAN_SELLERS: str = "get_loan_sellers"
     MERGE_LOAN_CHANGE_TABLE: str = "merge_loan_change_table"
     SET_ANTI_STEERING_DATA: str = "set_anti_steering_data"
+    SET_LOAN_CORRESPONDENT_ADJUSTMENT: str = "set_loan_correspondent_adjustment"
     SET_LOAN_DATA: str = "set_loan_data"
     SET_LOAN_HMDA: str = "set_loan_hmda"
     SET_LOAN_LICENSE_DATA: str = "set_loan_license_data"
@@ -160,6 +162,16 @@ class LoanClient(BaseClient):
 
         return self.post(resource_endpoint=ApiEndpoints.SET_ANTI_STEERING_DATA, response_model=CommonResponse,
                          headers=self.json_headers, params=request_model.as_params_dict, data=request_model.payload)
+
+    def set_loan_correspondent_adjustment(self, loan_number_id, payload_dict=None, session_id=None, nonce=None,
+                                          pretty_print=False, **kwargs):
+        request_model = SetLoanCorrespondentAdjustmentRequest(loan_number_id=loan_number_id, payload_dict=payload_dict,
+                                                              session_id=self._get_session_id(session_id),
+                                                              nonce=self._get_nonce(nonce),
+                                                              pretty_print=pretty_print, **kwargs)
+
+        return self.post(resource_endpoint=ApiEndpoints.SET_LOAN_CORRESPONDENT_ADJUSTMENT, headers=self.json_headers,
+                         response_model=CommonResponse, params=request_model.as_params_dict, data=request_model.as_json)
 
     def set_loan_data(self, loan_number_id, payload_dict=None, session_id=None, nonce=None,
                       pretty_print=False, **kwargs):
