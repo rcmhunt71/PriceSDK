@@ -1,11 +1,8 @@
 from dataclasses import dataclass
-from enum import Enum
 
 from base.clients.base_client import BaseClient
-from base.common.models.request import SimpleRequestModel, LoanNumberIdRequestModel
+from base.common.models.request import LoanNumberIdRequestModel
 from base.common.response import CommonResponse
-
-from APIs.loans.responses.add_a_loan import AddALoanResponse, ImportFromFileResponse, ImportFromFileWithDateResponse
 from APIs.loans.responses.get_loan import GetLoanResponse, GetLoanDetailResponse
 from APIs.loans.responses.get_final_value_tags import GetFinalValueTagsResponse
 from APIs.loans.responses.get_loan_license_data import GetLoanLicenseDataResponse
@@ -13,8 +10,6 @@ from APIs.loans.responses.get_loan_rate_quote_details import GetLoanRateQuoteDet
 from APIs.loans.responses.get_loan_statuses import GetLoanStatusesResponse
 from APIs.loans.responses.get_loan_mi_detail import GetLoanMIDetailsResponse
 from APIs.loans.responses.get_loan_sellers import GetLoanSellersResponse
-
-from APIs.loans.requests.add_a_loan import ImportFromFileRequest, ImportFromFileWithDateRequest
 from APIs.loans.responses.export_loan import ExportLoanResponse
 from APIs.loans.requests.merge_loan_change_table import MergeLoanChangeTableRequest
 from APIs.loans.requests.get_loan import GetLoanRequest, GetLoanDetailRequest, GetFinalValueTagsRequest, \
@@ -31,17 +26,8 @@ from APIs.loans.requests.add_or_update_loan_sellers import AddOrUpdateLoanSeller
 from APIs.loans.requests.set_loan_mi_grid_detail import SetLoanMIGridDetailRequest
 
 
-class ImportFromFileFileTypes(Enum):
-    LOSFILE = 0
-    FANNIE_MAE = 1
-    MISMO_AUS = 2
-    IHM = 3
-    MISMO_NYLX = 4
-
-
 @dataclass
 class ApiEndpoints:
-    ADD_A_LOAN: str = "add_a_loan"
     ADD_OR_UPDATE_LOAN_SELLERS: str = "add_or_update_loan_sellers"
     EXPORT_LOAN: str = "export_loan"
     GET_FINAL_VALUE_TAG: str = "get_final_value_tags"
@@ -52,8 +38,6 @@ class ApiEndpoints:
     GET_LOAN_MI_DETAILS: str = "get_loan_mi_detail"
     GET_LOAN_STATUSES: str = "get_loan_statuses"
     GET_LOAN_SELLERS: str = "get_loan_sellers"
-    IMPORT_FROM_FILE: str = "import_from_file"
-    IMPORT_FROM_FILE_WITH_DATE: str = "import_from_file_with_date"
     MERGE_LOAN_CHANGE_TABLE: str = "merge_loan_change_table"
     SET_ANTI_STEERING_DATA: str = "set_anti_steering_data"
     SET_LOAN_DATA: str = "set_loan_data"
@@ -70,12 +54,6 @@ class LoanClient(BaseClient):
     json_headers = {
         CONTENT_TYPE: APPLICATION_JSON
     }
-
-    def add_a_loan(self, session_id=None, nonce=None):
-        request_model = SimpleRequestModel(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
-
-        return self.post(resource_endpoint=ApiEndpoints.ADD_A_LOAN, response_model=AddALoanResponse, data={},
-                         params=request_model.as_params_dict)
 
     def add_or_update_loan_sellers(self, loan_number_id=None, payload_dict=None, session_id=None, nonce=None,
                                    pretty_print=False, **kwargs):
@@ -94,25 +72,6 @@ class LoanClient(BaseClient):
 
         return self.get(resource_endpoint=ApiEndpoints.EXPORT_LOAN, response_model=ExportLoanResponse,
                         params=request_model.as_params_dict)
-
-    def import_from_file(self, loan_number, base64_file_data, file_type, date_name, session_id=None, nonce=None):
-        request_model = ImportFromFileRequest(loan_number=loan_number, base64_file_data=base64_file_data,
-                                              file_type=file_type, date_name=date_name,
-                                              session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
-        headers = {}
-        return self.post(resource_endpoint=ApiEndpoints.IMPORT_FROM_FILE, response_model=ImportFromFileResponse,
-                         data={}, headers=headers, params=request_model.as_params_dict, binary_data=base64_file_data)
-
-    def import_from_file_with_date(self, loan_number, upload_token, b2b_flag, file_type, date_name,
-                                   session_id=None, nonce=None):
-        request_model = ImportFromFileWithDateRequest(loan_number=loan_number, upload_token=upload_token,
-                                                      b2b_flag=b2b_flag, file_type=file_type, date_name=date_name,
-                                                      session_id=self._get_session_id(session_id),
-                                                      nonce=self._get_nonce(nonce))
-        headers = {}
-        return self.post(resource_endpoint=ApiEndpoints.IMPORT_FROM_FILE_WITH_DATE,
-                         response_model=ImportFromFileWithDateResponse, data={}, headers=headers,
-                         params=request_model.as_params_dict)
 
     def merge_loan_change_table(self, loan_number_id, fannie_file: str, difference_xml: str, session_id=None,
                                 nonce=None, pretty_print=False):

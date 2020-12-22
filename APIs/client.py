@@ -1,3 +1,4 @@
+from APIs.creating_loan.client import CreatingLoanClient
 from APIs.others.client import OthersClient
 from APIs.conversation_logs.client import ConversationLogsClient
 from APIs.correspondent.client import CorrespondentClient
@@ -41,6 +42,7 @@ class Client(BaseClient):
         self.contacts = ContactsClient(client=self)
         self.conversation_logs = ConversationLogsClient(client=self)
         self.correspondent = CorrespondentClient(client=self)
+        self.creating_loan = CreatingLoanClient(client=self)
         self.credits = CreditsClient(client=self)
         self.data_checks = DataChecksClient(client=self)
         self.data_upload = DataUploadClient(client=self)

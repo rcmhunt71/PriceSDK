@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-
 from base.common.response import CommonResponse
 
 

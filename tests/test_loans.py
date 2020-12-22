@@ -2,6 +2,9 @@ from random import randrange
 import unittest
 from unittest.mock import patch
 
+from APIs.creating_loan.client import CreatingLoanClient
+from APIs.creating_loan.requests.import_from_file import ImportFromFileFileTypes
+from APIs.creating_loan.responses.add_a_loan import AddALoanKeys, AddALoanResponse
 from base.mocks.mock_requests import MockRequests
 
 from APIs.loans.models.loan_data import (
@@ -10,11 +13,10 @@ from APIs.loans.models.loan_data import (
 from base.common.models.data_table_response import DataColEntryKeys, RowValueKeys, RowColKeys, DataTableKeys
 from APIs.loans.models.final_value import FinalValueFieldsKeys, FinalValueScreenKeys
 from base.common.models.data_table_response import DataTableKeys
-from APIs.loans.responses.add_a_loan import AddALoanKeys, AddALoanResponse
 from APIs.loans.responses.get_final_value_tags import GetFinalValueTagsResponse
 from APIs.loans.responses.get_loan import GetLoanResponse, GetLoanDetailResponse
 
-from APIs.loans.client import LoanClient, ImportFromFileFileTypes
+from APIs.loans.client import LoanClient
 
 from tests.common.common_response_args import CommonResponseValidations, response_args
 
@@ -269,7 +271,7 @@ class TestLoanClient(unittest.TestCase, CommonResponseValidations):
         add_loan_args[AddALoanKeys.NEW_LOAN_NUMBER_ID] = LOAN_ID
 
         # Use client to make call
-        client = LoanClient(base_url=BASE_URL, database=DATABASE, port=PORT)
+        client = CreatingLoanClient(base_url=BASE_URL, database=DATABASE, port=PORT)
         client.insert_test_response_data(data=add_loan_args)
 
         # Make and validate client call
@@ -282,7 +284,7 @@ class TestLoanClient(unittest.TestCase, CommonResponseValidations):
         import_loan_resp[AddALoanKeys.NEW_LOAN_NUMBER_ID] = f"{randrange(99999999):08}"
 
         # Use client to make call
-        client = LoanClient(base_url=BASE_URL, database=DATABASE, port=PORT)
+        client = CreatingLoanClient(base_url=BASE_URL, database=DATABASE, port=PORT)
         client.insert_test_response_data(data=import_loan_resp)
 
         # Make and validate client call
@@ -299,7 +301,7 @@ class TestLoanClient(unittest.TestCase, CommonResponseValidations):
         import_loan_resp[AddALoanKeys.NEW_LOAN_NUMBER_ID] = f"{randrange(99999999):08}"
 
         # Use client to make call
-        client = LoanClient(base_url=BASE_URL, database=DATABASE, port=PORT)
+        client = CreatingLoanClient(base_url=BASE_URL, database=DATABASE, port=PORT)
         client.insert_test_response_data(data=import_loan_resp)
 
         # Make and validate client call
@@ -331,7 +333,7 @@ class TestLoanClient(unittest.TestCase, CommonResponseValidations):
         client.insert_test_response_data(data=get_loan_detail_data)
 
         response_model = client.get_loan_detail(session_id="1232465798", nonce="DEADBEEF15DECEA5ED",
-                                                loan_number_ids=f"{randrange(999999):06}")
+                                                loan_number_id=f"{randrange(999999):06}")
         self._show_response(response_model=response_model)
         self._validate_response(model=response_model, model_data=get_loan_detail_data)
 
