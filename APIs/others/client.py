@@ -21,7 +21,6 @@ class ApiEndpoints:
     SEARCH_TOKENKEY: str = "search_tokenkey"
     SYSTEM_INFORMATION: str = "system_information"
     CHANGE_PORTAL_PASSWORD: str = "change_portal_password"
-    EXECUTE_PAL: str = "execute_pal"
     GET_FEATURE_SETTINGS: str = "get_feature_settings"
 
 
@@ -67,8 +66,8 @@ class OthersClient(BaseClient):
         return self.post(resource_endpoint=ApiEndpoints.CHANGE_PORTAL_PASSWORD, response_model=CommonResponse,
             params=request_model.as_params_dict, data=request_model.payload)
 
-    def get_feature_settings(self, payload_dict=None, session_id=None, nonce=None, pretty_print=False, **kwargs):
+    def get_feature_settings(self, payload_dict=None, session_id=None, nonce=None, pretty_print=False):
         request_model = GetFeatureSettingsRequest(payload_dict=payload_dict, session_id=self._get_session_id(session_id),
-            nonce=self._get_nonce(nonce), pretty_print=pretty_print, **kwargs)
+            nonce=self._get_nonce(nonce), pretty_print=pretty_print)
         return self.post(resource_endpoint=ApiEndpoints.GET_FEATURE_SETTINGS, response_model=GetFeatureSettingsResponse,
-            params=request_model.as_params_dict, data=request_model.payload, headers=self.json_headers)
+            params=request_model.as_params_dict, data=request_model.to_json(), headers=self.json_headers)
