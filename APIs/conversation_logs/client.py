@@ -3,6 +3,7 @@ from APIs.conversation_logs.requests.add_conversation_log import AddConversation
 from APIs.conversation_logs.requests.get_conversation_log_alert import GetConversationLogAlertRequest
 from APIs.conversation_logs.requests.get_conversation_log_attachment import GetConversationLogAttachmentRequest
 from APIs.conversation_logs.requests.get_conversation_log_person import GetConversationLogPersonRequest
+from APIs.conversation_logs.requests.set_conversation_log_person import SetConversationLogPersonRequest
 from APIs.conversation_logs.responses.add_conversation_log import AddConversationLogResponse
 from APIs.conversation_logs.responses.get_conversation_log import GetConversationLogResponse
 from APIs.conversation_logs.responses.get_conversation_log_alert import GetConversationLogAlertResponse
@@ -19,9 +20,13 @@ class ApiEndpoints:
     GET_CONVERSATION_LOG_PERSON: str = "get_conversation_log_person"
     ADD_CONVERSATION_LOG: str = "add_conversation_log"
     GET_CONVERSATION_LOG_ATTACHMENT: str = "get_conversation_log_attachment"
+    SET_CONVERSATION_LOG_PERSON: str = "set_conversation_log_person"
 
 
 class ConversationLogsClient(BaseClient):
+    CONTENT_TYPE = "Content-Type"
+    APPLICATION_JSON = "application/json"
+    json_headers = {CONTENT_TYPE: APPLICATION_JSON}
 
     def get_conversation_log(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
         request_model = LoanNumberIdRequestModel(loan_number_id=loan_number_id,
@@ -60,3 +65,10 @@ class ConversationLogsClient(BaseClient):
             session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print)
         return self.get(resource_endpoint=ApiEndpoints.GET_CONVERSATION_LOG_ATTACHMENT, response_model=CommonResponse,
             params=request_model.as_params_dict)
+
+    def set_conversation_log_person(self, payload_dict=None, session_id=None, nonce=None, pretty_print=False, **kwargs):
+        request_model = SetConversationLogPersonRequest(payload_dict=payload_dict,
+            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print,
+            **kwargs)
+        return self.post(resource_endpoint=ApiEndpoints.SET_CONVERSATION_LOG_PERSON, response_model=CommonResponse,
+            params=request_model.as_params_dict, data=request_model.as_json, headers=self.json_headers)
