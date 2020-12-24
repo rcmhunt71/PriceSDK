@@ -1,3 +1,4 @@
+from APIs.dashboard.client import DashboardClient
 from APIs.creating_loan.client import CreatingLoanClient
 from APIs.others.client import OthersClient
 from APIs.conversation_logs.client import ConversationLogsClient
@@ -44,6 +45,7 @@ class Client(BaseClient):
         self.correspondent = CorrespondentClient(client=self)
         self.creating_loan = CreatingLoanClient(client=self)
         self.credits = CreditsClient(client=self)
+        self.dashboard = DashboardClient(client=self)
         self.data_checks = DataChecksClient(client=self)
         self.data_upload = DataUploadClient(client=self)
         self.dates = DatesClient(client=self)
