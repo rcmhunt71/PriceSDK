@@ -8,6 +8,7 @@ from APIs.persons.contacts.requests.get_contact_group_member_list import GetCont
 from APIs.persons.contacts.requests.get_contact_interface_credentials import GetContactInterfaceCredentialsRequest
 from APIs.persons.contacts.requests.get_contact_user_groups import GetContactUserGroupsRequest
 from APIs.persons.contacts.requests.get_contacts import GetContactsRequest
+from APIs.persons.contacts.requests.set_contacts_grid import SetContactsGridRequest
 from APIs.persons.contacts.responses.add_contact import AddContactResponse
 from APIs.persons.contacts.requests.set_contact_interface_credential import SetContactInterfaceCredentialRequest
 from APIs.persons.contacts.requests.set_contact_lockout import SetContactLockoutRequest
@@ -39,6 +40,8 @@ class ApiEndpoints:
     SET_CONTACT_LOCKOUT: str = "set_contact_lockout"
     SET_CONTACTS: str = "set_contacts"
     SET_CONTACT_NO_LONGER_EMPLOYED: str = "set_contact_no_longer_employed"
+    SET_CONTACTS_GRID: str = "set_contacts_grid"
+
 
 class ContactsClient(BaseClient):
     CONTENT_TYPE = "Content-Type"
@@ -135,3 +138,10 @@ class ContactsClient(BaseClient):
         return self.post(resource_endpoint=ApiEndpoints.SET_CONTACTS, response_model=CommonResponse,
             params=request_model.as_params_dict, data=request_model.as_json, headers=self.json_headers)
 
+    def set_contacts_grid(self, loan_number_id, payload_dict=None, session_id=None, nonce=None, pretty_print=False,
+            **kwargs):
+        request_model = SetContactsGridRequest(loan_number_id=loan_number_id, payload_dict=payload_dict,
+            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print,
+            **kwargs)
+        return self.post(resource_endpoint=ApiEndpoints.SET_CONTACTS_GRID, response_model=CommonResponse,
+            params=request_model.as_params_dict, data=request_model.as_json, headers=self.json_headers)
