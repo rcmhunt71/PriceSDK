@@ -1,4 +1,6 @@
 from dataclasses import dataclass
+
+from APIs.interfaces.requests.direct_mismo_closing_data import DirectMISMOClosingDataRequest
 from APIs.interfaces.requests.docutech_pushback_response import DocutechPushbackResponseRequest
 from APIs.interfaces.requests.download_visionet_document import DownloadVisionetDocumentRequest
 from APIs.interfaces.requests.set_fnma_selling_system import SetFNMASellingSystemRequest
@@ -18,6 +20,7 @@ class ApiEndpoints:
     MERGE_FREDDIE_MAC_SYS_TO_SYS: str = "merge_freddiemac_systosys"
     REQUEST_FREDDIE_MAC_SYS_TO_SYS: str = "request_freddiemac_systosys"
     SET_FNMA_SELLING_SYSTEM: str = "set_fnma_selling_system"
+    DIRECT_MISMO_CLOSING_DATA: str = "direct_mismo_closing_data"
 
 
 class InterfacesClient(BaseClient):
@@ -64,3 +67,11 @@ class InterfacesClient(BaseClient):
             **kwargs)
         return self.post(resource_endpoint=ApiEndpoints.SET_FNMA_SELLING_SYSTEM, response_model=CommonResponse,
             params=request_model.as_params_dict, data=request_model.as_json, headers=self.json_headers)
+
+    def direct_mismo_closing_data(self, loan_number_id, which_interface, behavior, flags, session_id=None, nonce=None,
+            pretty_print=False):
+        request_model = DirectMISMOClosingDataRequest(loan_number_id=loan_number_id, which_interface=which_interface,
+            behavior=behavior, flags=flags, session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+            pretty_print=pretty_print)
+        return self.post(resource_endpoint=ApiEndpoints.DIRECT_MISMO_CLOSING_DATA, response_model=CommonResponse,
+            params=request_model.as_params_dict, data=request_model.payload)
