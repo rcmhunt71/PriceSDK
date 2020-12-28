@@ -8,6 +8,8 @@ from APIs.dashboard.requests.add_widget import AddWidgetRequest
 from APIs.dashboard.requests.delete_dashboard import DeleteDashboardRequest
 from APIs.dashboard.requests.delete_widget import DeleteWidgetRequest
 from APIs.dashboard.requests.get_db_column_info import GetDbColumnInfoRequest
+from APIs.dashboard.requests.set_dashboard_permissions import SetDashboardPermissionsRequest
+from APIs.dashboard.requests.set_widget_permissions import SetWidgetPermissionsRequest
 
 from APIs.dashboard.responses.get_all_dashboards import GetAllDashboardsResponse
 from APIs.dashboard.responses.get_all_widgets import GetAllWidgetsResponse
@@ -25,13 +27,15 @@ class ApiEndpoints:
     GET_ALL_WIDGETS: str = "get_all_widgets"
     GET_DB_COLUMN_INFO: str = "get_db_column_info"
     GET_PERMITTED_DASHBOARDS: str = "get_permitted_dashboards"
+    SET_DASHBOARD_PERMISSIONS: str = "set_dashboard_permissions"
+    SET_WIDGET_PERMISSIONS: str = "set_widget_permissions"
 
 
 class DashboardClient(BaseClient):
 
-    def add_widget(self, widget_html, widget_code, widget_title, is_vendor_maintained, is_public, cache_expiration,
+    def add_widget(self, widget_code, widget_title, widget_html, is_vendor_maintained, is_public, cache_expiration,
                    cache_scope, session_id=None, nonce=None, pretty_print=False):
-        request_model = AddWidgetRequest(widget_html=widget_html, widget_code=widget_code, widget_title=widget_title,
+        request_model = AddWidgetRequest(widget_code=widget_code, widget_title=widget_title, widget_html=widget_html,
                                          is_vendor_maintained=is_vendor_maintained, is_public=is_public,
                                          cache_expiration=cache_expiration, cache_scope=cache_scope,
                                          session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
@@ -91,3 +95,20 @@ class DashboardClient(BaseClient):
 
         return self.get(resource_endpoint=ApiEndpoints.GET_PERMITTED_DASHBOARDS,
                         response_model=GetPermittedDashboardsResponse, params=request_model.as_params_dict)
+
+    def set_dashboard_permissions(self, dashboard_code, security_levels, session_id=None, nonce=None,
+                                  pretty_print=False):
+        request_model = SetDashboardPermissionsRequest(dashboard_code=dashboard_code, security_levels=security_levels,
+                                                       session_id=self._get_session_id(session_id),
+                                                       nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.SET_DASHBOARD_PERMISSIONS, response_model=CommonResponse,
+                         data=request_model.payload, params=request_model.as_params_dict)
+
+    def set_widget_permissions(self, widget_code, security_levels, session_id=None, nonce=None, pretty_print=False):
+        request_model = SetWidgetPermissionsRequest(widget_code=widget_code, security_levels=security_levels,
+                                                    session_id=self._get_session_id(session_id),
+                                                    nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.SET_WIDGET_PERMISSIONS, response_model=CommonResponse,
+                         data=request_model.payload, params=request_model.as_params_dict)
