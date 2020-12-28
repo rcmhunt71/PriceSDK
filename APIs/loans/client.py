@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 from base.clients.base_client import BaseClient
 from base.common.models.request import LoanNumberIdRequestModel
 from base.common.response import CommonResponse
@@ -11,6 +12,7 @@ from APIs.loans.responses.get_loan_statuses import GetLoanStatusesResponse
 from APIs.loans.responses.get_loan_status_vendor_types import GetLoanStatusVendorTypesResponse
 from APIs.loans.responses.get_loan_mi_detail import GetLoanMIDetailsResponse
 from APIs.loans.responses.get_loan_sellers import GetLoanSellersResponse
+from APIs.loans.responses.get_start_loan import GetStartLoanResponse
 from APIs.loans.responses.search_loan_unique_id import SearchLoanUniqueIdResponse
 from APIs.loans.responses.export_loan import ExportLoanResponse
 
@@ -19,6 +21,7 @@ from APIs.loans.requests.get_loan import GetLoanRequest, GetLoanDetailRequest, G
                                          GetLoanRateQuoteDetailsRequest, GetLoanMIDetailRequest
 from APIs.loans.requests.get_loan_license_data import GetLoanLicenseDataRequest
 from APIs.loans.requests.get_loan_statuses import GetLoanStatusesRequest
+from APIs.loans.requests.get_start_loan import GetStartLoanRequest
 from APIs.loans.requests.search_loan_unique_id import SearchLoanUniqueIdRequest
 from APIs.loans.requests.set_anti_steering_data import SetAntiSteeringDataRequest
 from APIs.loans.requests.set_loan_correspondent_adjustment import SetLoanCorrespondentAdjustmentRequest
@@ -44,6 +47,7 @@ class ApiEndpoints:
     GET_LOAN_STATUSES: str = "get_loan_statuses"
     GET_LOAN_STATUS_VENDOR_TYPES: str = "get_loan_status_vendor_types"
     GET_LOAN_SELLERS: str = "get_loan_sellers"
+    GET_START_LOAN: str = "get_start_loan"
     MERGE_LOAN_CHANGE_TABLE: str = "merge_loan_change_table"
     SEARCH_LOAN_UNIQUE_ID: str = "search_loan_unique_id"
     SET_ANTI_STEERING_DATA: str = "set_anti_steering_data"
@@ -160,6 +164,13 @@ class LoanClient(BaseClient):
                                                  nonce=self._get_nonce(nonce), pretty_print=pretty_print)
 
         return self.get(resource_endpoint=ApiEndpoints.GET_LOAN_SELLERS, response_model=GetLoanSellersResponse,
+                        params=request_model.as_params_dict)
+
+    def get_start_loan(self, officer_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = GetStartLoanRequest(officer_id=officer_id, session_id=self._get_session_id(session_id),
+                                            nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.get(resource_endpoint=ApiEndpoints.GET_START_LOAN, response_model=GetStartLoanResponse,
                         params=request_model.as_params_dict)
 
     def search_loan_unique_id(self, loan_number_id, search_mode, session_id=None, nonce=None, pretty_print=False):
