@@ -3,18 +3,16 @@ from base.clients.base_client import BaseClient
 from base.common.models.request import SimpleRequestModel
 from base.common.response import CommonResponse
 
-from APIs.dashboard.requests.add_dashboard import AddDashboardRequest
-from APIs.dashboard.requests.add_widget import AddWidgetRequest
-from APIs.dashboard.requests.delete_dashboard import DeleteDashboardRequest
-from APIs.dashboard.requests.delete_widget import DeleteWidgetRequest
-from APIs.dashboard.requests.get_db_column_info import GetDbColumnInfoRequest
-from APIs.dashboard.requests.set_dashboard_permissions import SetDashboardPermissionsRequest
-from APIs.dashboard.requests.set_widget_permissions import SetWidgetPermissionsRequest
+from APIs.dashboards.requests.add_dashboard import AddDashboardRequest
+from APIs.dashboards.requests.add_widget import AddWidgetRequest
+from APIs.dashboards.requests.delete_dashboard import DeleteDashboardRequest
+from APIs.dashboards.requests.delete_widget import DeleteWidgetRequest
+from APIs.dashboards.requests.set_dashboard_permissions import SetDashboardPermissionsRequest
+from APIs.dashboards.requests.set_widget_permissions import SetWidgetPermissionsRequest
 
-from APIs.dashboard.responses.get_all_dashboards import GetAllDashboardsResponse
-from APIs.dashboard.responses.get_all_widgets import GetAllWidgetsResponse
-from APIs.dashboard.responses.get_db_column_info import GetDbColumnInfoResponse
-from APIs.dashboard.responses.get_permitted_dashboards import GetPermittedDashboardsResponse
+from APIs.dashboards.responses.get_all_dashboards import GetAllDashboardsResponse
+from APIs.dashboards.responses.get_all_widgets import GetAllWidgetsResponse
+from APIs.dashboards.responses.get_permitted_dashboards import GetPermittedDashboardsResponse
 
 
 @dataclass
@@ -25,13 +23,12 @@ class ApiEndpoints:
     DELETE_WIDGET: str = "delete_widget"
     GET_ALL_DASHBOARDS: str = "get_all_dashboards"
     GET_ALL_WIDGETS: str = "get_all_widgets"
-    GET_DB_COLUMN_INFO: str = "get_db_column_info"
     GET_PERMITTED_DASHBOARDS: str = "get_permitted_dashboards"
     SET_DASHBOARD_PERMISSIONS: str = "set_dashboard_permissions"
     SET_WIDGET_PERMISSIONS: str = "set_widget_permissions"
 
 
-class DashboardClient(BaseClient):
+class DashboardsClient(BaseClient):
 
     def add_widget(self, widget_code, widget_title, widget_html, is_vendor_maintained, is_public, cache_expiration,
                    cache_scope, session_id=None, nonce=None, pretty_print=False):
@@ -80,13 +77,6 @@ class DashboardClient(BaseClient):
                                            pretty_print=pretty_print)
 
         return self.get(resource_endpoint=ApiEndpoints.GET_ALL_WIDGETS, response_model=GetAllWidgetsResponse,
-                        params=request_model.as_params_dict)
-
-    def get_db_column_info(self, table_name, session_id=None, nonce=None, pretty_print=False):
-        request_model = GetDbColumnInfoRequest(table_name=table_name, session_id=self._get_session_id(session_id),
-                                               nonce=self._get_nonce(nonce), pretty_print=pretty_print)
-
-        return self.get(resource_endpoint=ApiEndpoints.GET_DB_COLUMN_INFO, response_model=GetDbColumnInfoResponse,
                         params=request_model.as_params_dict)
 
     def get_permitted_dashboards(self, session_id=None, nonce=None, pretty_print=False):
