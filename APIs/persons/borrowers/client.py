@@ -23,6 +23,7 @@ class ApiEndpoints:
     GET_CUSTOMERS: str = "get_customers"
     SET_CUSTOMER: str = "set_customer"
     SET_PERSON_DATA: str = "set_person_data"
+    SET_BORROWER_AUTHENTICATION: str = "set_borrower_authentication"
 
 
 class BorrowersClient(BaseClient):
@@ -87,3 +88,9 @@ class BorrowersClient(BaseClient):
             **kwargs)
         return self.post(resource_endpoint=ApiEndpoints.SET_PERSON_DATA, response_model=CommonResponse,
             params=request_model.as_params_dict, data=request_model.as_json, headers=self.json_headers)
+
+    def set_borrower_authentication(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = LoanNumberIdRequestModel(loan_number_id=loan_number_id,
+            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+        return self.post(resource_endpoint=ApiEndpoints.SET_BORROWER_AUTHENTICATION, response_model=CommonResponse,
+            params=request_model.as_params_dict, data=request_model.payload)
