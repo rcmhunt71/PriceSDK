@@ -1,12 +1,14 @@
 from dataclasses import dataclass
 from APIs.conversation_logs.requests.add_conversation_log import AddConversationLogRequest
 from APIs.conversation_logs.requests.get_conversation_log_alert import GetConversationLogAlertRequest
-from APIs.conversation_logs.requests.get_conversation_log_attachment import GetConversationLogAttachmentRequest
+from APIs.conversation_logs.requests.get_conversation_log_attachment import GetConversationLogAttachmentRequest, \
+    GetConversationLogMemoRequest
 from APIs.conversation_logs.requests.get_conversation_log_person import GetConversationLogPersonRequest
 from APIs.conversation_logs.requests.set_conversation_log_person import SetConversationLogPersonRequest
 from APIs.conversation_logs.responses.add_conversation_log import AddConversationLogResponse
 from APIs.conversation_logs.responses.get_conversation_log import GetConversationLogResponse
 from APIs.conversation_logs.responses.get_conversation_log_alert import GetConversationLogAlertResponse
+from APIs.conversation_logs.responses.get_conversation_log_memo import GetConversationLogMemoResponse
 from APIs.conversation_logs.responses.get_conversation_log_person import GetConversationLogPersonResponse
 from base.clients.base_client import BaseClient
 from base.common.models.request import LoanNumberIdRequestModel
@@ -21,6 +23,7 @@ class ApiEndpoints:
     ADD_CONVERSATION_LOG: str = "add_conversation_log"
     GET_CONVERSATION_LOG_ATTACHMENT: str = "get_conversation_log_attachment"
     SET_CONVERSATION_LOG_PERSON: str = "set_conversation_log_person"
+    GET_CONVERSATION_LOG_MEMO: str = "get_conversation_log_memo"
 
 
 class ConversationLogsClient(BaseClient):
@@ -72,3 +75,10 @@ class ConversationLogsClient(BaseClient):
             **kwargs)
         return self.post(resource_endpoint=ApiEndpoints.SET_CONVERSATION_LOG_PERSON, response_model=CommonResponse,
             params=request_model.as_params_dict, data=request_model.as_json, headers=self.json_headers)
+
+    def get_conversation_log_memo(self, loan_number_id, memo_id, session_id=None, nonce=None,
+            pretty_print=False):
+        request_model = GetConversationLogMemoRequest(loan_number_id=loan_number_id, memo_id=memo_id,
+            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+        return self.get(resource_endpoint=ApiEndpoints.GET_CONVERSATION_LOG_MEMO,
+            response_model=GetConversationLogMemoResponse, params=request_model.as_params_dict)

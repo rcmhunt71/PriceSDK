@@ -19,3 +19,7 @@ class GetConversationLogAttachmentRequest(SimpleRequestModel):
         args[GetConversationLogAttachmentRequestParams.LOAN_NUMBER_ID] = self.loan_number_id
         args[GetConversationLogAttachmentRequestParams.MEMO_ID] = self.memo_id
         return args
+
+
+class GetConversationLogMemoRequest(GetConversationLogAttachmentRequest):
+    pass
