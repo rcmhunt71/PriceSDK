@@ -1,4 +1,6 @@
 from dataclasses import dataclass
+
+from APIs.los_configuration.requests.get_loan_search_id_list import GetLoanSearchIdListRequest
 from APIs.los_configuration.responses.get_configuration_list import GetConfigurationListResponse
 from APIs.los_configuration.requests.get_configuration_list import GetConfigurationListRequest, \
     GetConfigurationListMultipleRequest
@@ -9,6 +11,7 @@ from APIs.los_configuration.requests.run_query_grid_fields import RunQueryGridFi
 from APIs.los_configuration.responses.get_configuration_list_multiple import GetConfigurationListMultipleResponse
 from APIs.los_configuration.responses.get_fees import GetFeesResponse
 from APIs.los_configuration.responses.get_loan_pipeline import GetLoanPipelineResponse
+from APIs.los_configuration.responses.get_loan_search_id_list import GetLoanSearchIdListResponse
 from APIs.los_configuration.responses.get_loan_status_config import GetLoanStatusConfigResponse
 from APIs.los_configuration.responses.get_program import GetProgramResponse
 from APIs.los_configuration.responses.get_property_types import GetPropertyTypesResponse
@@ -24,6 +27,7 @@ class ApiEndpoints:
     GET_CONFIGURATION_LIST_MULTIPLE: str = "get_configuration_list_multiple"
     GET_FEES: str = "get_fees"
     GET_LOAN_PIPELINE: str = "get_loan_pipeline"
+    GET_LOAN_SEARCH_ID_LIST: str = "get_loan_search_id_list"
     GET_LOAN_STATUS_CONFIG: str = "get_loan_status_config"
     GET_PROGRAM: str = "get_program"
     GET_PROPERTY_TYPES: str = "get_property_types"
@@ -61,6 +65,18 @@ class LOSConfigurationClient(BaseClient):
             pretty_print=pretty_print)
         return self.get(resource_endpoint=ApiEndpoints.GET_LOAN_PIPELINE, response_model=GetLoanPipelineResponse,
             params=request_model.as_params_dict)
+
+    def get_loan_search_id_list(self, query_id, other_params, field_to_search, condition_code, search_data,
+                                check_security_privilege=None, session_id=None, nonce=None, pretty_print=False):
+        request_model = GetLoanSearchIdListRequest(query_id=query_id, other_params=other_params,
+                                                   field_to_search=field_to_search, condition_code=condition_code,
+                                                   search_data=search_data,
+                                                   check_security_privilege=check_security_privilege,
+                                                   session_id=self._get_session_id(session_id),
+                                                   nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.get(resource_endpoint=ApiEndpoints.GET_LOAN_SEARCH_ID_LIST,
+                        response_model=GetLoanSearchIdListResponse, params=request_model.as_params_dict)
 
     def get_loan_status_config(self, session_id=None, nonce=None, pretty_print=False):
         request_model = SimpleRequestModel(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),

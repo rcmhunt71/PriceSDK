@@ -4,9 +4,12 @@ from APIs.interfaces.requests.direct_mismo_closing_data import DirectMISMOClosin
 from APIs.interfaces.requests.docutech_pushback_response import DocutechPushbackResponseRequest
 from APIs.interfaces.requests.download_visionet_document import DownloadVisionetDocumentRequest
 from APIs.interfaces.requests.set_fnma_selling_system import SetFNMASellingSystemRequest
+from APIs.interfaces.requests.set_import_interface import SetImportInterfaceRequest
+from APIs.interfaces.requests.trigger_event import TriggerEventRequest
 from APIs.interfaces.responses.merge_freddiemac_systosys import MergeFreddieMacSysToSysResponse
 from APIs.interfaces.responses.request_freddiemac_systosys import RequestFreddieMacSysToSysResponse
 from APIs.interfaces.responses.response_freddiemac_systosys import ResponseFreddieMacSysToSysResponse
+from APIs.interfaces.responses.set_import_interface import SetImportInterfaceResponse
 from base.clients.base_client import BaseClient
 from base.common.models.request import LoanNumberIdRequestModel
 from base.common.response import CommonResponse
@@ -21,6 +24,8 @@ class ApiEndpoints:
     REQUEST_FREDDIE_MAC_SYS_TO_SYS: str = "request_freddiemac_systosys"
     SET_FNMA_SELLING_SYSTEM: str = "set_fnma_selling_system"
     DIRECT_MISMO_CLOSING_DATA: str = "direct_mismo_closing_data"
+    SET_IMPORT_INTERFACE: str = "set_import_interface"
+    TRIGGER_EVENT: str = "trigger_event"
 
 
 class InterfacesClient(BaseClient):
@@ -75,3 +80,21 @@ class InterfacesClient(BaseClient):
             pretty_print=pretty_print)
         return self.post(resource_endpoint=ApiEndpoints.DIRECT_MISMO_CLOSING_DATA, response_model=CommonResponse,
             params=request_model.as_params_dict, data=request_model.payload)
+
+    def set_import_interface(self, loan_number, import_option, do_process_liabilities=None,
+                             import_a_single_credit_report=None, session_id=None, nonce=None, pretty_print=False):
+        request_model = SetImportInterfaceRequest(loan_number=loan_number, import_option=import_option,
+                                                  do_process_liabilities=do_process_liabilities,
+                                                  import_a_single_credit_report=import_a_single_credit_report,
+                                                  session_id=self._get_session_id(session_id),
+                                                  nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.SET_IMPORT_INTERFACE, response_model=SetImportInterfaceResponse,
+                         params=request_model.as_params_dict, data=request_model.payload)
+
+    def trigger_event(self, loan_number_id, event_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = TriggerEventRequest(loan_number_id=loan_number_id, event_id=event_id, pretty_print=pretty_print,
+                                            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
+
+        return self.post(resource_endpoint=ApiEndpoints.TRIGGER_EVENT, response_model=CommonResponse,
+                         params=request_model.as_params_dict, data=request_model.payload)
