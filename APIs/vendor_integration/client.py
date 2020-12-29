@@ -1,9 +1,11 @@
 from dataclasses import dataclass
 
 from APIs.vendor_integration.requests.export_to_interface import ExportToInterfaceRequest
+from APIs.vendor_integration.requests.form_free_verification import FormFreeVerificationRequest
 from APIs.vendor_integration.requests.get_last_interface_file import GetLastInterfaceFileRequest
 from APIs.vendor_integration.requests.get_verification_data import GetVerificationDataRequest
 from APIs.vendor_integration.responses.export_to_interface import ExportToInterfaceResponse
+from APIs.vendor_integration.responses.form_free_verification import FormFreeVerificationResponse
 from APIs.vendor_integration.responses.get_media_center_data import GetMediaCenterDataResponse
 from APIs.vendor_integration.responses.get_verification_data import GetVerificationDataResponse
 from base.clients.base_client import BaseClient
@@ -17,6 +19,7 @@ class ApiEndpoints:
     GET_MEDIA_CENTER_DATA: str = "get_media_center_data"
     GET_VERIFICATION_DATA: str = "get_verification_data"
     EXPORT_TO_INTERFACE: str = "export_to_interface"
+    FORM_FREE_VERIFICATION: str = "form_free_verification"
 
 
 class VendorIntegrationClient(BaseClient):
@@ -46,3 +49,12 @@ class VendorIntegrationClient(BaseClient):
             pretty_print=pretty_print)
         return self.post(resource_endpoint=ApiEndpoints.EXPORT_TO_INTERFACE, response_model=ExportToInterfaceResponse,
                          params=request_model.as_params_dict, data=request_model.payload)
+
+    def form_free_verification(self, loan_number_id, borrower_id, request_type, session_id=None, nonce=None,
+            pretty_print=False):
+        request_model = FormFreeVerificationRequest(loan_number_id=loan_number_id, borrower_id=borrower_id,
+            request_type=request_type, session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+            pretty_print=pretty_print)
+        return self.post(resource_endpoint=ApiEndpoints.FORM_FREE_VERIFICATION,
+            response_model=FormFreeVerificationResponse,
+            params=request_model.as_params_dict, data=request_model.payload)
