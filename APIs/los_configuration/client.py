@@ -1,10 +1,12 @@
 from dataclasses import dataclass
 from APIs.los_configuration.responses.get_configuration_list import GetConfigurationListResponse
-from APIs.los_configuration.requests.get_configuration_list import GetConfigurationListRequest
+from APIs.los_configuration.requests.get_configuration_list import GetConfigurationListRequest, \
+    GetConfigurationListMultipleRequest
 from APIs.los_configuration.requests.get_loan_pipeline import GetLoanPipelineRequest
 from APIs.los_configuration.requests.get_program import GetProgramRequest
 from APIs.los_configuration.requests.run_query import RunQueryRequest
 from APIs.los_configuration.requests.run_query_grid_fields import RunQueryGridFieldsRequest
+from APIs.los_configuration.responses.get_configuration_list_multiple import GetConfigurationListMultipleResponse
 from APIs.los_configuration.responses.get_fees import GetFeesResponse
 from APIs.los_configuration.responses.get_loan_pipeline import GetLoanPipelineResponse
 from APIs.los_configuration.responses.get_loan_status_config import GetLoanStatusConfigResponse
@@ -19,6 +21,7 @@ from base.clients.base_client import BaseClient
 @dataclass
 class ApiEndpoints:
     GET_CONFIGURATION_LIST: str = "get_configuration_list"
+    GET_CONFIGURATION_LIST_MULTIPLE: str = "get_configuration_list_multiple"
     GET_FEES: str = "get_fees"
     GET_LOAN_PIPELINE: str = "get_loan_pipeline"
     GET_LOAN_STATUS_CONFIG: str = "get_loan_status_config"
@@ -38,6 +41,12 @@ class LOSConfigurationClient(BaseClient):
             nonce=self._get_nonce(nonce), pretty_print=pretty_print)
         return self.get(resource_endpoint=ApiEndpoints.GET_CONFIGURATION_LIST,
             response_model=GetConfigurationListResponse, params=request_model.as_params_dict)
+
+    def get_configuration_list_multiple(self, list_name, session_id=None, nonce=None, pretty_print=False):
+        request_model = GetConfigurationListMultipleRequest(list_name=list_name,
+            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+        return self.get(resource_endpoint=ApiEndpoints.GET_CONFIGURATION_LIST_MULTIPLE,
+            response_model=GetConfigurationListMultipleResponse, params=request_model.as_params_dict)
 
     def get_fees(self, session_id=None, nonce=None, pretty_print=False):
         request_model = SimpleRequestModel(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),

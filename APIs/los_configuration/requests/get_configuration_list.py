@@ -16,3 +16,6 @@ class GetConfigurationListRequest(SimpleRequestModel):
         args = super().to_params()
         args[GetConfigurationListRequestParams.LIST_NAME] = self.list_name
         return args
+
+class GetConfigurationListMultipleRequest(GetConfigurationListRequest):
+    pass
