@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from enum import Enum
 
 from APIs.properties.requests.delete_property_lien import DeletePropertyLienRequest
+from APIs.properties.requests.get_counties import GetCountiesRequest
 from APIs.properties.requests.set_property_data import SetPropertyDataRequest
 from APIs.properties.requests.set_property_liens import SetPropertyLiensRequest
 from base.common.models.request import LoanNumberIdRequestModel
@@ -13,6 +14,7 @@ from APIs.properties.requests.delete_property import DeletePropertyRequest
 from APIs.properties.responses.add_property import AddPropertyResponse
 from APIs.properties.responses.add_property_lien import AddPropertyLienResponse
 from APIs.properties.responses.get_property_liens import GetPropertyLiensResponse
+from APIs.properties.responses.get_counties import GetCountiesResponse
 
 from APIs.properties.responses.get_properties import GetPropertiesResponse
 from APIs.properties.responses.is_present_address_and_subject_property_linked import \
@@ -22,6 +24,7 @@ from base.clients.base_client import BaseClient
 
 @dataclass
 class ApiEndpoints:
+    GET_COUNTIES: str = "get_counties"
     GET_PROPERTIES: str = "get_properties"
     GET_PROPERTY_LIENS: str = "get_property_liens"
     IS_PRESENT_ADDRESS_AND_SUBJECT_PROPERTY_LINKED: str = "is_present_address_and_subject_property_linked"
@@ -40,6 +43,15 @@ class PropertiesClient(BaseClient):
     json_headers = {
         CONTENT_TYPE: APPLICATION_JSON
     }
+
+    def get_counties(self, zip_code=None, state=None, county_name=None, session_id=None, nonce=None,
+                     pretty_print=False):
+        request_model = GetCountiesRequest(zip_code=zip_code, state=state, county_name=county_name,
+                                           session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+                                           pretty_print=pretty_print)
+
+        return self.get(resource_endpoint=ApiEndpoints.GET_COUNTIES, response_model=GetCountiesResponse,
+                        params=request_model.as_params_dict)
 
     def get_properties(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
         request_model = LoanNumberIdRequestModel(loan_number_id=loan_number_id,
