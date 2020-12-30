@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from APIs.interfaces.requests.auto_import_pcado_download import AutoImportPcadoDownloadRequest
+from APIs.interfaces.requests.auto_import_pcadu_download import AutoImportPcaduDownloadRequest
 from APIs.interfaces.requests.direct_mismo_closing_data import DirectMISMOClosingDataRequest
 from APIs.interfaces.requests.docutech_pushback_response import DocutechPushbackResponseRequest
 from APIs.interfaces.requests.download_visionet_document import DownloadVisionetDocumentRequest
@@ -10,6 +12,8 @@ from APIs.interfaces.requests.set_import_interface import SetImportInterfaceRequ
 from APIs.interfaces.requests.trigger_event import TriggerEventRequest
 from APIs.interfaces.responses.get_interface_problems import GetInterfaceProblemsResponse
 from APIs.interfaces.responses.get_ucd_fields import GetUCDFieldsResponse
+from APIs.interfaces.responses.auto_import_pcado_download import AutoImportPcadoDownloadResponse
+from APIs.interfaces.responses.auto_import_pcadu_download import AutoImportPcaduDownloadResponse
 from APIs.interfaces.responses.merge_freddiemac_systosys import MergeFreddieMacSysToSysResponse
 from APIs.interfaces.responses.request_freddiemac_systosys import RequestFreddieMacSysToSysResponse
 from APIs.interfaces.responses.response_freddiemac_systosys import ResponseFreddieMacSysToSysResponse
@@ -21,6 +25,8 @@ from base.common.response import CommonResponse
 
 @dataclass
 class ApiEndpoints:
+    AUTO_IMPORT_PCADO_DOWNLOAD: str = "auto_import_pcado_download"
+    AUTO_IMPORT_PCADU_DOWNLOAD: str = "auto_import_pcadu_download"
     DOWNLOAD_VISIONET_DOCUMENT: str = "download_visionet_document"
     RESPONSE_FREDDIE_MAC_SYS_TO_SYS: str = "response_freddiemac_systosys"
     DOCUTECH_PUSHBACK_RESPONSE: str = "docutech_pushback_response"
@@ -38,6 +44,22 @@ class InterfacesClient(BaseClient):
     CONTENT_TYPE = "Content-Type"
     APPLICATION_JSON = "application/json"
     json_headers = {CONTENT_TYPE: APPLICATION_JSON}
+
+    def auto_import_pcado_download(self, loan_number, session_id=None, nonce=None, pretty_print=False):
+        request_model = AutoImportPcadoDownloadRequest(loan_number=loan_number,
+                                                       session_id=self._get_session_id(session_id),
+                                                       nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.AUTO_IMPORT_PCADO_DOWNLOAD, data=request_model.payload,
+                         response_model=AutoImportPcadoDownloadResponse, params=request_model.as_params_dict)
+
+    def auto_import_pcadu_download(self, loan_number, session_id=None, nonce=None, pretty_print=False):
+        request_model = AutoImportPcaduDownloadRequest(loan_number=loan_number,
+                                                       session_id=self._get_session_id(session_id),
+                                                       nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.AUTO_IMPORT_PCADU_DOWNLOAD, data=request_model.payload,
+                         response_model=AutoImportPcaduDownloadResponse, params=request_model.as_params_dict)
 
     def download_visionet_document(self, job_id, app_id, app_secret, session_id=None, nonce=None, pretty_print=False):
         request_model = DownloadVisionetDocumentRequest(job_id=job_id, app_id=app_id, app_secret=app_secret,
