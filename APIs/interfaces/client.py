@@ -14,6 +14,7 @@ from APIs.interfaces.responses.get_interface_problems import GetInterfaceProblem
 from APIs.interfaces.responses.get_ucd_fields import GetUCDFieldsResponse
 from APIs.interfaces.responses.auto_import_pcado_download import AutoImportPcadoDownloadResponse
 from APIs.interfaces.responses.auto_import_pcadu_download import AutoImportPcaduDownloadResponse
+from APIs.interfaces.requests.upload_mercury_vmp_file import UploadMercuryVMPFileRequest
 from APIs.interfaces.responses.merge_freddiemac_systosys import MergeFreddieMacSysToSysResponse
 from APIs.interfaces.responses.request_freddiemac_systosys import RequestFreddieMacSysToSysResponse
 from APIs.interfaces.responses.response_freddiemac_systosys import ResponseFreddieMacSysToSysResponse
@@ -38,6 +39,7 @@ class ApiEndpoints:
     TRIGGER_EVENT: str = "trigger_event"
     GET_UCD_FIELDS: str = "get_ucd_fields"
     GET_INTERFACE_PROBLEMS: str = "get_interface_problems"
+    UPLOAD_MERCURY_VMP_FILE: str = "upload_mercury_vmp_file"
 
 
 class InterfacesClient(BaseClient):
@@ -140,3 +142,11 @@ class InterfacesClient(BaseClient):
             pretty_print=pretty_print)
         return self.get(resource_endpoint=ApiEndpoints.GET_INTERFACE_PROBLEMS,
             response_model=GetInterfaceProblemsResponse, params=request_model.as_params_dict)
+
+    def upload_mercury_vmp_file(self, loan_number_id, upload_token, hash, session_id=None, nonce=None,
+            pretty_print=False):
+        request_model = UploadMercuryVMPFileRequest(loan_number_id=loan_number_id, upload_token=upload_token, hash=hash,
+            pretty_print=pretty_print, session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
+
+        return self.post(resource_endpoint=ApiEndpoints.UPLOAD_MERCURY_VMP_FILE, response_model=CommonResponse,
+                         params=request_model.as_params_dict, data=request_model.payload)
