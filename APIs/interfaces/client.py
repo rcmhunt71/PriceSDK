@@ -3,9 +3,13 @@ from dataclasses import dataclass
 from APIs.interfaces.requests.direct_mismo_closing_data import DirectMISMOClosingDataRequest
 from APIs.interfaces.requests.docutech_pushback_response import DocutechPushbackResponseRequest
 from APIs.interfaces.requests.download_visionet_document import DownloadVisionetDocumentRequest
+from APIs.interfaces.requests.get_interface_problems import GetInterfaceProblemsRequest
+from APIs.interfaces.requests.get_ucd_fields import GetUCDFieldsRequest
 from APIs.interfaces.requests.set_fnma_selling_system import SetFNMASellingSystemRequest
 from APIs.interfaces.requests.set_import_interface import SetImportInterfaceRequest
 from APIs.interfaces.requests.trigger_event import TriggerEventRequest
+from APIs.interfaces.responses.get_interface_problems import GetInterfaceProblemsResponse
+from APIs.interfaces.responses.get_ucd_fields import GetUCDFieldsResponse
 from APIs.interfaces.responses.merge_freddiemac_systosys import MergeFreddieMacSysToSysResponse
 from APIs.interfaces.responses.request_freddiemac_systosys import RequestFreddieMacSysToSysResponse
 from APIs.interfaces.responses.response_freddiemac_systosys import ResponseFreddieMacSysToSysResponse
@@ -26,6 +30,8 @@ class ApiEndpoints:
     DIRECT_MISMO_CLOSING_DATA: str = "direct_mismo_closing_data"
     SET_IMPORT_INTERFACE: str = "set_import_interface"
     TRIGGER_EVENT: str = "trigger_event"
+    GET_UCD_FIELDS: str = "get_ucd_fields"
+    GET_INTERFACE_PROBLEMS: str = "get_interface_problems"
 
 
 class InterfacesClient(BaseClient):
@@ -98,3 +104,17 @@ class InterfacesClient(BaseClient):
 
         return self.post(resource_endpoint=ApiEndpoints.TRIGGER_EVENT, response_model=CommonResponse,
                          params=request_model.as_params_dict, data=request_model.payload)
+
+    def get_ucd_fields(self, loan_number_id, interface_id, session_id=None, nonce=None, pretty_print=False):
+        request_model = GetUCDFieldsRequest(loan_number_id=loan_number_id, interface_id=interface_id,
+            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+        return self.get(resource_endpoint=ApiEndpoints.GET_UCD_FIELDS,
+            response_model=GetUCDFieldsResponse, params=request_model.as_params_dict)
+
+    def get_interface_problems(self, loan_number_id, borrower_list, which_interface, session_id=None, nonce=None,
+            pretty_print=False):
+        request_model = GetInterfaceProblemsRequest(loan_number_id=loan_number_id, borrower_list=borrower_list,
+            which_interface=which_interface, session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+            pretty_print=pretty_print)
+        return self.get(resource_endpoint=ApiEndpoints.GET_INTERFACE_PROBLEMS,
+            response_model=GetInterfaceProblemsResponse, params=request_model.as_params_dict)

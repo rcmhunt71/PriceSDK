@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+from APIs.tpo.responses.get_vendor_portal_access import GetVendorPortalAccessResponse
 from APIs.vendor_integration.requests.export_to_interface import ExportToInterfaceRequest
 from APIs.vendor_integration.requests.form_free_verification import FormFreeVerificationRequest
 from APIs.vendor_integration.requests.get_last_interface_file import GetLastInterfaceFileRequest
@@ -9,7 +10,7 @@ from APIs.vendor_integration.responses.form_free_verification import FormFreeVer
 from APIs.vendor_integration.responses.get_media_center_data import GetMediaCenterDataResponse
 from APIs.vendor_integration.responses.get_verification_data import GetVerificationDataResponse
 from base.clients.base_client import BaseClient
-from base.common.models.request import LoanNumberIdRequestModel
+from base.common.models.request import LoanNumberIdRequestModel, SimpleRequestModel
 from base.common.response import CommonResponse
 
 
@@ -20,6 +21,7 @@ class ApiEndpoints:
     GET_VERIFICATION_DATA: str = "get_verification_data"
     EXPORT_TO_INTERFACE: str = "export_to_interface"
     FORM_FREE_VERIFICATION: str = "form_free_verification"
+    GET_VENDOR_PORTAL_ACCESS: str = "get_vendor_portal_access"
 
 
 class VendorIntegrationClient(BaseClient):
@@ -58,3 +60,9 @@ class VendorIntegrationClient(BaseClient):
         return self.post(resource_endpoint=ApiEndpoints.FORM_FREE_VERIFICATION,
             response_model=FormFreeVerificationResponse,
             params=request_model.as_params_dict, data=request_model.payload)
+
+    def get_vendor_portal_access(self, session_id=None, nonce=None, pretty_print=False):
+        request_model = SimpleRequestModel(session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce),
+            pretty_print=pretty_print)
+        return self.get(resource_endpoint=ApiEndpoints.GET_VENDOR_PORTAL_ACCESS,
+            response_model=GetVendorPortalAccessResponse, params=request_model.as_params_dict)
