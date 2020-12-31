@@ -5,11 +5,13 @@ from APIs.interfaces.requests.auto_import_pcadu_download import AutoImportPcaduD
 from APIs.interfaces.requests.direct_mismo_closing_data import DirectMISMOClosingDataRequest
 from APIs.interfaces.requests.docutech_pushback_response import DocutechPushbackResponseRequest
 from APIs.interfaces.requests.download_visionet_document import DownloadVisionetDocumentRequest
+from APIs.interfaces.requests.export_to_du_xis import ExportToDuXisRequest
 from APIs.interfaces.requests.get_interface_problems import GetInterfaceProblemsRequest
 from APIs.interfaces.requests.get_ucd_fields import GetUCDFieldsRequest
 from APIs.interfaces.requests.set_fnma_selling_system import SetFNMASellingSystemRequest
 from APIs.interfaces.requests.set_import_interface import SetImportInterfaceRequest
 from APIs.interfaces.requests.trigger_event import TriggerEventRequest
+from APIs.interfaces.responses.export_to_du_xis import ExportToDuXisResponse
 from APIs.interfaces.responses.get_interface_problems import GetInterfaceProblemsResponse
 from APIs.interfaces.responses.get_ucd_fields import GetUCDFieldsResponse
 from APIs.interfaces.responses.auto_import_pcado_download import AutoImportPcadoDownloadResponse
@@ -29,6 +31,7 @@ class ApiEndpoints:
     AUTO_IMPORT_PCADO_DOWNLOAD: str = "auto_import_pcado_download"
     AUTO_IMPORT_PCADU_DOWNLOAD: str = "auto_import_pcadu_download"
     DOWNLOAD_VISIONET_DOCUMENT: str = "download_visionet_document"
+    EXPORT_TO_DU_XIS: str = "export_to_du_xis"
     RESPONSE_FREDDIE_MAC_SYS_TO_SYS: str = "response_freddiemac_systosys"
     DOCUTECH_PUSHBACK_RESPONSE: str = "docutech_pushback_response"
     MERGE_FREDDIE_MAC_SYS_TO_SYS: str = "merge_freddiemac_systosys"
@@ -68,6 +71,19 @@ class InterfacesClient(BaseClient):
             session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print)
         return self.get(resource_endpoint=ApiEndpoints.DOWNLOAD_VISIONET_DOCUMENT,
             response_model=CommonResponse, params=request_model.as_params_dict)
+
+    def export_to_du_xis(self, loan_number_id, credit_report_id=None, credit_vendor=None, credit_account_password=None,
+                         borrower_ssn=None, credit_account_number=None, credit_request_type=None,
+                         session_id=None, nonce=None, pretty_print=False):
+        request_model = ExportToDuXisRequest(loan_number_id=loan_number_id, credit_report_id=credit_report_id,
+                                             credit_vendor=credit_vendor,
+                                             credit_account_password=credit_account_password,
+                                             borrower_ssn=borrower_ssn, credit_account_number=credit_account_number,
+                                             credit_request_type=credit_request_type, nonce=self._get_nonce(nonce),
+                                             session_id=self._get_session_id(session_id), pretty_print=pretty_print)
+
+        return self.post(resource_endpoint=ApiEndpoints.EXPORT_TO_DU_XIS, response_model=ExportToDuXisResponse,
+                         params=request_model.as_params_dict, data=request_model.payload)
 
     def response_freddiemac_systosys(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
         request_model = LoanNumberIdRequestModel(loan_number_id=loan_number_id,
