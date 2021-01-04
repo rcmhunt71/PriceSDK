@@ -8,19 +8,27 @@ from APIs.interfaces.requests.download_visionet_document import DownloadVisionet
 from APIs.interfaces.requests.export_to_du_xis import ExportToDuXisRequest
 from APIs.interfaces.requests.get_interface_problems import GetInterfaceProblemsRequest
 from APIs.interfaces.requests.get_ucd_fields import GetUCDFieldsRequest
+from APIs.interfaces.requests.is_fannie_mae_web_post_result_available import IsFannieMaeWebPostResultAvailableRequest
 from APIs.interfaces.requests.set_fnma_selling_system import SetFNMASellingSystemRequest
 from APIs.interfaces.requests.set_import_interface import SetImportInterfaceRequest
 from APIs.interfaces.requests.trigger_event import TriggerEventRequest
 from APIs.interfaces.responses.export_to_du_xis import ExportToDuXisResponse
+from APIs.interfaces.requests.trigger_fannie_mae_web_posting_server_side_polling import \
+    TriggerFannieMaeWebPostingServerSidePollingRequest
+from APIs.interfaces.requests.trigger_fannie_mae_xis_server_side_polling import \
+    TriggerFannieMaeXISServerSidePollingRequest
 from APIs.interfaces.responses.get_interface_problems import GetInterfaceProblemsResponse
 from APIs.interfaces.responses.get_ucd_fields import GetUCDFieldsResponse
 from APIs.interfaces.responses.auto_import_pcado_download import AutoImportPcadoDownloadResponse
 from APIs.interfaces.responses.auto_import_pcadu_download import AutoImportPcaduDownloadResponse
 from APIs.interfaces.requests.upload_mercury_vmp_file import UploadMercuryVMPFileRequest
+from APIs.interfaces.responses.is_fannie_mae_web_post_result_available import IsFannieMaeWebPostResultAvailableResponse
 from APIs.interfaces.responses.merge_freddiemac_systosys import MergeFreddieMacSysToSysResponse
 from APIs.interfaces.responses.request_freddiemac_systosys import RequestFreddieMacSysToSysResponse
 from APIs.interfaces.responses.response_freddiemac_systosys import ResponseFreddieMacSysToSysResponse
 from APIs.interfaces.responses.set_import_interface import SetImportInterfaceResponse
+from APIs.interfaces.responses.trigger_fannie_mae_xis_server_side_polling import \
+    TriggerFannieMaeXISServerSidePollingResponse
 from base.clients.base_client import BaseClient
 from base.common.models.request import LoanNumberIdRequestModel
 from base.common.response import CommonResponse
@@ -43,6 +51,9 @@ class ApiEndpoints:
     GET_UCD_FIELDS: str = "get_ucd_fields"
     GET_INTERFACE_PROBLEMS: str = "get_interface_problems"
     UPLOAD_MERCURY_VMP_FILE: str = "upload_mercury_vmp_file"
+    IS_FANNIE_MAE_WEB_POST_RESULT_AVAILABLE: str = "is_fannie_mae_web_post_result_available"
+    TRIGGER_FANNIE_MAE_WEB_POSTING_SERVER_SIDE_POLLING: str = "trigger_fannie_mae_web_posting_server_side_polling"
+    TRIGGER_FANNIE_MAE_XIS_SERVER_SIDE_POLLING: str = "trigger_fannie_mae_xis_server_side_polling"
 
 
 class InterfacesClient(BaseClient):
@@ -166,3 +177,28 @@ class InterfacesClient(BaseClient):
 
         return self.post(resource_endpoint=ApiEndpoints.UPLOAD_MERCURY_VMP_FILE, response_model=CommonResponse,
                          params=request_model.as_params_dict, data=request_model.payload)
+
+    def is_fannie_mae_web_post_result_available(self, loan_number_id, keep_polling, web_post_result, which_interface,
+            session_id=None, nonce=None, pretty_print=False):
+        request_model = IsFannieMaeWebPostResultAvailableRequest(loan_number_id=loan_number_id,
+            keep_polling=keep_polling, web_post_result=web_post_result, which_interface=which_interface,
+            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print)
+        return self.get(resource_endpoint=ApiEndpoints.IS_FANNIE_MAE_WEB_POST_RESULT_AVAILABLE,
+            response_model=IsFannieMaeWebPostResultAvailableResponse, params=request_model.as_params_dict)
+
+    def trigger_fannie_mae_web_posting_server_side_polling(self, loan_number, interface_id, case_file_id=None,
+            session_id=None, nonce=None, pretty_print=False):
+        request_model = TriggerFannieMaeWebPostingServerSidePollingRequest(loan_number=loan_number,
+            interface_id=interface_id, case_file_id=case_file_id, pretty_print=pretty_print,
+            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
+        return self.post(resource_endpoint=ApiEndpoints.TRIGGER_FANNIE_MAE_WEB_POSTING_SERVER_SIDE_POLLING,
+            response_model=CommonResponse, params=request_model.as_params_dict, data=request_model.payload)
+
+    def trigger_fannie_mae_xis_server_side_polling(self, loan_number, interface_id, case_file_id=None,
+            session_id=None, nonce=None, pretty_print=False):
+        request_model = TriggerFannieMaeXISServerSidePollingRequest(loan_number=loan_number, interface_id=interface_id,
+            case_file_id=case_file_id, pretty_print=pretty_print, session_id=self._get_session_id(session_id),
+            nonce=self._get_nonce(nonce))
+        return self.post(resource_endpoint=ApiEndpoints.TRIGGER_FANNIE_MAE_XIS_SERVER_SIDE_POLLING,
+            response_model=TriggerFannieMaeXISServerSidePollingResponse, params=request_model.as_params_dict,
+            data=request_model.payload)
