@@ -1,6 +1,7 @@
 from dataclasses import dataclass, fields
 from base.responses.base_response import BaseListResponse, BaseResponse
 
+
 @dataclass
 class BorrowersInfoKeys:
     PERSON_ID: str = "PersonID"
@@ -20,16 +21,20 @@ class BorrowersInfoKeys:
     BIRTHDATE: str = "Birthdate"
     EMAIL_ADDRESS: str = "EmailAddress"
     DOCUMENT_PASSWORD: str = "DocumentPassword"
-    PERSON_INITITAL: str = "PersonInitital"
+    PERSON_INITIAL: str = "PersonInitial"
     WORK_EXTENSION: str = "WorkExtension"
     EMAIL_NAME: str = "EMailName"
+    MEMBER_NUMBER: str = "MemberNumber"
+
 
 @dataclass
 class BorrowersKeys:
     BORROWER_DETAIL: str = "BorrowerDetail"
 
+
 class Borrower(BaseResponse):
     _ADD_KEYS = [field.default for field in fields(BorrowersInfoKeys)]
+
 
 class Borrowers(BaseListResponse):
     _SUB_MODEL = Borrower
