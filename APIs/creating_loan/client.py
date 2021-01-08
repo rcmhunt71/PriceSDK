@@ -27,13 +27,15 @@ class CreatingLoanClient(BaseClient):
             data=request_model.payload, params=request_model.as_params_dict)
 
     def import_from_file(self, base64_file_data, file_type, loan_number, date_name, officer_id=None,
-            session_id=None, nonce=None):
+                         session_id=None, nonce=None):
+        """ 'Base64FileData' key needs to be encoded along with binary file """
         request_model = ImportFromFileRequest(base64_file_data=base64_file_data, file_type=file_type,
-            loan_number=loan_number, date_name=date_name, officer_id=officer_id,
-            session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
+                                              loan_number=loan_number, date_name=date_name, officer_id=officer_id,
+                                              session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce))
 
         return self.post(resource_endpoint=ApiEndpoints.IMPORT_FROM_FILE, response_model=ImportFromFileResponse,
-            data={}, binary_data=base64_file_data, headers=self.import_from_file_headers, params=request_model.as_params_dict)
+                         data={}, binary_data=request_model.base64_file_data, headers=self.import_from_file_headers,
+                         params=request_model.as_params_dict)
 
     def import_from_file_with_date(self, upload_token, b2b_flag, file_type, loan_number, date_name, officer_id=None,
             session_id=None, nonce=None, pretty_print=False):
