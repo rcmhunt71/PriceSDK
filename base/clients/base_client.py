@@ -196,6 +196,8 @@ class BaseClient:
         response_model.content = response_content
 
         self.nonce = getattr(response_model, CommonResponseKeys.NONCE)
-        if getattr(self, 'client', None): self.client.nonce = self.nonce
+        if getattr(self, 'client', None):
+            if self.nonce:
+                self.client.nonce = self.nonce
 
         return response_model
