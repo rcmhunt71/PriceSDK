@@ -31,7 +31,7 @@ from APIs.interfaces.responses.trigger_fannie_mae_xis_server_side_polling import
     TriggerFannieMaeXISServerSidePollingResponse
 from base.clients.base_client import BaseClient
 from base.common.models.request import LoanNumberIdRequestModel
-from base.common.response import CommonResponse
+from base.common.response import CommonResponse, FileResponse
 
 
 @dataclass
@@ -81,7 +81,7 @@ class InterfacesClient(BaseClient):
         request_model = DownloadVisionetDocumentRequest(job_id=job_id, app_id=app_id, app_secret=app_secret,
             session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print)
         return self.get(resource_endpoint=ApiEndpoints.DOWNLOAD_VISIONET_DOCUMENT,
-            response_model=CommonResponse, params=request_model.as_params_dict)
+            response_model=FileResponse, params=request_model.as_params_dict)
 
     def export_to_du_xis(self, loan_number_id, credit_report_id=None, credit_vendor=None, credit_account_password=None,
                          borrower_ssn=None, credit_account_number=None, credit_request_type=None,

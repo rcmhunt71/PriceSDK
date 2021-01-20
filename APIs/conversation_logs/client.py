@@ -12,7 +12,7 @@ from APIs.conversation_logs.responses.get_conversation_log_memo import GetConver
 from APIs.conversation_logs.responses.get_conversation_log_person import GetConversationLogPersonResponse
 from base.clients.base_client import BaseClient
 from base.common.models.request import LoanNumberIdRequestModel
-from base.common.response import CommonResponse
+from base.common.response import CommonResponse, FileResponse
 
 
 @dataclass
@@ -66,7 +66,7 @@ class ConversationLogsClient(BaseClient):
             pretty_print=False):
         request_model = GetConversationLogAttachmentRequest(loan_number_id=loan_number_id, memo_id=memo_id,
             session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print)
-        return self.get(resource_endpoint=ApiEndpoints.GET_CONVERSATION_LOG_ATTACHMENT, response_model=CommonResponse,
+        return self.get(resource_endpoint=ApiEndpoints.GET_CONVERSATION_LOG_ATTACHMENT, response_model=FileResponse,
             params=request_model.as_params_dict)
 
     def set_conversation_log_person(self, payload_dict=None, session_id=None, nonce=None, pretty_print=False, **kwargs):

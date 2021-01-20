@@ -7,7 +7,7 @@ from APIs.data_upload.responses.process_string import ProcessStringResponse
 from APIs.data_upload.responses.upload_data import UploadDataResponse
 from base.clients.base_client import BaseClient
 from base.common.models.request import SimpleRequestModel
-from base.common.response import CommonResponse
+from base.common.response import FileResponse
 
 
 @dataclass
@@ -49,5 +49,5 @@ class DataUploadClient(BaseClient):
     def retrieve_data(self, token, type, hash, session_id=None, nonce=None, pretty_print=False):
         request_model = RetrieveDataRequest(token=token, type=type, hash=hash,
             session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print)
-        return self.get(resource_endpoint=ApiEndpoints.RETRIEVE_DATA, response_model=CommonResponse,
+        return self.get(resource_endpoint=ApiEndpoints.RETRIEVE_DATA, response_model=FileResponse,
             params=request_model.as_params_dict)

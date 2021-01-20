@@ -11,7 +11,7 @@ from APIs.vendor_integration.responses.get_media_center_data import GetMediaCent
 from APIs.vendor_integration.responses.get_verification_data import GetVerificationDataResponse
 from base.clients.base_client import BaseClient
 from base.common.models.request import LoanNumberIdRequestModel, SimpleRequestModel
-from base.common.response import CommonResponse
+from base.common.response import FileResponse
 
 
 @dataclass
@@ -30,7 +30,7 @@ class VendorIntegrationClient(BaseClient):
         request_model = GetLastInterfaceFileRequest(loan_number_id=loan_number_id, which_interface=which_interface,
             session_id=self._get_session_id(session_id), nonce=self._get_nonce(nonce), pretty_print=pretty_print)
         return self.get(resource_endpoint=ApiEndpoints.GET_LAST_INTERFACE_FILE,
-            response_model=CommonResponse, params=request_model.as_params_dict)
+            response_model=FileResponse, params=request_model.as_params_dict)
 
     def get_media_center_data(self, loan_number_id, session_id=None, nonce=None, pretty_print=False):
         request_model = LoanNumberIdRequestModel(loan_number_id=loan_number_id,

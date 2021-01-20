@@ -4,7 +4,7 @@ from APIs.task_items.requests.upload_image_file import UploadImageFileRequest
 from APIs.task_items.responses.upload_image_file import UploadImageFileResponse
 from base.clients.base_client import BaseClient
 from base.common.models.request import LoanNumberIdRequestModel, SimpleRequestModel
-from base.common.response import CommonResponse
+from base.common.response import CommonResponse, FileResponse
 
 from APIs.task_items.requests.download_image_files import DownloadImageFilesRequest
 from APIs.task_items.requests.download_image_files_by_status_id_list import DownloadImageFilesByStatusIdListRequest
@@ -67,7 +67,7 @@ class TaskItemsClient(BaseClient):
                                                   session_id=self._get_session_id(session_id),
                                                   nonce=self._get_nonce(nonce), pretty_print=pretty_print)
 
-        return self.get(resource_endpoint=ApiEndpoints.DOWNLOAD_IMAGE_FILES, response_model=CommonResponse,
+        return self.get(resource_endpoint=ApiEndpoints.DOWNLOAD_IMAGE_FILES, response_model=FileResponse,
                         params=request_model.as_params_dict)
 
     def download_image_files_by_status_id_list(self, loan_number_id, status_id_list, doc_password=None,
@@ -94,7 +94,7 @@ class TaskItemsClient(BaseClient):
                                         status_id=status_id, session_id=self._get_session_id(session_id),
                                         nonce=self._get_nonce(nonce), pretty_print=pretty_print)
 
-        return self.get(resource_endpoint=ApiEndpoints.GET_IMAGE, response_model=CommonResponse,
+        return self.get(resource_endpoint=ApiEndpoints.GET_IMAGE, response_model=FileResponse,
                         params=request_model.as_params_dict)
 
     def get_image_access_logs(self, loan_number_id, status_id, limit, session_id=None, nonce=None, pretty_print=False):
@@ -112,7 +112,7 @@ class TaskItemsClient(BaseClient):
                                                  session_id=self._get_session_id(session_id),
                                                  nonce=self._get_nonce(nonce), pretty_print=pretty_print)
 
-        return self.get(resource_endpoint=ApiEndpoints.GET_IMAGE_THUMBNAIL, response_model=CommonResponse,
+        return self.get(resource_endpoint=ApiEndpoints.GET_IMAGE_THUMBNAIL, response_model=FileResponse,
                         params=request_model.as_params_dict)
 
     def get_image_thumbnail_multiple(self, loan_number_id, payload_dict, session_id=None, nonce=None,
@@ -155,7 +155,7 @@ class TaskItemsClient(BaseClient):
                                                  session_id=self._get_session_id(session_id),
                                                  nonce=self._get_nonce(nonce), pretty_print=pretty_print)
 
-        return self.get(resource_endpoint=ApiEndpoints.GET_LOAN_STATUS_PDF, response_model=CommonResponse,
+        return self.get(resource_endpoint=ApiEndpoints.GET_LOAN_STATUS_PDF, response_model=FileResponse,
                         params=request_model.as_params_dict)
 
     def get_print_form_pdf(self, loan_number_id, print_form_comma_list, document_password=None, print_ln_name=None,
@@ -166,7 +166,7 @@ class TaskItemsClient(BaseClient):
                                                session_id=self._get_session_id(session_id),
                                                nonce=self._get_nonce(nonce), pretty_print=pretty_print)
 
-        return self.get(resource_endpoint=ApiEndpoints.GET_PRINT_FORM_PDF, response_model=CommonResponse,
+        return self.get(resource_endpoint=ApiEndpoints.GET_PRINT_FORM_PDF, response_model=FileResponse,
                         params=request_model.as_params_dict)
 
     def get_task_item_group_list(self, session_id=None, nonce=None, pretty_print=False):
